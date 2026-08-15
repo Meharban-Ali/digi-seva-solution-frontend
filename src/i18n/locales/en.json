@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "adminLogin": "Partner Login"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "viewMore": "View Details",
+    "viewAllServices": "View All Services",
+    "backToServices": "Back to All Services",
+    "backendStatus": "Backend System Health",
+    "apiLanguage": "API Request Language Parameter",
+    "noServicesFound": "No services available in this category.",
+    "serviceNotFoundTitle": "Service Not Found",
+    "serviceNotFoundDesc": "The requested service could not be found or is currently unavailable."
+  },
+  "hero": {
+    "defaultTitle": "Welcome to Digi Seva Solution",
+    "defaultSubtitle": "Your Trusted Common Service Center (Jan Seva Kendra) in New Ashok Nagar, Delhi."
+  },
+  "services": {
+    "title": "Our Government & Online Services",
+    "subtitle": "Explore essential government certificates, online applications, utility payments, and digital center services.",
+    "searchPlaceholder": "Search services by name or description...",
+    "allTab": "All Services",
+    "onlineTab": "Online Services",
+    "visitTab": "Visit Required Services",
+    "priceLabel": "Price",
+    "categoryLabel": "Category",
+    "free": "Government Standard Rates / Free Inquiry"
+  },
+  "categories": {
+    "visitRequired": "Visit Required",
+    "online": "Online Service"
+  },
+  "contact": {
+    "title": "Contact Us & Submit Enquiry",
+    "subtitle": "Have questions about a service? Fill out the form below or chat directly on WhatsApp.",
+    "formTitle": "Send an Online Enquiry",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "phoneLabel": "Phone Number (10-digit Indian Mobile)",
+    "phonePlaceholder": "e.g. 9876543210 or +919876543210",
+    "emailLabel": "Email Address (Optional)",
+    "emailPlaceholder": "name@example.com",
+    "serviceLabel": "Related Service (Optional)",
+    "selectServicePlaceholder": "Select a service...",
+    "messageLabel": "Your Message / Question (Optional)",
+    "messagePlaceholder": "Write details about your request or inquiry...",
+    "submitting": "Submitting Enquiry...",
+    "submitButton": "Submit Enquiry",
+    "successTitle": "Enquiry Submitted Successfully!",
+    "successDesc": "Thank you! Our center team in New Ashok Nagar will contact you shortly.",
+    "rateLimitTitle": "Too Many Requests",
+    "whatsappDefaultMsg": "Hello Digi Seva Solution, I would like to inquire about your services.",
+    "mapTitle": "Find Us in New Ashok Nagar"
+  },
+  "adminAuth": {
+    "title": "Partner Admin Portal",
+    "subtitle": "Secure authentication for Digi Seva Solution operating partners.",
+    "step1Title": "Step 1: Admin Credentials",
+    "step2Title": "Step 2: Enter Verification OTP",
+    "emailLabel": "Admin Email",
+    "emailPlaceholder": "admin1@digisevasolution.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "loginButton": "Verify Credentials & Send OTP",
+    "otpLabel": "6-Digit Verification OTP",
+    "otpPlaceholder": "123456",
+    "otpHint": "Check your registered email inbox for the 6-digit verification code.",
+    "verifyOtpButton": "Verify OTP & Log In",
+    "backToStep1": "Back to Credential Login",
+    "changePassTitle": "Mandatory Password Update",
+    "changePassSubtitle": "Please set a secure permanent password for your partner account before continuing.",
+    "oldPasswordLabel": "Temporary Current Password",
+    "newPasswordLabel": "New Permanent Password",
+    "confirmPasswordLabel": "Confirm New Password",
+    "updatePasswordButton": "Update Password & Continue",
+    "logout": "Log Out",
+    "loginSuccess": "Login successful. Welcome back, {{name}}!",
+    "logoutSuccess": "Logged out successfully.",
+    "passwordChangedSuccess": "Password updated successfully.",
+    "emailInvalid": "Please enter a valid email address.",
+    "passwordRequired": "Password is required.",
+    "otpLength": "OTP must be exactly 6 digits.",
+    "otpDigitsOnly": "OTP must contain numeric digits only.",
+    "oldPasswordRequired": "Current password is required.",
+    "newPasswordMin": "New password must be at least 8 characters.",
+    "confirmPasswordRequired": "Please confirm your new password.",
+    "passwordsDoNotMatch": "New password and confirm password do not match."
+  },
+  "adminServices": {
+    "createdSuccess": "Service created successfully.",
+    "updatedSuccess": "Service updated successfully.",
+    "deletedSuccess": "Service deleted successfully.",
+    "actionError": "Failed to complete service operation."
+  },
+  "adminContent": {
+    "createdSuccess": "Content block created successfully.",
+    "updatedSuccess": "Content block updated successfully.",
+    "statusSuccess": "Content block status updated.",
+    "deletedSuccess": "Content block deleted successfully.",
+    "actionError": "Failed to complete content operation."
+  },
+  "adminMedia": {
+    "uploadedSuccess": "Media file uploaded successfully.",
+    "deletedSuccess": "Media file deleted successfully.",
+    "copiedToast": "Media URL copied to clipboard.",
+    "actionError": "Failed to complete media operation."
+  },
+  "adminEnquiries": {
+    "statusSuccess": "Enquiry status updated successfully.",
+    "actionError": "Failed to update enquiry status."
+  },
+  "adminNav": {
+    "dashboard": "Dashboard Overview",
+    "services": "Service Management",
+    "content": "Content Blocks",
+    "media": "Media Assets",
+    "enquiries": "Customer Enquiries"
+  },
+  "adminDashboard": {
+    "welcome": "Welcome back",
+    "overviewSubtitle": "Control panel for Jan Seva Kendra operations in New Ashok Nagar, Delhi.",
+    "seededNoticeTitle": "Partner Account Verified",
+    "seededNoticeBody": "Your Bearer JWT authentication session is active. Service, Content, Media, and Enquiry management screens are active."
+  },
+  "validation": {
+    "nameMin": "Name must be at least 2 characters.",
+    "phoneInvalid": "Please enter a valid 10-digit Indian mobile number (e.g. 9876543210 or +919876543210).",
+    "emailInvalid": "Please enter a valid email address."
+  },
+  "about": {
+    "title": "About Digi Seva Solution",
+    "subtitle": "Empowering citizens with seamless digital, government, and financial services under one roof.",
+    "missionTitle": "Our Mission & Commitment",
+    "missionBody": "Digi Seva Solution is an authorized Jan Seva Kendra (Common Service Center) operated by 2 dedicated partners in New Ashok Nagar, Delhi. We aim to bridge the digital gap by assisting citizens with government document registrations, official certificates, utility bill payments, and online service applications with transparency and speed.",
+    "locationTitle": "Visit Our Center",
+    "address": "New Ashok Nagar, Delhi - 110096, India",
+    "timingTitle": "Working Hours",
+    "timingDetails": "Open All 7 Days: 7:00 AM – 12:00 AM (Midnight)",
+    "timingSubnote": "Open all 7 days a week for walk-in services and online document support (7:00 AM – 12:00 AM)."
+  },
+  "footer": {
+    "description": "Authorized Common Service Center (Jan Seva Kendra) providing fast, reliable digital citizen services.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Information",
+    "address": "New Ashok Nagar, Delhi - 110096",
+    "copyright": "© 2026 Digi Seva Solution. All rights reserved."
+  }
+}

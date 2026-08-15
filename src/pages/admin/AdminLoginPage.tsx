@@ -1,0 +1,273 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, otpSchema, LoginFormData, OtpFormData } from "@/schemas/authSchema";
+import { initiateAdminLogin, verifyAdminOtp } from "@/features/auth/authApi";
+import { useAuthStore } from "@/features/auth/authStore";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShieldCheck, Lock, Mail, KeyRound, ArrowRight, AlertCircle, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { AxiosError } from "axios";
+import { ApiResponse } from "@/types/api";
+import { toast } from "sonner";
+
+export function AdminLoginPage() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  const [step, setStep] = useState<1 | 2>(1);
+  const [userEmail, setUserEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [otpSentNotice, setOtpSentNotice] = useState<string | null>(null);
+
+  // Form for Step 1 (Email & Password)
+  const step1Form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  // Form for Step 2 (OTP Code)
+  const step2Form = useForm<OtpFormData>({
+    resolver: zodResolver(otpSchema),
+    defaultValues: {
+      otpCode: "",
+    },
+  });
+
+  // Submit Step 1: Initiate Login
+  const onStep1Submit: SubmitHandler<LoginFormData> = async (formData) => {
+    setLoading(true);
+    setErrorMessage(null);
+    try {
+      const msg = await initiateAdminLogin(formData);
+      setUserEmail(formData.email);
+      setOtpSentNotice(msg || "OTP sent to registered email address.");
+      setStep(2);
+    } catch (err) {
+      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
+      setErrorMessage(
+        axiosErr.response?.data?.message || axiosErr.message || "Invalid email or password"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Submit Step 2: Verify OTP
+  const onStep2Submit: SubmitHandler<OtpFormData> = async (formData) => {
+    setLoading(true);
+    setErrorMessage(null);
+    try {
+      const authData = await verifyAdminOtp({
+        email: userEmail,
+        otpCode: formData.otpCode,
+      });
+
+      const token = authData.accessToken || authData.token || "";
+      const user = authData.user || authData.adminUser;
+
+      if (!token || !user) {
+        throw new Error("Invalid response received from authentication server.");
+      }
+
+      // Save token and user in Zustand + localStorage
+      setAuth(token, user);
+
+      // Trigger success toast
+      toast.success(t("adminAuth.loginSuccess", { name: user.fullName || "Partner" }));
+
+      // Mandatory password change check for seeded/first-login admins
+      const isFirstLogin = user.isFirstLogin ?? user.firstLogin ?? false;
+      if (isFirstLogin) {
+        navigate("/admin/change-password", { replace: true });
+      } else {
+        navigate("/admin/dashboard", { replace: true });
+      }
+    } catch (err) {
+      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
+      const msg = axiosErr.response?.data?.message || axiosErr.message || "Invalid or expired OTP code";
+      setErrorMessage(msg);
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-2xl border-slate-800 bg-slate-950 text-slate-100">
+        <CardHeader className="space-y-2 text-center pb-6 border-b border-slate-800">
+          <div className="mx-auto bg-primary text-white p-3 rounded-xl w-fit shadow-md mb-1">
+            <ShieldCheck className="h-7 w-7" />
+          </div>
+          <CardTitle className="text-2xl font-black text-white tracking-tight">
+            {t("adminAuth.title")}
+          </CardTitle>
+          <CardDescription className="text-xs text-slate-400">
+            {t("adminAuth.subtitle")}
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="p-6 space-y-6">
+          {/* Error Banner Display */}
+          {errorMessage && (
+            <div className="p-3.5 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-start gap-2.5 animate-in fade-in">
+              <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
+          {/* Step 1: Credential Input Form */}
+          {step === 1 ? (
+            <form onSubmit={step1Form.handleSubmit(onStep1Submit)} className="space-y-4">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                {t("adminAuth.step1Title")}
+              </div>
+
+              {/* Email Field */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300">
+                  {t("adminAuth.emailLabel")}
+                </label>
+                <div className="relative">
+                  <Mail className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="email"
+                    {...step1Form.register("email")}
+                    placeholder={t("adminAuth.emailPlaceholder")}
+                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-900 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                      step1Form.formState.errors.email ? "border-rose-500" : "border-slate-800"
+                    }`}
+                  />
+                </div>
+                {step1Form.formState.errors.email && (
+                  <p className="text-xs text-rose-400 font-medium">
+                    {t(step1Form.formState.errors.email.message as string)}
+                  </p>
+                )}
+              </div>
+
+              {/* Password Field */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300">
+                  {t("adminAuth.passwordLabel")}
+                </label>
+                <div className="relative">
+                  <Lock className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="password"
+                    {...step1Form.register("password")}
+                    placeholder={t("adminAuth.passwordPlaceholder")}
+                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-900 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                      step1Form.formState.errors.password ? "border-rose-500" : "border-slate-800"
+                    }`}
+                  />
+                </div>
+                {step1Form.formState.errors.password && (
+                  <p className="text-xs text-rose-400 font-medium">
+                    {t(step1Form.formState.errors.password.message as string)}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full font-bold bg-primary hover:bg-primary/90 text-white mt-2"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                    Validating...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    {t("adminAuth.loginButton")}
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                )}
+              </Button>
+            </form>
+          ) : (
+            /* Step 2: OTP Verification Form */
+            <form onSubmit={step2Form.handleSubmit(onStep2Submit)} className="space-y-4">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-wider">
+                <span>{t("adminAuth.step2Title")}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep(1);
+                    setErrorMessage(null);
+                  }}
+                  className="text-xs text-primary hover:underline flex items-center gap-1 font-semibold capitalize"
+                >
+                  <ArrowLeft className="h-3 w-3" />
+                  {t("adminAuth.backToStep1")}
+                </button>
+              </div>
+
+              {otpSentNotice && (
+                <div className="p-3 rounded-lg bg-emerald-950/80 border border-emerald-800 text-emerald-200 text-xs flex items-start gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>{otpSentNotice}</span>
+                </div>
+              )}
+
+              {/* OTP Field */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-300">
+                  {t("adminAuth.otpLabel")}
+                </label>
+                <div className="relative">
+                  <KeyRound className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="text"
+                    maxLength={6}
+                    {...step2Form.register("otpCode")}
+                    placeholder={t("adminAuth.otpPlaceholder")}
+                    className={`w-full pl-9 pr-3.5 py-2 text-base font-mono tracking-widest text-center bg-slate-900 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                      step2Form.formState.errors.otpCode ? "border-rose-500" : "border-slate-800"
+                    }`}
+                  />
+                </div>
+                <p className="text-[11px] text-slate-400">{t("adminAuth.otpHint")}</p>
+                {step2Form.formState.errors.otpCode && (
+                  <p className="text-xs text-rose-400 font-medium">
+                    {t(step2Form.formState.errors.otpCode.message as string)}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full font-bold bg-emerald-600 hover:bg-emerald-500 text-white mt-2"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                    Verifying OTP...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <ShieldCheck className="h-4 w-4" />
+                    {t("adminAuth.verifyOtpButton")}
+                  </span>
+                )}
+              </Button>
+            </form>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default AdminLoginPage;
