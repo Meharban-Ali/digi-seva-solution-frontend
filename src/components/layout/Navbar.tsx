@@ -15,6 +15,7 @@ export function Navbar() {
     { path: "/services", label: t("nav.services") },
     { path: "/about", label: t("nav.about") },
     { path: "/contact", label: t("nav.contact") },
+    { path: "/faq", label: t("nav.faq") },
   ];
 
   return (

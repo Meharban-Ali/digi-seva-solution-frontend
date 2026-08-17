@@ -18,6 +18,7 @@ import {
   Filter,
   X,
   Sparkles,
+  CheckCircle,
 } from "lucide-react";
 
 export function AdminEnquiriesPage() {
@@ -48,6 +49,20 @@ export function AdminEnquiriesPage() {
     );
   };
 
+  // Helper for status display labels
+  const getStatusLabel = (status: EnquiryStatus) => {
+    switch (status) {
+      case "NEW":
+        return t("adminEnquiries.statusPendingNew");
+      case "CONTACTED":
+        return t("adminEnquiries.statusPendingContacted");
+      case "RESOLVED":
+        return t("adminEnquiries.statusResolved");
+      default:
+        return status;
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header Bar */}
@@ -74,10 +89,13 @@ export function AdminEnquiriesPage() {
               setSelectedStatus(undefined);
               setPage(0);
             }}
-            className="text-xs font-semibold py-1 px-3 h-8"
+            className={`text-xs font-semibold py-1 px-3 h-8 ${
+              selectedStatus === undefined ? "bg-primary text-white font-bold" : ""
+            }`}
           >
-            All Enquiries
+            {t("adminEnquiries.filterAll")}
           </Button>
+
           <Button
             variant={selectedStatus === "NEW" ? "default" : "outline"}
             size="sm"
@@ -85,11 +103,16 @@ export function AdminEnquiriesPage() {
               setSelectedStatus("NEW");
               setPage(0);
             }}
-            className="text-xs font-semibold py-1 px-3 h-8 flex items-center gap-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold border-amber-400"
+            className={`text-xs font-semibold py-1 px-3 h-8 flex items-center gap-1 ${
+              selectedStatus === "NEW"
+                ? "bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold border-amber-400"
+                : "text-amber-800 border-amber-300 bg-amber-50/60"
+            }`}
           >
-            <Sparkles className="h-3.5 w-3.5" />
-            NEW (Action Needed)
+            <Sparkles className="h-3.5 w-3.5 text-amber-950" />
+            {t("adminEnquiries.filterPendingNew")}
           </Button>
+
           <Button
             variant={selectedStatus === "CONTACTED" ? "default" : "outline"}
             size="sm"
@@ -97,10 +120,15 @@ export function AdminEnquiriesPage() {
               setSelectedStatus("CONTACTED");
               setPage(0);
             }}
-            className="text-xs font-semibold py-1 px-3 h-8"
+            className={`text-xs font-semibold py-1 px-3 h-8 ${
+              selectedStatus === "CONTACTED"
+                ? "bg-blue-600 text-white font-extrabold"
+                : "text-blue-800 border-blue-300 bg-blue-50/60"
+            }`}
           >
-            CONTACTED
+            {t("adminEnquiries.filterPendingContacted")}
           </Button>
+
           <Button
             variant={selectedStatus === "RESOLVED" ? "default" : "outline"}
             size="sm"
@@ -108,9 +136,13 @@ export function AdminEnquiriesPage() {
               setSelectedStatus("RESOLVED");
               setPage(0);
             }}
-            className="text-xs font-semibold py-1 px-3 h-8"
+            className={`text-xs font-semibold py-1 px-3 h-8 ${
+              selectedStatus === "RESOLVED"
+                ? "bg-emerald-600 text-white font-extrabold"
+                : "text-emerald-800 border-emerald-300 bg-emerald-50/60"
+            }`}
           >
-            RESOLVED
+            {t("adminEnquiries.filterResolved")}
           </Button>
         </div>
       </div>
@@ -184,8 +216,9 @@ export function AdminEnquiriesPage() {
                               onChange={(e) =>
                                 handleStatusChange(enquiry.id, e.target.value as EnquiryStatus)
                               }
+                              disabled={updateStatusMutation.isPending}
                               aria-label={`Change status for ${enquiry.name}`}
-                              className={`px-2.5 py-1 text-[11px] font-bold rounded border shadow-2xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                              className={`px-2.5 py-1 text-[11px] font-extrabold rounded border shadow-2xs focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer ${
                                 enquiry.status === "NEW"
                                   ? "bg-amber-100 text-amber-900 border-amber-300"
                                   : enquiry.status === "CONTACTED"
@@ -193,9 +226,9 @@ export function AdminEnquiriesPage() {
                                   : "bg-emerald-100 text-emerald-900 border-emerald-300"
                               }`}
                             >
-                              <option value="NEW">NEW</option>
-                              <option value="CONTACTED">CONTACTED</option>
-                              <option value="RESOLVED">RESOLVED</option>
+                              <option value="NEW">{t("adminEnquiries.statusPendingNew")}</option>
+                              <option value="CONTACTED">{t("adminEnquiries.statusPendingContacted")}</option>
+                              <option value="RESOLVED">{t("adminEnquiries.statusResolved")}</option>
                             </select>
                           </td>
                           <td className="px-4 py-3 text-slate-500 font-mono text-[11px]">
@@ -238,11 +271,15 @@ export function AdminEnquiriesPage() {
                         </div>
                         {isNew ? (
                           <span className="bg-amber-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
-                            <Sparkles className="h-3 w-3" /> NEW
+                            <Sparkles className="h-3 w-3" /> {t("adminEnquiries.statusPendingNew")}
+                          </span>
+                        ) : enquiry.status === "CONTACTED" ? (
+                          <span className="bg-blue-100 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded">
+                            {t("adminEnquiries.statusPendingContacted")}
                           </span>
                         ) : (
-                          <span className="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded">
-                            {enquiry.status}
+                          <span className="bg-emerald-100 text-emerald-900 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
+                            <CheckCircle className="h-3 w-3 text-emerald-700" /> {t("adminEnquiries.statusResolved")}
                           </span>
                         )}
                       </div>
@@ -253,12 +290,13 @@ export function AdminEnquiriesPage() {
                           onChange={(e) =>
                             handleStatusChange(enquiry.id, e.target.value as EnquiryStatus)
                           }
+                          disabled={updateStatusMutation.isPending}
                           aria-label={`Change status for ${enquiry.name}`}
                           className="px-2 py-1 text-xs font-bold rounded border bg-white shadow-2xs"
                         >
-                          <option value="NEW">NEW</option>
-                          <option value="CONTACTED">CONTACTED</option>
-                          <option value="RESOLVED">RESOLVED</option>
+                          <option value="NEW">{t("adminEnquiries.statusPendingNew")}</option>
+                          <option value="CONTACTED">{t("adminEnquiries.statusPendingContacted")}</option>
+                          <option value="RESOLVED">{t("adminEnquiries.statusResolved")}</option>
                         </select>
 
                         <Button
@@ -368,7 +406,7 @@ export function AdminEnquiriesPage() {
                   <Clock className="h-3.5 w-3.5" />
                   Submitted: {new Date(selectedEnquiry.createdAt).toLocaleString()}
                 </span>
-                <span className="font-bold text-slate-700">Status: {selectedEnquiry.status}</span>
+                <span className="font-bold text-slate-700">Status: {getStatusLabel(selectedEnquiry.status)}</span>
               </div>
             </div>
 

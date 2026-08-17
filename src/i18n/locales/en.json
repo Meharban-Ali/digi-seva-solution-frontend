@@ -4,6 +4,7 @@
     "services": "Services",
     "about": "About Us",
     "contact": "Contact Us",
+    "faq": "FAQ",
     "adminLogin": "Partner Login"
   },
   "common": {
@@ -119,7 +120,14 @@
   },
   "adminEnquiries": {
     "statusSuccess": "Enquiry status updated successfully.",
-    "actionError": "Failed to update enquiry status."
+    "actionError": "Failed to update enquiry status.",
+    "filterAll": "All Enquiries",
+    "filterPendingNew": "Pending (New)",
+    "filterPendingContacted": "Pending (Contacted)",
+    "filterResolved": "Resolved",
+    "statusPendingNew": "Pending (New)",
+    "statusPendingContacted": "Pending (Contacted)",
+    "statusResolved": "Resolved"
   },
   "adminNav": {
     "dashboard": "Dashboard Overview",
@@ -197,5 +205,16 @@
     "setupTitle": "Digital Business Transformation",
     "setupDesc": "Google Business Profile setup, domain & hosting setup, payment gateway integration, and local SEO.",
     "ctaButton": "Enquire for Web / App Project"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find clear, quick answers to common questions about our Jan Seva Kendra government services, center timing, document requirements, and online processing.",
+    "searchPlaceholder": "Search questions by keyword...",
+    "emptyTitle": "No Published FAQs Available Yet",
+    "emptyDesc": "FAQ entries will appear here once published by our operating team in New Ashok Nagar.",
+    "noSearchResults": "No questions matched your search query.",
+    "contactPromptTitle": "Still Have Questions?",
+    "contactPromptSub": "Our operating team in New Ashok Nagar is ready to assist you directly via phone or online enquiry form.",
+    "askQuestionBtn": "Contact Our Helpdesk"
   }
 }

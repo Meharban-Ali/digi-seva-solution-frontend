@@ -39,9 +39,14 @@ export function AboutPage() {
               <div className="h-4 bg-slate-200 rounded w-5/6"></div>
               <div className="h-4 bg-slate-200 rounded w-4/6"></div>
             </div>
+          ) : aboutContent ? (
+            <div
+              className="prose prose-slate max-w-none text-base text-slate-700 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: aboutContent.body }}
+            />
           ) : (
             <p className="text-base text-slate-700 leading-relaxed whitespace-pre-line">
-              {aboutContent ? aboutContent.body : t("about.missionBody")}
+              {t("about.missionBody")}
             </p>
           )}
 

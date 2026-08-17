@@ -235,6 +235,17 @@ export function AdminContentPage() {
           >
             Offer
           </Button>
+          <Button
+            variant={selectedSection === "FAQ" ? "default" : "outline"}
+            size="sm"
+            onClick={() => {
+              setSelectedSection("FAQ");
+              setPage(0);
+            }}
+            className="text-xs font-semibold py-1 px-3 h-8"
+          >
+            FAQ
+          </Button>
         </div>
       </div>
 
@@ -403,6 +414,7 @@ export function AdminContentPage() {
                   <option value="ABOUT_US">ABOUT_US</option>
                   <option value="ANNOUNCEMENT">ANNOUNCEMENT</option>
                   <option value="OFFER">OFFER</option>
+                  <option value="FAQ">FAQ (Frequently Asked Questions)</option>
                 </select>
               </div>
 

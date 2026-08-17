@@ -23,8 +23,7 @@ export async function updateAdminEnquiryStatus(
 ): Promise<AdminEnquiryResponse> {
   const response = await apiClient.patch<ApiResponse<AdminEnquiryResponse>>(
     `/api/admin/enquiries/${id}/status`,
-    null,
-    { params: { status } }
+    { status }
   );
   return response.data.data;
 }

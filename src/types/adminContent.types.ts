@@ -1,4 +1,4 @@
-export type ContentSection = "HOME_BANNER" | "ABOUT_US" | "ANNOUNCEMENT" | "OFFER";
+export type ContentSection = "HOME_BANNER" | "ABOUT_US" | "ANNOUNCEMENT" | "OFFER" | "FAQ";
 export type ContentStatus = "DRAFT" | "PUBLISHED";
 
 export interface AdminContentRequest {

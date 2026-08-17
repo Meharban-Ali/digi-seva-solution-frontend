@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useContent } from "@/hooks/useContent";
 import { useServices } from "@/hooks/useServices";
+import { stripHtml } from "@/lib/htmlUtils";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -48,7 +49,7 @@ export function HomePage() {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 max-w-xl font-normal leading-relaxed">
-              {heroBanner ? heroBanner.body : t("hero.defaultSubtitle")}
+              {heroBanner ? stripHtml(heroBanner.body) : t("hero.defaultSubtitle")}
             </p>
 
             <div className="pt-2 flex flex-col sm:flex-row items-center gap-3.5">

@@ -5,6 +5,7 @@ import { ServicesPage } from "@/pages/ServicesPage";
 import { ServiceDetailPage } from "@/pages/ServiceDetailPage";
 import { AboutPage } from "@/pages/AboutPage";
 import { ContactPage } from "@/pages/ContactPage";
+import { FaqPage } from "@/pages/FaqPage";
 
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { AdminLayout } from "@/components/layout/AdminLayout";
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: "services/:id", element: <ServiceDetailPage /> },
       { path: "about", element: <AboutPage /> },
       { path: "contact", element: <ContactPage /> },
+      { path: "faq", element: <FaqPage /> },
     ],
   },
 
