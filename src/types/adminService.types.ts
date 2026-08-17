@@ -10,6 +10,7 @@ export interface AdminServiceRequest {
   imageUrl?: string;
   displayOrder?: number;
   isActive?: boolean;
+  isFeatured?: boolean;
 }
 
 export interface AdminServiceResponse {
@@ -25,6 +26,7 @@ export interface AdminServiceResponse {
   imageUrl?: string;
   displayOrder: number;
   isActive: boolean;
+  isFeatured: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -7,6 +7,7 @@ import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { Button } from "@/components/ui/button";
+import { SeoHead } from "@/components/common/SeoHead";
 import { FileSearch, Layers, Globe, MapPin, Search, X } from "lucide-react";
 
 export function ServicesPage() {
@@ -31,6 +32,11 @@ export function ServicesPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+      <SeoHead
+        title="Our Services - Digi Seva Solution"
+        description="Explore government certificate applications, Aadhaar updates, PAN card applications, utility bill payments, and digital web development services."
+        path="/services"
+      />
       {/* Header Banner */}
       <div className="space-y-2 border-b border-slate-200 pb-6">
         <h1 className="text-3xl font-black text-slate-900 tracking-tight">

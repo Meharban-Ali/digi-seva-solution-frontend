@@ -103,7 +103,9 @@
     "createdSuccess": "Service created successfully.",
     "updatedSuccess": "Service updated successfully.",
     "deletedSuccess": "Service deleted successfully.",
-    "actionError": "Failed to complete service operation."
+    "actionError": "Failed to complete service operation.",
+    "featuredLabel": "Show on Homepage (Featured)",
+    "featuredBadge": "Featured on Homepage"
   },
   "adminContent": {
     "createdSuccess": "Content block created successfully.",
@@ -165,7 +167,7 @@
     "missionTitle": "Our Mission & Commitment",
     "missionBody": "Digi Seva Solution is an authorized Jan Seva Kendra (Common Service Center) operated by 2 dedicated partners in New Ashok Nagar, Delhi. We aim to bridge the digital gap by assisting citizens with government document registrations, official certificates, utility bill payments, and online service applications with transparency and speed.",
     "locationTitle": "Visit Our Center",
-    "address": "New Ashok Nagar, Delhi - 110096, India",
+    "address": "Block D, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096",
     "timingTitle": "Working Hours",
     "timingDetails": "Open All 7 Days: 7:00 AM – 12:00 AM (Midnight)",
     "timingSubnote": "Open all 7 days a week for walk-in services and online document support (7:00 AM – 12:00 AM)."
@@ -174,7 +176,7 @@
     "description": "Authorized Common Service Center (Jan Seva Kendra) providing fast, reliable digital citizen services.",
     "quickLinks": "Quick Links",
     "contactInfo": "Contact Information",
-    "address": "New Ashok Nagar, Delhi - 110096",
+    "address": "Block D, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096",
     "copyright": "© 2026 Digi Seva Solution. All rights reserved."
   },
   "trust": {
@@ -204,6 +206,12 @@
     "appDesc": "Custom Android & iOS mobile applications for customer booking, service tracking, and business management.",
     "setupTitle": "Digital Business Transformation",
     "setupDesc": "Google Business Profile setup, domain & hosting setup, payment gateway integration, and local SEO.",
+    "ctaButton": "Enquire for Web / App Project"
+  },
+  "techBanner": {
+    "badge": "Digital Solutions & Software Development",
+    "title": "Custom Web & Mobile App Development",
+    "desc": "Need a professional website or custom app for your business? Our software engineering partners build high-performance web applications, e-commerce stores, and custom software.",
     "ctaButton": "Enquire for Web / App Project"
   },
   "faq": {

@@ -6,6 +6,7 @@ import { stripHtml } from "@/lib/htmlUtils";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { SeoHead } from "@/components/common/SeoHead";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -26,14 +27,29 @@ import {
 export function HomePage() {
   const { t } = useTranslation();
   const { data: banners } = useContent("HOME_BANNER");
-  const { data: services, isLoading: isServicesLoading } = useServices();
+  const { data: featuredOnlyServices, isLoading: isFeaturedLoading } = useServices(undefined, true);
+  const { data: allServices, isLoading: isAllLoading } = useServices();
 
   const heroBanner = banners && banners.length > 0 ? banners[0] : null;
-  const featuredServices = services ? services.slice(0, 4) : [];
-  const totalServicesCount = services ? services.length : 15;
+
+  // Admin-controlled featured services system (cap at 12, fallback to first 4 active services)
+  const featuredServices =
+    featuredOnlyServices && featuredOnlyServices.length > 0
+      ? featuredOnlyServices.slice(0, 12)
+      : allServices
+      ? allServices.slice(0, 4)
+      : [];
+
+  const totalServicesCount = allServices ? allServices.length : 15;
+  const isServicesLoading = isFeaturedLoading || isAllLoading;
 
   return (
     <div className="space-y-12 pb-12">
+      <SeoHead
+        title="Digi Seva Solution - Aadhaar, PAN & Government Services in New Ashok Nagar, Delhi"
+        description="Digi Seva Solution is your trusted Common Service Center (Jan Seva Kendra) in New Ashok Nagar, Delhi, offering Aadhaar, PAN, RTO, banking services and web development."
+        path="/"
+      />
       {/* 1. Refined Hero Banner Section (Deep Royal Indigo & Gold Accents) */}
       <section className="bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 text-white py-14 sm:py-20 px-4 sm:px-6 relative overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>

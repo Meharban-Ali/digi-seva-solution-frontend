@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useContent } from "@/hooks/useContent";
 import { stripHtml } from "@/lib/htmlUtils";
+import { SeoHead } from "@/components/common/SeoHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +48,11 @@ export function FaqPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+      <SeoHead
+        title="Frequently Asked Questions - Digi Seva Solution"
+        description="Find answers to common questions about Aadhaar updates, PAN processing times, center operating hours, and online vs in-person services."
+        path="/faq"
+      />
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 bg-accent-gold/15 text-accent-gold-dark border border-amber-300/40 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">

@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow private admin management routes from search engine indexing
+Disallow: /admin/
+Disallow: /admin/*
+
+Sitemap: https://digisevasolution.online/sitemap.xml

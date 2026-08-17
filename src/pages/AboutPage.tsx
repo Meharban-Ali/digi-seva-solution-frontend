@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useContent } from "@/hooks/useContent";
+import { SeoHead } from "@/components/common/SeoHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, MapPin, Clock, Users, ShieldCheck, CheckCircle } from "lucide-react";
 
@@ -11,6 +12,11 @@ export function AboutPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+      <SeoHead
+        title="About Us - Digi Seva Solution"
+        description="Learn about Digi Seva Solution, authorized Common Service Center (Jan Seva Kendra) operated by dedicated partners in New Ashok Nagar, Delhi."
+        path="/about"
+      />
       {/* Page Title Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-accent-gold/15 text-accent-gold-dark border border-amber-300/40 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">
@@ -84,7 +90,7 @@ export function AboutPage() {
               {t("about.address")}
             </p>
             <p className="text-xs text-slate-500">
-              Conveniently accessible near local metro and main market routes in New Ashok Nagar.
+              Conveniently accessible near Vivo Showroom and Masjid Wali Gali in New Ashok Nagar.
             </p>
           </CardContent>
         </Card>

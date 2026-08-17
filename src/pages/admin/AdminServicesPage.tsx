@@ -27,6 +27,7 @@ import {
   X,
   Globe,
   MapPin,
+  Star,
 } from "lucide-react";
 
 export function AdminServicesPage() {
@@ -54,6 +55,7 @@ export function AdminServicesPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [displayOrder, setDisplayOrder] = useState<number>(0);
   const [isActive, setIsActive] = useState(true);
+  const [isFeatured, setIsFeatured] = useState(false);
 
   const handleOpenCreateModal = () => {
     setEditingService(null);
@@ -66,6 +68,7 @@ export function AdminServicesPage() {
     setImageUrl("");
     setDisplayOrder(0);
     setIsActive(true);
+    setIsFeatured(false);
     setActiveTab("EN");
     setIsModalOpen(true);
   };
@@ -81,6 +84,7 @@ export function AdminServicesPage() {
     setImageUrl(service.imageUrl || "");
     setDisplayOrder(service.displayOrder || 0);
     setIsActive(service.isActive);
+    setIsFeatured(service.isFeatured || false);
     setActiveTab("EN");
     setIsModalOpen(true);
   };
@@ -99,6 +103,7 @@ export function AdminServicesPage() {
       imageUrl: imageUrl.trim() || undefined,
       displayOrder,
       isActive,
+      isFeatured,
     };
 
     if (editingService) {
@@ -229,15 +234,22 @@ export function AdminServicesPage() {
                           {service.price ? `₹${service.price}` : "Free / Standard"}
                         </td>
                         <td className="px-4 py-3">
-                          {service.isActive ? (
-                            <span className="inline-flex items-center gap-1 text-emerald-700 font-bold text-[11px]">
-                              <CheckCircle className="h-3.5 w-3.5 text-emerald-600" /> Active
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 text-slate-400 font-bold text-[11px]">
-                              <XCircle className="h-3.5 w-3.5 text-slate-400" /> Inactive
-                            </span>
-                          )}
+                          <div className="flex flex-col gap-1 items-start">
+                            {service.isActive ? (
+                              <span className="inline-flex items-center gap-1 text-emerald-700 font-bold text-[11px]">
+                                <CheckCircle className="h-3.5 w-3.5 text-emerald-600" /> Active
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-slate-400 font-bold text-[11px]">
+                                <XCircle className="h-3.5 w-3.5 text-slate-400" /> Inactive
+                              </span>
+                            )}
+                            {service.isFeatured && (
+                              <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-900 border border-amber-300 font-extrabold px-1.5 py-0.5 rounded text-[10px]">
+                                <Star className="h-3 w-3 fill-amber-400 text-amber-500" /> Featured
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td className="px-4 py-3 text-right">
                           <div className="flex items-center justify-end space-x-1.5">
@@ -279,15 +291,22 @@ export function AdminServicesPage() {
                         <h4 className="font-bold text-slate-900 text-sm">{service.nameEn || service.name}</h4>
                         <p className="text-xs text-slate-500">{service.nameHi || service.name}</p>
                       </div>
-                      {service.isActive ? (
-                        <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">
-                          Active
-                        </span>
-                      ) : (
-                        <span className="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded">
-                          Inactive
-                        </span>
-                      )}
+                      <div className="flex flex-col items-end gap-1">
+                        {service.isActive ? (
+                          <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">
+                            Active
+                          </span>
+                        ) : (
+                          <span className="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded">
+                            Inactive
+                          </span>
+                        )}
+                        {service.isFeatured && (
+                          <span className="bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-extrabold px-2 py-0.5 rounded flex items-center gap-1">
+                            <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-500" /> Featured
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between text-xs pt-1">
@@ -533,6 +552,26 @@ export function AdminServicesPage() {
                     <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary relative"></div>
                     <span className="text-xs font-semibold text-slate-700">
                       {isActive ? "Visible Publicly" : "Hidden / Inactive"}
+                    </span>
+                  </label>
+                </div>
+
+                {/* Featured Toggle */}
+                <div className="space-y-1 flex flex-col justify-end">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-400" />
+                    {t("adminServices.featuredLabel")}
+                  </label>
+                  <label className="inline-flex items-center cursor-pointer gap-2">
+                    <input
+                      type="checkbox"
+                      checked={isFeatured}
+                      onChange={(e) => setIsFeatured(e.target.checked)}
+                      className="sr-only peer"
+                    />
+                    <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500 relative"></div>
+                    <span className="text-xs font-semibold text-slate-700">
+                      {isFeatured ? "Showing on Homepage" : "Standard List Only"}
                     </span>
                   </label>
                 </div>

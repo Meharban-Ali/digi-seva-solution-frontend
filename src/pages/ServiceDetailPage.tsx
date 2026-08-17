@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useServiceDetail } from "@/hooks/useServices";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { stripHtml } from "@/lib/htmlUtils";
+import { SeoHead } from "@/components/common/SeoHead";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin, Globe, FileText, CheckCircle, AlertTriangle } from "lucide-react";
 
@@ -25,6 +27,11 @@ export function ServiceDetailPage() {
   if (isError || !service) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-6">
+        <SeoHead
+          title="Service Not Found - Digi Seva Solution"
+          description="The requested service could not be found."
+          path={`/services/${id || ""}`}
+        />
         <Card className="border-amber-200 bg-amber-50/50 p-8 shadow-sm">
           <CardContent className="space-y-4 pt-6">
             <AlertTriangle className="h-12 w-12 text-amber-600 mx-auto" />
@@ -49,6 +56,17 @@ export function ServiceDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+      <SeoHead
+        title={`${service.name} - Digi Seva Solution`}
+        description={
+          service.description
+            ? stripHtml(service.description).slice(0, 155)
+            : "Official government service assistance at Digi Seva Solution in New Ashok Nagar, Delhi."
+        }
+        path={`/services/${service.id}`}
+        ogImage={hasValidImage ? service.imageUrl : undefined}
+      />
+
       {/* Back Button */}
       <div>
         <Button asChild variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">
@@ -98,9 +116,9 @@ export function ServiceDetailPage() {
             )}
           </div>
 
-          <CardTitle className="text-2xl sm:text-3xl font-black text-white leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">
             {service.name}
-          </CardTitle>
+          </h1>
         </CardHeader>
 
         <CardContent className="p-6 sm:p-8 space-y-6">
@@ -118,15 +136,21 @@ export function ServiceDetailPage() {
             <ul className="space-y-2 text-sm text-slate-600">
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-emerald-600 shrink-0" />
-                Official government portal submission with tracking updates.
+                <span>Verified Application Submission at Official Rates</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-emerald-600 shrink-0" />
-                {isVisitRequired
-                  ? "Requires in-person visit to our New Ashok Nagar center for physical document verification / biometric capture."
-                  : "Can be processed entirely online via email / WhatsApp submission."}
+                <span>Direct In-Person Support at New Ashok Nagar Center</span>
               </li>
             </ul>
+          </div>
+
+          <div className="pt-4 flex justify-end">
+            <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-primary hover:bg-primary-light text-white">
+              <Link to={`/contact?service=${encodeURIComponent(service.name)}`}>
+                Enquire for {service.name}
+              </Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

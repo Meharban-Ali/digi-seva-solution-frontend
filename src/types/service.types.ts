@@ -9,6 +9,7 @@ export interface PublicService {
   imageUrl?: string;
   displayOrder: number;
   isActive?: boolean;
+  isFeatured?: boolean;
 }
 
 export type ServiceResponse = PublicService;

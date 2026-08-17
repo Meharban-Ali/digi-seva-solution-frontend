@@ -62,7 +62,7 @@ export function Footer() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
         <p>{t("footer.copyright")}</p>
-        <p className="font-mono text-slate-500">New Ashok Nagar • Delhi 110096</p>
+        <p className="text-slate-500 text-center sm:text-right leading-relaxed max-w-md">Block D, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096</p>
       </div>
     </footer>
   );

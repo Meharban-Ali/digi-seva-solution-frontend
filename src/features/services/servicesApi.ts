@@ -4,11 +4,15 @@ import { PublicService, ServiceCategory } from "@/types/service.types";
 
 export async function getPublicServices(
   lang: string = "en",
-  category?: ServiceCategory
+  category?: ServiceCategory,
+  featured?: boolean
 ): Promise<PublicService[]> {
-  const params: Record<string, string> = { lang };
+  const params: Record<string, string | boolean> = { lang };
   if (category) {
     params.category = category;
+  }
+  if (featured !== undefined) {
+    params.featured = featured;
   }
 
   const response = await apiClient.get<ApiResponse<PublicService[]>>("/api/services", { params });

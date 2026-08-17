@@ -8,6 +8,7 @@ import { useSubmitEnquiry } from "@/hooks/useSubmitEnquiry";
 import { useServices } from "@/hooks/useServices";
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { GoogleMapEmbed } from "@/components/common/GoogleMapEmbed";
+import { SeoHead } from "@/components/common/SeoHead";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -82,6 +83,11 @@ export function ContactPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+      <SeoHead
+        title="Contact Us - Digi Seva Solution | New Ashok Nagar, Delhi"
+        description="Get in touch with Digi Seva Solution in New Ashok Nagar, Delhi. Send an online enquiry or connect directly via WhatsApp."
+        path="/contact"
+      />
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 bg-accent-gold/15 text-accent-gold-dark border border-amber-300/40 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">
