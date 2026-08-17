@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" fill="none">
+  <defs>
+    <linearGradient id="lockupShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="40%" stop-color="#1E3A8A" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+
+    <linearGradient id="lockupRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.95" />
+    </linearGradient>
+
+    <linearGradient id="lockupGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <linearGradient id="lockupCyanArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="45%" stop-color="#93C5FD" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+
+    <linearGradient id="lockupEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <filter id="lockupShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Left Icon Emblem (Shifted to X=40, Y=20, Scale=0.62 -> 320px high) -->
+  <g transform="translate(40, 20) scale(0.625)">
+    <!-- Base Shield -->
+    <path d="M256 28 C365 28 436 72 436 195 C436 320 348 422 256 476 C164 422 76 320 76 195 C76 72 147 28 256 28 Z" fill="url(#lockupShieldGrad)" filter="url(#lockupShadow)" />
+    <!-- Outer Rim -->
+    <path d="M256 42 C353 42 420 82 420 193 C420 307 340 401 256 452 C172 401 92 307 92 193 C92 82 159 42 256 42 Z" fill="none" stroke="url(#lockupRimGrad)" stroke-width="7" stroke-linecap="round" />
+    <!-- Inset Base -->
+    <path d="M256 58 C338 58 398 94 398 190 C398 293 325 380 256 426 C187 380 114 293 114 190 C114 94 174 58 256 58 Z" fill="#0F172A" fill-opacity="0.45" stroke="#3B82F6" stroke-opacity="0.25" stroke-width="2" />
+    <!-- Monogram Spine -->
+    <rect x="176" y="148" width="38" height="216" rx="19" fill="url(#lockupGoldGrad)" />
+    <!-- Arc -->
+    <path d="M195 152 H266 C326 152 364 190 364 256 C364 322 326 360 266 360 H195" fill="none" stroke="url(#lockupCyanArcGrad)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Card Accent -->
+    <rect x="238" y="202" width="60" height="76" rx="8" fill="#FFFFFF" fill-opacity="0.12" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="2" />
+    <rect x="250" y="218" width="36" height="6" rx="3" fill="#F59E0B" />
+    <rect x="250" y="232" width="28" height="5" rx="2.5" fill="#93C5FD" />
+    <rect x="250" y="244" width="22" height="5" rx="2.5" fill="#93C5FD" />
+    <!-- Gold Star -->
+    <path d="M356 124 L365 146 L388 155 L365 164 L356 186 L347 164 L324 155 L347 146 Z" fill="url(#lockupGoldGrad)" />
+    <!-- Emerald Seal -->
+    <circle cx="340" cy="340" r="34" fill="url(#lockupEmeraldGrad)" stroke="#FFFFFF" stroke-width="6" />
+    <path d="M324 340 L335 351 L358 328" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Typography Right Lockup -->
+  <!-- Main Brand Title "Digi Seva" -->
+  <text x="390" y="160" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="900" font-size="108" fill="#0F172A" letter-spacing="-2">Digi Seva</text>
+
+  <!-- Brand Sub-word "SOLUTION" -->
+  <text x="395" y="235" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="800" font-size="48" fill="#D97706" letter-spacing="14">SOLUTION</text>
+
+  <!-- Official Accreditation Subtitle -->
+  <text x="398" y="285" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="700" font-size="22" fill="#64748B" letter-spacing="4">JAN SEVA KENDRA • COMMON SERVICE CENTER</text>
+</svg>

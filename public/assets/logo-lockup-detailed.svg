@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" fill="none">
+  <defs>
+    <linearGradient id="shieldBgGradLkpDet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="45%" stop-color="#1E3A8A" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+
+    <linearGradient id="rimGradLkpDet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#3B82F6" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.95" />
+    </linearGradient>
+
+    <linearGradient id="goldGradLkpDet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <linearGradient id="blueFgGradLkpDet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="50%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+
+    <linearGradient id="navyBgGradLkpDet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+
+    <filter id="shadowLkpDet" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Left Icon Emblem (Shifted X=30, Y=20, Scale=0.68) -->
+  <g transform="translate(30, 20) scale(0.68)">
+    <path d="M256 26 C360 26 438 65 438 180 C438 315 352 420 256 478 C160 420 74 315 74 180 C74 65 152 26 256 26 Z" fill="url(#shieldBgGradLkpDet)" filter="url(#shadowLkpDet)" />
+    <path d="M256 40 C348 40 420 76 420 178 C420 300 342 398 256 452 C170 398 92 300 92 178 C92 76 164 40 256 40 Z" fill="none" stroke="url(#rimGradLkpDet)" stroke-width="7" stroke-linecap="round" />
+    <path d="M256 56 C334 56 398 90 398 176 C398 286 328 376 256 426 C184 376 114 286 114 176 C114 90 178 56 256 56 Z" fill="#0F172A" fill-opacity="0.55" stroke="#3B82F6" stroke-opacity="0.2" stroke-width="2" />
+    <path d="M106 312 C 185 390 330 370 425 240 C 355 315 215 332 106 312 Z" fill="url(#goldGradLkpDet)" />
+    <path d="M370 265 L395 242 M385 285 L415 270 M360 305 L390 310" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+    <circle cx="395" cy="242" r="4.5" fill="#FDE047" stroke="#D97706" stroke-width="1.5" />
+    <circle cx="415" cy="270" r="4.5" fill="#FDE047" stroke="#D97706" stroke-width="1.5" />
+    <circle cx="390" cy="310" r="4" fill="#FDE047" stroke="#D97706" stroke-width="1.5" />
+
+    <!-- DS Monogram -->
+    <g transform="translate(6, 6)">
+      <path d="M168 142 H255 C310 142 348 178 348 238 C348 298 310 334 255 334 H168 V142 Z M208 178 V298 H250 C284 298 306 276 306 238 C306 200 284 178 250 178 H208 Z" fill="url(#navyBgGradLkpDet)" opacity="0.85" />
+      <path d="M336 172 C324 154 300 142 270 142 C228 142 200 166 200 198 C200 248 300 236 300 278 C300 296 282 308 256 308 C226 308 200 290 188 268 L152 288 C172 324 210 346 256 346 C308 346 342 318 342 276 C342 222 242 236 242 196 C242 182 256 174 272 174 C292 174 310 184 320 200 L336 172 Z" fill="url(#navyBgGradLkpDet)" opacity="0.85" />
+    </g>
+    <g>
+      <path d="M168 142 H255 C310 142 348 178 348 238 C348 298 310 334 255 334 H168 V142 Z M208 178 V298 H250 C284 298 306 276 306 238 C306 200 284 178 250 178 H208 Z" fill="url(#blueFgGradLkpDet)" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.4" />
+      <path d="M336 172 C324 154 300 142 270 142 C228 142 200 166 200 198 C200 248 300 236 300 278 C300 296 282 308 256 308 C226 308 200 290 188 268 L152 288 C172 324 210 346 256 346 C308 346 342 318 342 276 C342 222 242 236 242 196 C242 182 256 174 272 174 C292 174 310 184 320 200 L336 172 Z" fill="url(#goldGradLkpDet)" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.5" />
+    </g>
+    <path d="M256 55 L264 74 L283 82 L264 90 L256 109 L248 90 L229 82 L248 74 Z" fill="url(#goldGradLkpDet)" />
+    <circle cx="256" cy="82" r="3" fill="#FFFFFF" />
+  </g>
+
+  <!-- Right Typography Composition -->
+  <!-- Line 1: "DIGI SEVA" -->
+  <text x="410" y="165" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="900" font-size="112" fill="#0F172A" letter-spacing="-1">DIGI SEVA</text>
+
+  <!-- Line 2: "SOLUTION" -->
+  <text x="415" y="245" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="900" font-size="52" fill="#D97706" letter-spacing="18">SOLUTION</text>
+
+  <!-- Line 3 Tagline: "GOVERNMENT & DIGITAL SERVICES" -->
+  <text x="418" y="298" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="700" font-size="22" fill="#334155" letter-spacing="4">GOVERNMENT &amp; DIGITAL SERVICES</text>
+
+  <!-- Trust Line: "TRUSTED & SECURED • JAN SEVA KENDRA" -->
+  <text x="418" y="328" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="600" font-size="14" fill="#64748B" letter-spacing="3">TRUSTED &amp; SECURED • JAN SEVA KENDRA</text>
+</svg>

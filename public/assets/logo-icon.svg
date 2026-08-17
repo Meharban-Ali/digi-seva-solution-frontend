@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <!-- Background Shield Multi-Stop Rich Gradient -->
+    <linearGradient id="shieldBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="40%" stop-color="#1E3A8A" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+
+    <!-- Outer Rim Metallic Gold & Blue Highlight Gradient -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.9" />
+      <stop offset="45%" stop-color="#3B82F6" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Premium Warm Gold Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="45%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <!-- Crisp Cyan/Blue Arc Gradient -->
+    <linearGradient id="cyanArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="45%" stop-color="#93C5FD" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+
+    <!-- Emerald Verified Seal Gradient -->
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter for Depth -->
+    <filter id="badgeShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0F172A" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Base Shield Silhouette -->
+  <path d="M256 28 C365 28 436 72 436 195 C436 320 348 422 256 476 C164 422 76 320 76 195 C76 72 147 28 256 28 Z" fill="url(#shieldBgGrad)" filter="url(#badgeShadow)" />
+
+  <!-- Outer Metallic Rim Highlight -->
+  <path d="M256 42 C353 42 420 82 420 193 C420 307 340 401 256 452 C172 401 92 307 92 193 C92 82 159 42 256 42 Z" fill="none" stroke="url(#rimGrad)" stroke-width="7" stroke-linecap="round" />
+
+  <!-- Inset Shield Base -->
+  <path d="M256 58 C338 58 398 94 398 190 C398 293 325 380 256 426 C187 380 114 293 114 190 C114 94 174 58 256 58 Z" fill="#0F172A" fill-opacity="0.45" stroke="#3B82F6" stroke-opacity="0.25" stroke-width="2" />
+
+  <!-- Geometric Monogram "D" + Document Core -->
+  <!-- Left Vertical Gold Pillar (Spine of 'D') -->
+  <rect x="176" y="148" width="38" height="216" rx="19" fill="url(#goldGrad)" />
+
+  <!-- Sweeping Right Arc (Loop of 'D' & Digital Arch) -->
+  <path d="M195 152 H266 C326 152 364 190 364 256 C364 322 326 360 266 360 H195" fill="none" stroke="url(#cyanArcGrad)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Document Card Accent Inset -->
+  <rect x="238" y="202" width="60" height="76" rx="8" fill="#FFFFFF" fill-opacity="0.12" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="2" />
+  <rect x="250" y="218" width="36" height="6" rx="3" fill="#F59E0B" />
+  <rect x="250" y="232" width="28" height="5" rx="2.5" fill="#93C5FD" />
+  <rect x="250" y="244" width="22" height="5" rx="2.5" fill="#93C5FD" />
+
+  <!-- 4-Point Official Gold Star Accent (Top Right) -->
+  <path d="M356 124 L365 146 L388 155 L365 164 L356 186 L347 164 L324 155 L347 146 Z" fill="url(#goldGrad)" />
+
+  <!-- Emerald Verification Seal Badge (Bottom Right) -->
+  <circle cx="340" cy="340" r="34" fill="url(#emeraldGrad)" stroke="#FFFFFF" stroke-width="6" />
+  <path d="M324 340 L335 351 L358 328" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
