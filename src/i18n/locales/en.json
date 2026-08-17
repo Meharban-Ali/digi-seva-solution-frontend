@@ -216,5 +216,18 @@
     "contactPromptTitle": "Still Have Questions?",
     "contactPromptSub": "Our operating team in New Ashok Nagar is ready to assist you directly via phone or online enquiry form.",
     "askQuestionBtn": "Contact Our Helpdesk"
+  },
+  "howItWorks": {
+    "badge": "Simple 4-Step Process",
+    "title": "How Our Services Work",
+    "subtitle": "Clear, hassle-free steps from selecting your required service to final processing and document issuance.",
+    "step1Title": "1. Choose Your Service",
+    "step1Desc": "Browse our online catalog or visit our center to identify your service needs (marked as Visit Required or Online Service).",
+    "step2Title": "2. Submit Details & Docs",
+    "step2Desc": "Provide required identity or address documents in person at our center or via online enquiry form.",
+    "step3Title": "3. We Process & Verify",
+    "step3Desc": "Our experienced team verifies your documents and submits your application on official government portals at standard rates.",
+    "step4Title": "4. Receive Service & Updates",
+    "step4Desc": "Collect your completed certificate, PAN card, or service receipt with status notifications along the way."
   }
 }

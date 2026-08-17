@@ -6,19 +6,21 @@ import { stripHtml } from "@/lib/htmlUtils";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   ShieldCheck,
-  FileCheck,
   Zap,
   Globe,
   Clock,
   Code,
-  Smartphone,
   Sparkles,
   CheckCircle2,
   ChevronRight,
   Star,
+  Search,
+  FileText,
+  Cpu,
 } from "lucide-react";
 
 export function HomePage() {
@@ -176,7 +178,7 @@ export function HomePage() {
               </div>
             </div>
 
-            {/* Point 4: Open 7 Days */}
+            {/* Point 4: Operating Hours */}
             <div className="flex items-start gap-3.5 bg-slate-900/80 p-4 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
               <div className="bg-indigo-500/20 text-indigo-400 p-2.5 rounded-lg shrink-0">
                 <Clock className="h-5 w-5" />
@@ -212,118 +214,193 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 4. Featured Business Services Section */}
+      {/* 4. "How It Works" 4-Step Process Section */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
+          className="text-center space-y-2 max-w-2xl mx-auto"
+        >
+          <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
+            <Sparkles className="h-3.5 w-3.5 text-accent-gold-dark" />
+            <span>{t("howItWorks.badge")}</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            {t("howItWorks.title")}
+          </h2>
+          <p className="text-sm text-slate-600 leading-relaxed">
+            {t("howItWorks.subtitle")}
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Step 1 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3, delay: 0.05 }}
+          >
+            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
+              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
+                01
+              </div>
+              <CardContent className="p-6 space-y-3.5">
+                <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <Search className="h-6 w-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 leading-tight">
+                  {t("howItWorks.step1Title")}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {t("howItWorks.step1Desc")}
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Step 2 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
+              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
+                02
+              </div>
+              <CardContent className="p-6 space-y-3.5">
+                <div className="h-12 w-12 rounded-xl bg-amber-500/15 text-amber-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <FileText className="h-6 w-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 leading-tight">
+                  {t("howItWorks.step2Title")}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {t("howItWorks.step2Desc")}
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Step 3 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3, delay: 0.15 }}
+          >
+            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
+              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
+                03
+              </div>
+              <CardContent className="p-6 space-y-3.5">
+                <div className="h-12 w-12 rounded-xl bg-indigo-500/15 text-indigo-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <Cpu className="h-6 w-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 leading-tight">
+                  {t("howItWorks.step3Title")}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {t("howItWorks.step3Desc")}
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Step 4 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
+              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
+                04
+              </div>
+              <CardContent className="p-6 space-y-3.5">
+                <div className="h-12 w-12 rounded-xl bg-emerald-500/15 text-emerald-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <CheckCircle2 className="h-6 w-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 leading-tight">
+                  {t("howItWorks.step4Title")}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {t("howItWorks.step4Desc")}
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 5. Featured Business Services Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">
               {t("services.title")}
             </h2>
-            <p className="text-sm text-slate-600 mt-1">
+            <p className="text-xs sm:text-sm text-slate-600 font-normal mt-1">
               {t("services.subtitle")}
             </p>
           </div>
-          <Button asChild variant="outline" size="sm" className="shrink-0 border-slate-300">
+          <Button asChild variant="outline" size="sm" className="font-bold text-xs shrink-0 self-start sm:self-auto border-primary text-primary hover:bg-primary/10">
             <Link to="/services">
-              <span>{t("common.viewAllServices")}</span>
-              <ArrowRight className="h-4 w-4 ml-1" />
+              <span>{t("common.viewAllServices")} ({totalServicesCount})</span>
+              <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </Button>
         </div>
 
-        {/* Loading Skeletons */}
         {isServicesLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-48 rounded-xl bg-slate-200 animate-pulse"></div>
+              <Card key={i} className="h-48 bg-slate-200 animate-pulse rounded-xl" />
             ))}
           </div>
-        ) : featuredServices.length > 0 ? (
+        ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredServices.map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
-        ) : (
-          <Card className="bg-slate-100/70 border-dashed text-center py-10">
-            <CardContent className="space-y-2">
-              <FileCheck className="h-10 w-10 text-slate-400 mx-auto" />
-              <p className="text-sm font-semibold text-slate-700">{t("common.noServicesFound")}</p>
-            </CardContent>
-          </Card>
         )}
       </section>
 
-      {/* 5. Distinct "Web & App Development" / Digital Solutions Section */}
+      {/* 6. Software & Application Development Banner Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl relative overflow-hidden space-y-8">
-          <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl"></div>
+        <Card className="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 text-white border-slate-800 shadow-xl overflow-hidden relative">
+          <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-accent-gold/10 rounded-full blur-3xl pointer-events-none"></div>
 
-          {/* Header */}
-          <div className="space-y-3 max-w-3xl relative z-10">
-            <div className="inline-flex items-center gap-2 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-bold">
-              <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-              <span>{t("digitalDev.badge")}</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-              {t("digitalDev.title")}
-            </h2>
-            <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
-              {t("digitalDev.subtitle")}
-            </p>
-          </div>
-
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3 hover:border-indigo-500/40 transition-colors">
-              <div className="bg-indigo-500/20 text-indigo-400 p-3 rounded-xl w-fit">
-                <Code className="h-6 w-6" />
+          <CardContent className="p-8 sm:p-10 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4 text-center sm:text-left">
+              <div className="inline-flex items-center gap-2 bg-accent-gold/20 text-accent-gold border border-amber-400/30 px-3 py-1 rounded-full text-xs font-bold">
+                <Code className="h-4 w-4" />
+                <span>{t("techBanner.badge")}</span>
               </div>
-              <h3 className="font-bold text-white text-base">{t("digitalDev.webTitle")}</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                {t("digitalDev.webDesc")}
+              <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                {t("techBanner.title")}
+              </h3>
+              <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
+                {t("techBanner.desc")}
               </p>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3 hover:border-indigo-500/40 transition-colors">
-              <div className="bg-emerald-500/20 text-emerald-400 p-3 rounded-xl w-fit">
-                <Smartphone className="h-6 w-6" />
-              </div>
-              <h3 className="font-bold text-white text-base">{t("digitalDev.appTitle")}</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                {t("digitalDev.appDesc")}
-              </p>
+            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-center gap-3">
+              <Button asChild size="lg" className="w-full font-bold bg-accent-gold hover:bg-amber-600 text-slate-950 shadow-md">
+                <Link to="/contact">
+                  <span>{t("techBanner.ctaButton")}</span>
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Link>
+              </Button>
             </div>
-
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3 hover:border-indigo-500/40 transition-colors">
-              <div className="bg-amber-500/20 text-amber-400 p-3 rounded-xl w-fit">
-                <Sparkles className="h-6 w-6" />
-              </div>
-              <h3 className="font-bold text-white text-base">{t("digitalDev.setupTitle")}</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                {t("digitalDev.setupDesc")}
-              </p>
-            </div>
-          </div>
-
-          {/* Action CTA Button */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800/80 relative z-10">
-            <div className="flex items-center gap-2 text-xs text-slate-400">
-              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-              <span>Direct consultation with operating partner software engineers</span>
-            </div>
-            <Button
-              asChild
-              size="lg"
-              className="w-full sm:w-auto font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg"
-            >
-              <Link to="/contact?service=Web+%26+App+Development">
-                <span>{t("digitalDev.ctaButton")}</span>
-                <ChevronRight className="h-5 w-5 ml-1" />
-              </Link>
-            </Button>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </section>
     </div>
   );
