@@ -32,10 +32,10 @@ export function HomePage() {
 
   const heroBanner = banners && banners.length > 0 ? banners[0] : null;
 
-  // Admin-controlled featured services system (cap at 12, fallback to first 4 active services)
+  // Admin-controlled featured services system (cap at 8, fallback to first 4 active services)
   const featuredServices =
     featuredOnlyServices && featuredOnlyServices.length > 0
-      ? featuredOnlyServices.slice(0, 12)
+      ? featuredOnlyServices.slice(0, 8)
       : allServices
       ? allServices.slice(0, 4)
       : [];
