@@ -75,6 +75,9 @@
     "otpPlaceholder": "123456",
     "otpHint": "Check your registered email inbox for the 6-digit verification code.",
     "verifyOtpButton": "Verify OTP & Log In",
+    "resendOtp": "Resend OTP",
+    "resendOtpIn": "Resend OTP ({{seconds}}s)",
+    "otpResentSuccess": "Fresh verification OTP sent to your registered email address.",
     "backToStep1": "Back to Credential Login",
     "changePassTitle": "Mandatory Password Update",
     "changePassSubtitle": "Please set a secure permanent password for your partner account before continuing.",
@@ -123,7 +126,19 @@
     "services": "Service Management",
     "content": "Content Blocks",
     "media": "Media Assets",
-    "enquiries": "Customer Enquiries"
+    "enquiries": "Customer Enquiries",
+    "profile": "My Account"
+  },
+  "adminProfile": {
+    "title": "My Account & Profile Settings",
+    "subtitle": "View your partner profile details and rotate your security password.",
+    "profileCardTitle": "Partner Profile Details",
+    "fullNameLabel": "Full Name",
+    "emailLabel": "Email Address",
+    "roleLabel": "Account Status",
+    "roleValue": "Authorized Operating Partner",
+    "securityCardTitle": "Password Security & Rotation",
+    "securityCardSubtitle": "Update your password anytime to maintain account security."
   },
   "adminDashboard": {
     "welcome": "Welcome back",
@@ -153,5 +168,34 @@
     "contactInfo": "Contact Information",
     "address": "New Ashok Nagar, Delhi - 110096",
     "copyright": "© 2026 Digi Seva Solution. All rights reserved."
+  },
+  "trust": {
+    "badge": "Why Choose Digi Seva Solution",
+    "item1Title": "Authorized Jan Seva Kendra",
+    "item1Desc": "Official Common Service Center (CSC) operating in New Ashok Nagar, Delhi.",
+    "item2Title": "Fast & Reliable Processing",
+    "item2Desc": "Government standard rates with transparent receipts and quick turnarounds.",
+    "item3Title": "Complete Bilingual Support",
+    "item3Desc": "Full walk-in & phone guidance in English and Hindi (हिंदी व अंग्रेजी सहायता).",
+    "item4Title": "Open 7 Days a Week",
+    "item4Desc": "Working daily from 7:00 AM to 12:00 AM (Midnight) for citizen convenience."
+  },
+  "stats": {
+    "servicesCount": "Government & Online Services Available",
+    "partnersCount": "Dedicated Operating Partners",
+    "daysCount": "Days Weekly Operation (7 AM - 12 AM)",
+    "transparencyCount": "Transparent Government Standard Rates"
+  },
+  "digitalDev": {
+    "badge": "Digital Solutions & Software Development",
+    "title": "Custom Web & Mobile App Development",
+    "subtitle": "Need a professional website or custom app for your business? Our software engineering partners build high-performance web applications and mobile apps.",
+    "webTitle": "Custom Website Development",
+    "webDesc": "Modern, fast, and SEO-friendly websites for local businesses, shops, and professional services built with Next.js, React & Spring Boot.",
+    "appTitle": "Mobile App Development",
+    "appDesc": "Custom Android & iOS mobile applications for customer booking, service tracking, and business management.",
+    "setupTitle": "Digital Business Transformation",
+    "setupDesc": "Google Business Profile setup, domain & hosting setup, payment gateway integration, and local SEO.",
+    "ctaButton": "Enquire for Web / App Project"
   }
 }

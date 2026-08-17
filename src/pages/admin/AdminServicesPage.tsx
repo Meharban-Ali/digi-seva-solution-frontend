@@ -216,11 +216,11 @@ export function AdminServicesPage() {
                         </td>
                         <td className="px-4 py-3">
                           {service.category === "ONLINE" ? (
-                            <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded font-semibold text-[10px]">
+                            <span className="inline-flex items-center gap-1 bg-primary text-white font-extrabold px-2 py-0.5 rounded text-[10px] shadow-2xs">
                               <Globe className="h-3 w-3" /> Online Service
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-semibold text-[10px]">
+                            <span className="inline-flex items-center gap-1 bg-amber-50 text-accent-gold-dark border border-amber-200/80 px-2 py-0.5 rounded font-extrabold text-[10px]">
                               <MapPin className="h-3 w-3" /> Visit Required
                             </span>
                           )}

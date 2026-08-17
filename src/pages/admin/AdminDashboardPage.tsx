@@ -10,7 +10,7 @@ export function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <Card className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white shadow-md border-slate-800">
+      <Card className="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white shadow-md border-slate-800 overflow-hidden">
         <CardContent className="p-6 sm:p-8 space-y-2">
           <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-semibold">
             <ShieldCheck className="h-4 w-4" /> Partner Control Panel • Active JWT Session
@@ -37,64 +37,64 @@ export function AdminDashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Module Overview Grid (Placeholders for Phase 6 Management Screens) */}
+      {/* Module Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <Card className="border-slate-200 shadow-xs bg-white">
+        <Card className="border-slate-200 shadow-xs bg-white hover:border-primary/40 transition-colors">
           <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-bold text-slate-900">Services</CardTitle>
-            <div className="bg-blue-50 text-blue-600 p-2 rounded-lg">
+            <div className="bg-blue-50 text-primary border border-blue-200/60 p-2 rounded-lg">
               <Layers className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent className="p-5 pt-0 space-y-1">
             <p className="text-xs text-slate-500 font-medium">Bilingual Catalog CRUD</p>
-            <span className="inline-block text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
-              Phase 6 Ready
+            <span className="inline-block text-[10px] font-bold text-primary bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">
+              Active Management
             </span>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200 shadow-xs bg-white">
+        <Card className="border-slate-200 shadow-xs bg-white hover:border-primary/40 transition-colors">
           <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-bold text-slate-900">Content Blocks</CardTitle>
-            <div className="bg-indigo-50 text-indigo-600 p-2 rounded-lg">
+            <div className="bg-indigo-50 text-indigo-600 border border-indigo-200/60 p-2 rounded-lg">
               <FileText className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent className="p-5 pt-0 space-y-1">
             <p className="text-xs text-slate-500 font-medium">Draft & Publish Manager</p>
             <span className="inline-block text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
-              Phase 6 Ready
+              Active Management
             </span>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200 shadow-xs bg-white">
+        <Card className="border-slate-200 shadow-xs bg-white hover:border-primary/40 transition-colors">
           <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-bold text-slate-900">Media Library</CardTitle>
-            <div className="bg-amber-50 text-amber-600 p-2 rounded-lg">
+            <div className="bg-amber-50 text-accent-gold-dark border border-amber-200/60 p-2 rounded-lg">
               <Image className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent className="p-5 pt-0 space-y-1">
             <p className="text-xs text-slate-500 font-medium">Cloudinary Image/Media</p>
-            <span className="inline-block text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
-              Phase 6 Ready
+            <span className="inline-block text-[10px] font-bold text-accent-gold-dark bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
+              Active Management
             </span>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200 shadow-xs bg-white">
+        <Card className="border-slate-200 shadow-xs bg-white hover:border-primary/40 transition-colors">
           <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-bold text-slate-900">Customer Enquiries</CardTitle>
-            <div className="bg-emerald-50 text-emerald-600 p-2 rounded-lg">
+            <div className="bg-emerald-50 text-emerald-600 border border-emerald-200/60 p-2 rounded-lg">
               <Inbox className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent className="p-5 pt-0 space-y-1">
             <p className="text-xs text-slate-500 font-medium">Status & Lifecycle Tracker</p>
-            <span className="inline-block text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
-              Phase 6 Ready
+            <span className="inline-block text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
+              Active Management
             </span>
           </CardContent>
         </Card>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +24,9 @@ import { WhatsAppIcon } from "@/components/common/WhatsAppButton";
 
 export function ContactPage() {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const initialServiceQuery = searchParams.get("service");
+
   const [successSubmitted, setSuccessSubmitted] = useState(false);
   const [rateLimitError, setRateLimitError] = useState<string | null>(null);
 
@@ -41,7 +45,7 @@ export function ContactPage() {
       phone: "",
       email: "",
       serviceId: "",
-      message: "",
+      message: initialServiceQuery ? `Inquiry regarding: ${initialServiceQuery}` : "",
     },
   });
 
@@ -80,8 +84,8 @@ export function ContactPage() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-          <ShieldCheck className="h-4 w-4" /> Jan Seva Kendra Helpdesk
+        <div className="inline-flex items-center gap-2 bg-accent-gold/15 text-accent-gold-dark border border-amber-300/40 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">
+          <ShieldCheck className="h-4 w-4 text-accent-gold-dark" /> Jan Seva Kendra Helpdesk
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
           {t("contact.title")}
@@ -94,10 +98,10 @@ export function ContactPage() {
       {/* Main Grid: Enquiry Form & Contact Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Enquiry Form (7 Columns on large screen) */}
-        <Card className="lg:col-span-7 shadow-md border-slate-200">
-          <CardHeader className="border-b bg-slate-900 text-white p-6">
+        <Card className="lg:col-span-7 shadow-md border-slate-200 overflow-hidden">
+          <CardHeader className="border-b bg-slate-950 text-white p-6">
             <CardTitle className="text-xl font-bold flex items-center gap-2">
-              <Send className="h-5 w-5 text-primary" />
+              <Send className="h-5 w-5 text-accent-gold" />
               {t("contact.formTitle")}
             </CardTitle>
             <CardDescription className="text-slate-300 text-xs">
@@ -148,7 +152,7 @@ export function ContactPage() {
                   type="text"
                   {...register("name")}
                   placeholder={t("contact.namePlaceholder")}
-                  className={`w-full px-3.5 py-2 text-sm bg-white border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary ${
+                  className={`w-full px-3.5 py-2 text-sm bg-white border rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.name ? "border-rose-500" : "border-slate-300"
                   }`}
                 />
@@ -166,7 +170,7 @@ export function ContactPage() {
                   type="tel"
                   {...register("phone")}
                   placeholder={t("contact.phonePlaceholder")}
-                  className={`w-full px-3.5 py-2 text-sm bg-white border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary ${
+                  className={`w-full px-3.5 py-2 text-sm bg-white border rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.phone ? "border-rose-500" : "border-slate-300"
                   }`}
                 />
@@ -184,7 +188,7 @@ export function ContactPage() {
                   type="email"
                   {...register("email")}
                   placeholder={t("contact.emailPlaceholder")}
-                  className={`w-full px-3.5 py-2 text-sm bg-white border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary ${
+                  className={`w-full px-3.5 py-2 text-sm bg-white border rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.email ? "border-rose-500" : "border-slate-300"
                   }`}
                 />
@@ -200,7 +204,7 @@ export function ContactPage() {
                 </label>
                 <select
                   {...register("serviceId")}
-                  className="w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="">{t("contact.selectServicePlaceholder")}</option>
                   {services &&
@@ -221,15 +225,14 @@ export function ContactPage() {
                   rows={4}
                   {...register("message")}
                   placeholder={t("contact.messagePlaceholder")}
-                  className="w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                />
+                  className="w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary"
+                ></textarea>
               </div>
 
-              {/* Submit Button */}
               <Button
                 type="submit"
                 disabled={submitEnquiryMutation.isPending}
-                className="w-full font-bold bg-primary hover:bg-primary/90 text-white"
+                className="w-full font-bold bg-primary hover:bg-primary-light text-white mt-2 shadow-md"
               >
                 {submitEnquiryMutation.isPending ? (
                   <span className="flex items-center gap-2">
@@ -247,71 +250,78 @@ export function ContactPage() {
           </CardContent>
         </Card>
 
-        {/* Contact Info & WhatsApp Shortcut (5 Columns on large screen) */}
+        {/* Side Cards: Direct WhatsApp CTA & Operational Details */}
         <div className="lg:col-span-5 space-y-6">
-          {/* Direct WhatsApp CTA Card */}
-          <Card className="bg-emerald-900 text-white border-emerald-800 shadow-md">
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="bg-[#25D366]/20 p-2.5 rounded-lg text-[#25D366]">
-                  <WhatsAppIcon className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-white text-lg">Instant WhatsApp Chat</h3>
-                  <p className="text-xs text-emerald-200">Connect directly with center owners</p>
-                </div>
+          {/* Direct WhatsApp Callout Card */}
+          <Card className="border-[#25D366]/40 bg-emerald-950 text-white shadow-lg overflow-hidden relative">
+            <div className="absolute right-0 top-0 w-32 h-32 bg-[#25D366]/10 rounded-full blur-2xl pointer-events-none"></div>
+            <CardHeader className="p-6 pb-3 space-y-1">
+              <div className="flex items-center space-x-2 text-[#25D366]">
+                <WhatsAppIcon className="h-6 w-6" />
+                <span className="font-extrabold text-sm uppercase tracking-wider">Instant Assistance</span>
               </div>
-              <p className="text-sm text-emerald-100 leading-relaxed">
-                Need urgent document guidance or service inquiry? Send us a message on WhatsApp for fast response.
+              <CardTitle className="text-xl font-black text-white">Chat Directly on WhatsApp</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 pt-0 space-y-4">
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Connect directly with our operating partners in New Ashok Nagar for instant document inquiry and application guidance.
               </p>
-              <Button asChild className="w-full font-bold bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-md border-0">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                  <WhatsAppIcon className="h-4 w-4" />
-                  Chat on WhatsApp Now
+              <Button
+                asChild
+                className="w-full font-bold bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 shadow-md flex items-center justify-center gap-2"
+              >
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon className="h-5 w-5 fill-slate-950" />
+                  <span>Start WhatsApp Chat</span>
                 </a>
               </Button>
             </CardContent>
           </Card>
 
-          {/* Business Details Card */}
-          <Card className="border-slate-200 shadow-sm">
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Center Location</h4>
-                  <p className="text-xs text-slate-600 mt-0.5">{t("about.address")}</p>
-                </div>
+          {/* Operational Info Card */}
+          <Card className="border-slate-200 bg-white shadow-sm space-y-4 p-6">
+            <div className="flex items-start space-x-3">
+              <div className="bg-amber-50 text-accent-gold-dark border border-amber-200 p-2.5 rounded-lg shrink-0">
+                <MapPin className="h-5 w-5" />
               </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm">Center Location</h4>
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">{t("about.address")}</p>
+              </div>
+            </div>
 
-              <div className="flex items-start space-x-3 border-t pt-3">
-                <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Working Hours</h4>
-                  <p className="text-xs text-slate-600 mt-0.5">{t("about.timingDetails")}</p>
-                </div>
+            <div className="border-t border-slate-100 pt-4 flex items-start space-x-3">
+              <div className="bg-blue-50 text-primary border border-blue-200 p-2.5 rounded-lg shrink-0">
+                <Clock className="h-5 w-5" />
               </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm">{t("about.timingTitle")}</h4>
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">{t("about.timingDetails")}</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">{t("about.timingSubnote")}</p>
+              </div>
+            </div>
 
-              <div className="flex items-start space-x-3 border-t pt-3">
-                <PhoneCall className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Direct Phone Inquiry</h4>
-                  <p className="text-xs font-mono text-slate-700 mt-0.5">+{whatsappNumber}</p>
-                </div>
+            <div className="border-t border-slate-100 pt-4 flex items-start space-x-3">
+              <div className="bg-emerald-50 text-emerald-700 border border-emerald-200 p-2.5 rounded-lg shrink-0">
+                <PhoneCall className="h-5 w-5" />
               </div>
-            </CardContent>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm">Direct Phone & WhatsApp</h4>
+                <p className="text-xs text-slate-600 mt-1 font-mono">{whatsappNumber}</p>
+              </div>
+            </div>
           </Card>
         </div>
       </div>
 
-      {/* Google Maps Embed Section */}
-      <div className="space-y-3">
-        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+      {/* Embedded Google Map Section */}
+      <section className="space-y-4 pt-4 border-t border-slate-200">
+        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
           <MapPin className="h-5 w-5 text-primary" />
           {t("contact.mapTitle")}
-        </h3>
-        <GoogleMapEmbed />
-      </div>
+        </h2>
+        <GoogleMapEmbed height="350px" />
+      </section>
     </div>
   );
 }

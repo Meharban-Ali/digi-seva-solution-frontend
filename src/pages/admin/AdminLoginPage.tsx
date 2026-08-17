@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -6,9 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, otpSchema, LoginFormData, OtpFormData } from "@/schemas/authSchema";
 import { initiateAdminLogin, verifyAdminOtp } from "@/features/auth/authApi";
 import { useAuthStore } from "@/features/auth/authStore";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Lock, Mail, KeyRound, ArrowRight, AlertCircle, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Lock, Mail, KeyRound, ArrowRight, AlertCircle, ArrowLeft, CheckCircle2, RefreshCw } from "lucide-react";
 import { AxiosError } from "axios";
 import { ApiResponse } from "@/types/api";
 import { toast } from "sonner";
@@ -20,9 +21,25 @@ export function AdminLoginPage() {
 
   const [step, setStep] = useState<1 | 2>(1);
   const [userEmail, setUserEmail] = useState("");
+  const [credentialsCache, setCredentialsCache] = useState<LoginFormData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [otpSentNotice, setOtpSentNotice] = useState<string | null>(null);
+  const [cooldownSeconds, setCooldownSeconds] = useState<number>(60);
+
+  // 60-second visual cooldown timer for Resend OTP
+  useEffect(() => {
+    let timer: ReturnType<typeof setInterval>;
+    if (step === 2 && cooldownSeconds > 0) {
+      timer = setInterval(() => {
+        setCooldownSeconds((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [step, cooldownSeconds]);
 
   // Form for Step 1 (Email & Password)
   const step1Form = useForm<LoginFormData>({
@@ -48,15 +65,38 @@ export function AdminLoginPage() {
     try {
       const msg = await initiateAdminLogin(formData);
       setUserEmail(formData.email);
+      setCredentialsCache(formData);
       setOtpSentNotice(msg || "OTP sent to registered email address.");
+      setCooldownSeconds(60);
       setStep(2);
     } catch (err) {
       const axiosErr = err as AxiosError<ApiResponse<unknown>>;
       setErrorMessage(
-        axiosErr.response?.data?.message || axiosErr.message || "Invalid email or password"
+        axiosErr.response?.data?.message || getDiagnosticErrorMessage(err) || "Invalid email or password"
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Resend OTP Action
+  const handleResendOtp = async () => {
+    if (cooldownSeconds > 0 || !credentialsCache || resendLoading) return;
+    setResendLoading(true);
+    setErrorMessage(null);
+    try {
+      const msg = await initiateAdminLogin(credentialsCache);
+      const successMsg = msg || t("adminAuth.otpResentSuccess");
+      setOtpSentNotice(successMsg);
+      setCooldownSeconds(60);
+      toast.success(successMsg);
+    } catch (err) {
+      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
+      const msg = axiosErr.response?.data?.message || getDiagnosticErrorMessage(err) || "Failed to resend OTP";
+      setErrorMessage(msg);
+      toast.error(msg);
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -92,7 +132,7 @@ export function AdminLoginPage() {
       }
     } catch (err) {
       const axiosErr = err as AxiosError<ApiResponse<unknown>>;
-      const msg = axiosErr.response?.data?.message || axiosErr.message || "Invalid or expired OTP code";
+      const msg = axiosErr.response?.data?.message || getDiagnosticErrorMessage(err) || "Invalid or expired OTP code";
       setErrorMessage(msg);
       toast.error(msg);
     } finally {
@@ -101,8 +141,8 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-2xl border-slate-800 bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-2xl border-slate-800 bg-slate-900 text-slate-100">
         <CardHeader className="space-y-2 text-center pb-6 border-b border-slate-800">
           <div className="mx-auto bg-primary text-white p-3 rounded-xl w-fit shadow-md mb-1">
             <ShieldCheck className="h-7 w-7" />
@@ -142,7 +182,7 @@ export function AdminLoginPage() {
                     type="email"
                     {...step1Form.register("email")}
                     placeholder={t("adminAuth.emailPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-900 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
                       step1Form.formState.errors.email ? "border-rose-500" : "border-slate-800"
                     }`}
                   />
@@ -165,7 +205,7 @@ export function AdminLoginPage() {
                     type="password"
                     {...step1Form.register("password")}
                     placeholder={t("adminAuth.passwordPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-900 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
                       step1Form.formState.errors.password ? "border-rose-500" : "border-slate-800"
                     }`}
                   />
@@ -180,7 +220,7 @@ export function AdminLoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full font-bold bg-primary hover:bg-primary/90 text-white mt-2"
+                className="w-full font-bold bg-primary hover:bg-primary-light text-white mt-2 shadow-md"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">
@@ -206,7 +246,7 @@ export function AdminLoginPage() {
                     setStep(1);
                     setErrorMessage(null);
                   }}
-                  className="text-xs text-primary hover:underline flex items-center gap-1 font-semibold capitalize"
+                  className="text-xs text-primary-light hover:underline flex items-center gap-1 font-semibold capitalize"
                 >
                   <ArrowLeft className="h-3 w-3" />
                   {t("adminAuth.backToStep1")}
@@ -220,24 +260,47 @@ export function AdminLoginPage() {
                 </div>
               )}
 
-              {/* OTP Field */}
+              {/* OTP Field with strict non-autofill attributes */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
+                <label htmlFor="otpCode" className="text-xs font-semibold text-slate-300">
                   {t("adminAuth.otpLabel")}
                 </label>
                 <div className="relative">
                   <KeyRound className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                   <input
-                    type="text"
+                    id="otpCode"
+                    type="tel"
                     maxLength={6}
+                    autoComplete="one-time-code"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     {...step2Form.register("otpCode")}
                     placeholder={t("adminAuth.otpPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-base font-mono tracking-widest text-center bg-slate-900 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                    className={`w-full pl-9 pr-3.5 py-2 text-base font-mono tracking-widest text-center bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
                       step2Form.formState.errors.otpCode ? "border-rose-500" : "border-slate-800"
                     }`}
                   />
                 </div>
-                <p className="text-[11px] text-slate-400">{t("adminAuth.otpHint")}</p>
+                <div className="flex items-center justify-between text-[11px] pt-1">
+                  <span className="text-slate-400">{t("adminAuth.otpHint")}</span>
+                  {/* Resend OTP Button & Cooldown */}
+                  <button
+                    type="button"
+                    onClick={handleResendOtp}
+                    disabled={cooldownSeconds > 0 || resendLoading}
+                    className={`font-bold flex items-center gap-1.5 transition-colors ${
+                      cooldownSeconds > 0 || resendLoading
+                        ? "text-slate-500 cursor-not-allowed"
+                        : "text-primary-light hover:text-white underline cursor-pointer"
+                    }`}
+                  >
+                    <RefreshCw className={`h-3 w-3 ${resendLoading ? "animate-spin" : ""}`} />
+                    {cooldownSeconds > 0
+                      ? t("adminAuth.resendOtpIn", { seconds: cooldownSeconds })
+                      : t("adminAuth.resendOtp")}
+                  </button>
+                </div>
+
                 {step2Form.formState.errors.otpCode && (
                   <p className="text-xs text-rose-400 font-medium">
                     {t(step2Form.formState.errors.otpCode.message as string)}
@@ -248,7 +311,7 @@ export function AdminLoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full font-bold bg-emerald-600 hover:bg-emerald-500 text-white mt-2"
+                className="w-full font-bold bg-emerald-600 hover:bg-emerald-500 text-white mt-2 shadow-md"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">

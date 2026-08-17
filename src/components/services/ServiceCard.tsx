@@ -23,7 +23,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
       className="h-full"
     >
-      <Card className="h-full flex flex-col justify-between hover:shadow-lg transition-all duration-300 border-slate-200 bg-white group overflow-hidden">
+      <Card className="h-full flex flex-col justify-between hover:shadow-xl transition-all duration-300 border-slate-200/90 bg-white group overflow-hidden hover:border-primary/40">
         {/* Service Image Banner / Header */}
         <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden border-b border-slate-100 flex items-center justify-center">
           {hasValidImage ? (
@@ -34,8 +34,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
               onError={() => setImgError(true)}
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 flex flex-col items-center justify-center gap-1.5 p-4 text-center">
-              <FileText className="h-8 w-8 text-primary/80" />
+            <div className="w-full h-full bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex flex-col items-center justify-center gap-1.5 p-4 text-center">
+              <FileText className="h-8 w-8 text-primary-light" />
               <span className="text-[11px] font-bold text-slate-300 tracking-wide uppercase">Jan Seva Kendra</span>
             </div>
           )}
@@ -45,8 +45,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
             <span
               className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md shadow-xs ${
                 isVisitRequired
-                  ? "bg-amber-500/90 text-white"
-                  : "bg-indigo-600/90 text-white"
+                  ? "bg-accent-gold text-slate-950 font-extrabold"
+                  : "bg-primary text-white font-extrabold"
               }`}
             >
               {isVisitRequired ? (

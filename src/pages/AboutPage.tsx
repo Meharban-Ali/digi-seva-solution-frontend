@@ -13,8 +13,8 @@ export function AboutPage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
       {/* Page Title Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
-          <Building2 className="h-4 w-4" /> Jan Seva Kendra • New Ashok Nagar
+        <div className="inline-flex items-center gap-2 bg-accent-gold/15 text-accent-gold-dark border border-amber-300/40 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">
+          <Building2 className="h-4 w-4 text-accent-gold-dark" /> Jan Seva Kendra • New Ashok Nagar
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
           {t("about.title")}
@@ -26,9 +26,9 @@ export function AboutPage() {
 
       {/* Main Mission & API Content Section */}
       <Card className="shadow-md border-slate-200 overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 sm:p-8 space-y-2">
+        <CardHeader className="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white p-6 sm:p-8 space-y-2">
           <CardTitle className="text-xl sm:text-2xl font-bold flex items-center gap-2 text-white">
-            <ShieldCheck className="h-6 w-6 text-primary" />
+            <ShieldCheck className="h-6 w-6 text-accent-gold" />
             {aboutContent ? aboutContent.title : t("about.missionTitle")}
           </CardTitle>
         </CardHeader>
@@ -70,7 +70,7 @@ export function AboutPage() {
         <Card className="border-slate-200 shadow-sm">
           <CardContent className="p-6 space-y-3">
             <div className="flex items-center space-x-3 text-slate-900 font-bold text-lg">
-              <div className="bg-amber-100 text-amber-700 p-2 rounded-lg">
+              <div className="bg-amber-50 text-accent-gold-dark border border-amber-200 p-2 rounded-lg">
                 <MapPin className="h-5 w-5" />
               </div>
               <h3>{t("about.locationTitle")}</h3>
@@ -87,7 +87,7 @@ export function AboutPage() {
         <Card className="border-slate-200 shadow-sm">
           <CardContent className="p-6 space-y-3">
             <div className="flex items-center space-x-3 text-slate-900 font-bold text-lg">
-              <div className="bg-indigo-100 text-indigo-700 p-2 rounded-lg">
+              <div className="bg-blue-50 text-primary border border-blue-200 p-2 rounded-lg">
                 <Clock className="h-5 w-5" />
               </div>
               <h3>{t("about.timingTitle")}</h3>

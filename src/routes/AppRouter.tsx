@@ -15,6 +15,7 @@ import { AdminServicesPage } from "@/pages/admin/AdminServicesPage";
 import { AdminContentPage } from "@/pages/admin/AdminContentPage";
 import { AdminMediaPage } from "@/pages/admin/AdminMediaPage";
 import { AdminEnquiriesPage } from "@/pages/admin/AdminEnquiriesPage";
+import { AdminProfilePage } from "@/pages/admin/AdminProfilePage";
 
 const router = createBrowserRouter([
   /* Public Routes */
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
           { path: "content", element: <AdminContentPage /> },
           { path: "media", element: <AdminMediaPage /> },
           { path: "enquiries", element: <AdminEnquiriesPage /> },
+          { path: "profile", element: <AdminProfilePage /> },
           { index: true, element: <Navigate to="/admin/dashboard" replace /> },
         ],
       },

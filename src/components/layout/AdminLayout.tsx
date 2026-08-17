@@ -1,11 +1,10 @@
-import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/features/auth/authStore";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
+import { LogoIcon } from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { toast } from "sonner";
 import {
   LayoutDashboard,
   Layers,
@@ -13,17 +12,19 @@ import {
   Image,
   Inbox,
   LogOut,
-  UserCheck,
   Menu,
   X,
+  UserCheck,
+  User,
 } from "lucide-react";
-import { LogoIcon } from "@/components/common/Logo";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 export function AdminLayout() {
   const { t } = useTranslation();
-  const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = () => {
@@ -38,6 +39,7 @@ export function AdminLayout() {
     { path: "/admin/content", label: t("adminNav.content"), icon: FileText },
     { path: "/admin/media", label: t("adminNav.media"), icon: Image },
     { path: "/admin/enquiries", label: t("adminNav.enquiries"), icon: Inbox },
+    { path: "/admin/profile", label: t("adminNav.profile"), icon: User },
   ];
 
   return (
@@ -45,14 +47,14 @@ export function AdminLayout() {
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/50 z-40 md:hidden backdrop-blur-xs"
+          className="fixed inset-0 bg-slate-950/60 z-40 md:hidden backdrop-blur-xs"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar Navigation Panel */}
+      {/* Sidebar Navigation Panel (Regal Midnight Navy) */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 flex flex-col justify-between transition-transform duration-200 ease-in-out ${
+        className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-slate-950 text-slate-300 flex flex-col justify-between border-r border-slate-800/80 transition-transform duration-200 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
@@ -88,7 +90,7 @@ export function AdminLayout() {
                     `flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-primary text-white font-bold shadow-xs"
-                        : "text-slate-400 hover:bg-slate-800 hover:text-white"
+                        : "text-slate-400 hover:bg-slate-900 hover:text-white"
                     }`
                   }
                 >
@@ -101,16 +103,20 @@ export function AdminLayout() {
         </div>
 
         {/* Footer Admin Profile Card */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/50 space-y-3">
-          <div className="flex items-center space-x-3">
-            <div className="bg-slate-800 p-2 rounded-full text-slate-300">
+        <div className="p-4 border-t border-slate-800/80 bg-slate-900/60 space-y-3">
+          <Link
+            to="/admin/profile"
+            onClick={() => setSidebarOpen(false)}
+            className="flex items-center space-x-3 p-1.5 rounded-lg hover:bg-slate-800/80 transition-colors group"
+          >
+            <div className="bg-slate-800 group-hover:bg-primary p-2 rounded-full text-slate-300 group-hover:text-white transition-colors">
               <UserCheck className="h-4 w-4" />
             </div>
             <div className="truncate text-xs">
               <p className="font-bold text-white truncate">{user?.fullName || "Admin Partner"}</p>
               <p className="text-slate-400 truncate font-mono">{user?.email}</p>
             </div>
-          </div>
+          </Link>
         </div>
       </aside>
 
@@ -132,12 +138,32 @@ export function AdminLayout() {
           </div>
 
           <div className="flex items-center space-x-3">
+            {/* Header Admin Profile Link */}
+            <Link
+              to="/admin/profile"
+              className="flex items-center space-x-2.5 px-3 py-1.5 rounded-lg bg-blue-50/80 hover:bg-blue-100/60 transition-colors border border-blue-200/80 text-slate-800"
+              title="View & manage account profile"
+            >
+              <div className="h-7 w-7 rounded-full bg-primary text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0">
+                {user?.fullName?.charAt(0) || "A"}
+              </div>
+              <div className="hidden sm:flex flex-col text-left leading-tight">
+                <span className="font-bold text-slate-800 text-xs truncate max-w-[130px]">
+                  {user?.fullName || "Partner Admin"}
+                </span>
+                <span className="text-[10px] text-slate-500 font-mono truncate max-w-[130px]">
+                  {user?.email}
+                </span>
+              </div>
+            </Link>
+
             <LanguageToggle />
+
             <Button
               variant="outline"
               size="sm"
               onClick={handleLogout}
-              className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200 flex items-center gap-1.5"
+              className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200 flex items-center gap-1.5 font-bold"
               aria-label="Log out of partner control panel"
             >
               <LogOut className="h-4 w-4" />

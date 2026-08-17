@@ -32,7 +32,7 @@ export function ServiceDetailPage() {
             <p className="text-sm text-slate-600 max-w-md mx-auto">
               {t("common.serviceNotFoundDesc")}
             </p>
-            <Button asChild variant="default" className="mt-4">
+            <Button asChild variant="default" className="mt-4 bg-primary hover:bg-primary-light">
               <Link to="/services">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 {t("common.backToServices")}
@@ -73,15 +73,15 @@ export function ServiceDetailPage() {
           </div>
         )}
 
-        <CardHeader className="bg-slate-900 text-white space-y-3 p-6 sm:p-8">
+        <CardHeader className="bg-slate-950 text-white space-y-3 p-6 sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             {isVisitRequired ? (
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-300 bg-amber-950/80 border border-amber-800 px-3 py-1 rounded-full">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black text-slate-950 bg-accent-gold px-3 py-1 rounded-full shadow-xs">
                 <MapPin className="h-3.5 w-3.5" />
                 {t("categories.visitRequired")}
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-300 bg-indigo-950/80 border border-indigo-800 px-3 py-1 rounded-full">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-primary px-3 py-1 rounded-full shadow-xs">
                 <Globe className="h-3.5 w-3.5" />
                 {t("categories.online")}
               </span>

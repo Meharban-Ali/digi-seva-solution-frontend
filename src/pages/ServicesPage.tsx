@@ -49,7 +49,11 @@ export function ServicesPage() {
             variant={selectedCategory === undefined ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedCategory(undefined)}
-            className="flex items-center gap-2 font-medium"
+            className={`flex items-center gap-2 font-bold ${
+              selectedCategory === undefined
+                ? "bg-primary hover:bg-primary-light text-white shadow-xs"
+                : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
+            }`}
             aria-label="Filter all services"
           >
             <Layers className="h-4 w-4" />
@@ -60,10 +64,14 @@ export function ServicesPage() {
             variant={selectedCategory === "ONLINE" ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedCategory("ONLINE")}
-            className="flex items-center gap-2 font-medium"
+            className={`flex items-center gap-2 font-bold ${
+              selectedCategory === "ONLINE"
+                ? "bg-primary hover:bg-primary-light text-white shadow-xs"
+                : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
+            }`}
             aria-label="Filter online services"
           >
-            <Globe className="h-4 w-4" />
+            <Globe className="h-4 w-4 text-emerald-600" />
             <span>{t("services.onlineTab")}</span>
           </Button>
 
@@ -71,10 +79,14 @@ export function ServicesPage() {
             variant={selectedCategory === "VISIT_REQUIRED" ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedCategory("VISIT_REQUIRED")}
-            className="flex items-center gap-2 font-medium"
+            className={`flex items-center gap-2 font-bold ${
+              selectedCategory === "VISIT_REQUIRED"
+                ? "bg-primary hover:bg-primary-light text-white shadow-xs"
+                : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
+            }`}
             aria-label="Filter visit required services"
           >
-            <MapPin className="h-4 w-4" />
+            <MapPin className="h-4 w-4 text-accent-gold-dark" />
             <span>{t("services.visitTab")}</span>
           </Button>
         </div>
