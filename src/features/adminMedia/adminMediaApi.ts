@@ -28,6 +28,7 @@ export async function uploadAdminMedia(
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      timeout: 120000,
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total) {
           const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);

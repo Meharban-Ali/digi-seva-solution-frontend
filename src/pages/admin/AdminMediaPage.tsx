@@ -54,6 +54,19 @@ export function AdminMediaPage() {
     e.preventDefault();
     if (!selectedFile || uploadMutation.isPending) return;
 
+    // Enforce client-side file size limits (10MB for IMAGE, 50MB for AUDIO/VIDEO)
+    const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+    const MAX_MEDIA_BYTES = 50 * 1024 * 1024;
+
+    if (uploadFileType === "IMAGE" && selectedFile.size > MAX_IMAGE_BYTES) {
+      toast.error("Image file size exceeds the 10MB limit.");
+      return;
+    }
+    if ((uploadFileType === "AUDIO" || uploadFileType === "VIDEO") && selectedFile.size > MAX_MEDIA_BYTES) {
+      toast.error(`${uploadFileType} file size exceeds the 50MB limit.`);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("type", uploadFileType);
@@ -218,14 +231,21 @@ export function AdminMediaPage() {
 
             {/* Upload Progress Bar */}
             {uploadProgress !== null && (
-              <div className="space-y-1">
-                <div className="flex justify-between text-[11px] font-semibold text-slate-600">
-                  <span>Uploading to Cloudinary...</span>
-                  <span>{uploadProgress}%</span>
+              <div className="space-y-1.5 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
+                  <span className="flex items-center gap-1.5">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin text-primary shrink-0" />
+                    {uploadProgress < 100
+                      ? `Uploading file (${uploadProgress}%)...`
+                      : "Processing asset with Cloudinary & saving metadata..."}
+                  </span>
+                  <span className="font-mono font-bold text-primary">{uploadProgress}%</span>
                 </div>
                 <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-primary transition-all duration-200"
+                    className={`h-full transition-all duration-300 ${
+                      uploadProgress === 100 ? "bg-emerald-500 animate-pulse" : "bg-primary"
+                    }`}
                     style={{ width: `${uploadProgress}%` }}
                   />
                 </div>
