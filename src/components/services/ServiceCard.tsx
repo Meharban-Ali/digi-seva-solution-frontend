@@ -28,6 +28,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden border-b border-slate-100 flex items-center justify-center">
           {hasValidImage ? (
             <img
+              key={service.imageUrl || service.id}
               src={service.imageUrl}
               alt={service.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
