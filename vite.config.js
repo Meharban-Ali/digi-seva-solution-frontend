@@ -8,6 +8,44 @@ export default defineConfig({
         VitePWA({
             registerType: "autoUpdate",
             includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+            workbox: {
+                cleanupOutdatedCaches: true,
+                navigateFallback: "/index.html",
+                runtimeCaching: [
+                    {
+                        // API Calls: Network-First strategy ensures dynamic catalog data is always fetched live
+                        urlPattern: /\/api\/.*/i,
+                        handler: "NetworkFirst",
+                        options: {
+                            cacheName: "api-cache",
+                            networkTimeoutSeconds: 3,
+                            expiration: {
+                                maxEntries: 100,
+                                maxAgeSeconds: 24 * 60 * 60, // 24 hours fallback
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                    {
+                        // Cloudinary Image Assets: Network-First strategy to ensure image updates reflect immediately
+                        urlPattern: /^https:\/\/res\.cloudinary\.com\/.*/i,
+                        handler: "NetworkFirst",
+                        options: {
+                            cacheName: "cloudinary-images",
+                            networkTimeoutSeconds: 3,
+                            expiration: {
+                                maxEntries: 60,
+                                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                ],
+            },
             manifest: {
                 name: "Digi Seva Solution",
                 short_name: "DigiSeva",
