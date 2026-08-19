@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useAdminMedia, useUploadAdminMedia, useDeleteAdminMedia } from "@/hooks/useAdminMedia";
@@ -34,6 +34,7 @@ export function AdminMediaPage() {
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [deleteMediaTarget, setDeleteMediaTarget] = useState<AdminMediaResponse | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: mediaPage, isLoading, isError, error, refetch } = useAdminMedia(selectedType, page, 16);
   const uploadMutation = useUploadAdminMedia();
@@ -42,6 +43,8 @@ export function AdminMediaPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
+    } else {
+      setSelectedFile(null);
     }
   };
 
@@ -49,7 +52,7 @@ export function AdminMediaPage() {
 
   const handleUploadSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedFile) return;
+    if (!selectedFile || uploadMutation.isPending) return;
 
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -69,6 +72,9 @@ export function AdminMediaPage() {
           setSelectedFile(null);
           setTitle("");
           setUploadProgress(null);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
           toast.success(t("adminMedia.uploadedSuccess"));
         },
         onError: (err: unknown) => {
@@ -157,7 +163,14 @@ export function AdminMediaPage() {
                 <select
                   id="mediaTypeSelect"
                   value={uploadFileType}
-                  onChange={(e) => setUploadFileType(e.target.value as MediaType)}
+                  onChange={(e) => {
+                    const newType = e.target.value as MediaType;
+                    setUploadFileType(newType);
+                    setSelectedFile(null);
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = "";
+                    }
+                  }}
                   className="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="IMAGE">IMAGE</option>
@@ -188,6 +201,7 @@ export function AdminMediaPage() {
                 </label>
                 <input
                   id="mediaFileInput"
+                  ref={fileInputRef}
                   type="file"
                   onChange={handleFileChange}
                   accept={
