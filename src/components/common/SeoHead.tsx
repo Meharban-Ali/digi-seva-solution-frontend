@@ -10,7 +10,6 @@ export interface SeoHeadProps {
   ogType?: "website" | "article";
 }
 
-const DEFAULT_SITE_URL = SITE_CONFIG.baseUrl;
 const DEFAULT_OG_IMAGE = "/pwa-192x192.png";
 
 export function SeoHead({
@@ -22,9 +21,12 @@ export function SeoHead({
 }: SeoHeadProps) {
   const { i18n } = useTranslation();
 
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : DEFAULT_SITE_URL;
-  const canonicalUrl = `${baseUrl}${path.startsWith("/") ? path : `/${path}`}`;
-  const fullOgImageUrl = ogImage.startsWith("http") ? ogImage : `${baseUrl}${ogImage}`;
+  const baseUrl = SITE_CONFIG.baseUrl; // "https://digisevasolution.online"
+  const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
+  const canonicalUrl = `${baseUrl}${normalizedPath}`;
+  const fullOgImageUrl = ogImage.startsWith("http")
+    ? ogImage
+    : `${baseUrl}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`;
 
   const lang = i18n.language || "en";
   const locale = lang.startsWith("hi") ? "hi_IN" : "en_IN";
