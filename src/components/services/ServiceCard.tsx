@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Globe, MapPin, CheckCircle2, FileText } from "lucide-react";
 import { motion } from "framer-motion";
+import { getOptimizedImageUrl } from "@/lib/imageUtils";
 
 interface ServiceCardProps {
   service: ServiceResponse;
@@ -15,8 +16,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
   const { t } = useTranslation();
   const [imgError, setImgError] = useState(false);
 
-  const isVisitRequired = service.category === "VISIT_REQUIRED";
+  const isVisitRequired = service.deliveryMode === "VISIT_REQUIRED";
   const hasValidImage = service.imageUrl && service.imageUrl.trim() !== "" && !imgError;
+  const optimizedImgUrl = getOptimizedImageUrl(service.imageUrl, 600);
 
   return (
     <motion.div
@@ -29,8 +31,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
           {hasValidImage ? (
             <img
               key={service.imageUrl || service.id}
-              src={service.imageUrl}
+              src={optimizedImgUrl}
               alt={service.name}
+              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onError={() => setImgError(true)}
             />
@@ -41,23 +44,23 @@ export function ServiceCard({ service }: ServiceCardProps) {
             </div>
           )}
 
-          {/* Category Pill Overlay Badge */}
+          {/* Single Delivery Mode Badge */}
           <div className="absolute top-2.5 left-2.5">
             <span
-              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md shadow-xs ${
+              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-sm ${
                 isVisitRequired
-                  ? "bg-accent-gold text-slate-950 font-extrabold"
-                  : "bg-primary text-white font-extrabold"
+                  ? "bg-amber-400 text-slate-950 border border-amber-500/40"
+                  : "bg-slate-900 text-white border border-slate-700"
               }`}
             >
               {isVisitRequired ? (
                 <>
-                  <MapPin className="h-3 w-3" />
+                  <MapPin className="h-3 w-3 text-slate-950" />
                   {t("categories.visitRequired")}
                 </>
               ) : (
                 <>
-                  <Globe className="h-3 w-3" />
+                  <Globe className="h-3 w-3 text-blue-400" />
                   {t("categories.online")}
                 </>
               )}
@@ -66,9 +69,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
           {service.isActive && (
             <div className="absolute top-2.5 right-2.5">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-300/80 shadow-xs">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-300 shadow-2xs">
                 <CheckCircle2 className="h-3 w-3 text-emerald-600" />
-                Available
+                Active
               </span>
             </div>
           )}

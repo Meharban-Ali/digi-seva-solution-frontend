@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { HomePage } from "@/pages/HomePage";
@@ -8,15 +9,20 @@ import { ContactPage } from "@/pages/ContactPage";
 import { FaqPage } from "@/pages/FaqPage";
 
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
-import { AdminLayout } from "@/components/layout/AdminLayout";
-import { AdminLoginPage } from "@/pages/admin/AdminLoginPage";
-import { ChangePasswordPage } from "@/pages/admin/ChangePasswordPage";
-import { AdminDashboardPage } from "@/pages/admin/AdminDashboardPage";
-import { AdminServicesPage } from "@/pages/admin/AdminServicesPage";
-import { AdminContentPage } from "@/pages/admin/AdminContentPage";
-import { AdminMediaPage } from "@/pages/admin/AdminMediaPage";
-import { AdminEnquiriesPage } from "@/pages/admin/AdminEnquiriesPage";
-import { AdminProfilePage } from "@/pages/admin/AdminProfilePage";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+
+// Lazy-load admin components to split code and minimize public bundle size
+const AdminLayout = lazy(() => import("@/components/layout/AdminLayout").then((m) => ({ default: m.AdminLayout })));
+const AdminLoginPage = lazy(() => import("@/pages/admin/AdminLoginPage").then((m) => ({ default: m.AdminLoginPage })));
+const ChangePasswordPage = lazy(() => import("@/pages/admin/ChangePasswordPage").then((m) => ({ default: m.ChangePasswordPage })));
+const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage").then((m) => ({ default: m.AdminDashboardPage })));
+const AdminCategoriesPage = lazy(() => import("@/pages/admin/AdminCategoriesPage").then((m) => ({ default: m.AdminCategoriesPage })));
+const AdminServicesPage = lazy(() => import("@/pages/admin/AdminServicesPage").then((m) => ({ default: m.AdminServicesPage })));
+const AdminProjectsPage = lazy(() => import("@/pages/admin/AdminProjectsPage").then((m) => ({ default: m.AdminProjectsPage })));
+const AdminContentPage = lazy(() => import("@/pages/admin/AdminContentPage").then((m) => ({ default: m.AdminContentPage })));
+const AdminMediaPage = lazy(() => import("@/pages/admin/AdminMediaPage").then((m) => ({ default: m.AdminMediaPage })));
+const AdminEnquiriesPage = lazy(() => import("@/pages/admin/AdminEnquiriesPage").then((m) => ({ default: m.AdminEnquiriesPage })));
+const AdminProfilePage = lazy(() => import("@/pages/admin/AdminProfilePage").then((m) => ({ default: m.AdminProfilePage })));
 
 const router = createBrowserRouter([
   /* Public Routes */
@@ -36,7 +42,11 @@ const router = createBrowserRouter([
   /* Admin Unprotected Auth Routes */
   {
     path: "/admin/login",
-    element: <AdminLoginPage />,
+    element: (
+      <Suspense fallback={<LoadingSpinner fullScreen label="Loading Admin Login..." />}>
+        <AdminLoginPage />
+      </Suspense>
+    ),
   },
 
   /* Admin Protected Routes */
@@ -46,17 +56,83 @@ const router = createBrowserRouter([
     children: [
       {
         path: "change-password",
-        element: <ChangePasswordPage />,
+        element: (
+          <Suspense fallback={<div className="p-8 flex justify-center"><LoadingSpinner label="Loading..." /></div>}>
+            <ChangePasswordPage />
+          </Suspense>
+        ),
       },
       {
-        element: <AdminLayout />,
+        element: (
+          <Suspense fallback={<LoadingSpinner fullScreen label="Loading Admin Portal..." />}>
+            <AdminLayout />
+          </Suspense>
+        ),
         children: [
-          { path: "dashboard", element: <AdminDashboardPage /> },
-          { path: "services", element: <AdminServicesPage /> },
-          { path: "content", element: <AdminContentPage /> },
-          { path: "media", element: <AdminMediaPage /> },
-          { path: "enquiries", element: <AdminEnquiriesPage /> },
-          { path: "profile", element: <AdminProfilePage /> },
+          {
+            path: "dashboard",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Dashboard..." />}>
+                <AdminDashboardPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "categories",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Categories..." />}>
+                <AdminCategoriesPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "services",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Services..." />}>
+                <AdminServicesPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "projects",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Projects..." />}>
+                <AdminProjectsPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "content",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Content..." />}>
+                <AdminContentPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "media",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Media..." />}>
+                <AdminMediaPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "enquiries",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Enquiries..." />}>
+                <AdminEnquiriesPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "profile",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Profile..." />}>
+                <AdminProfilePage />
+              </Suspense>
+            ),
+          },
           { index: true, element: <Navigate to="/admin/dashboard" replace /> },
         ],
       },

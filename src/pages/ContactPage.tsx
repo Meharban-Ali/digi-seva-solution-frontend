@@ -19,6 +19,7 @@ import {
   CheckCircle2,
   AlertCircle,
   ShieldCheck,
+  Mail,
 } from "lucide-react";
 
 import { WhatsAppIcon } from "@/components/common/WhatsAppButton";
@@ -76,7 +77,7 @@ export function ContactPage() {
     });
   };
 
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "919999999999";
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917900867261";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     t("contact.whatsappDefaultMsg")
   )}`;
@@ -216,7 +217,7 @@ export function ContactPage() {
                   {services &&
                     services.map((s) => (
                       <option key={s.id} value={String(s.id)}>
-                        {s.name} ({s.category === "VISIT_REQUIRED" ? t("categories.visitRequired") : t("categories.online")})
+                        {s.name} ({s.deliveryMode === "VISIT_REQUIRED" ? t("categories.visitRequired") : t("categories.online")})
                       </option>
                     ))}
                 </select>
@@ -313,7 +314,21 @@ export function ContactPage() {
               </div>
               <div>
                 <h4 className="font-bold text-slate-900 text-sm">Direct Phone & WhatsApp</h4>
-                <p className="text-xs text-slate-600 mt-1 font-mono">{whatsappNumber}</p>
+                <a href="tel:7900867261" className="text-xs text-emerald-700 hover:underline font-bold mt-1 inline-block">
+                  +91 7900867261
+                </a>
+              </div>
+            </div>
+
+            <div className="border-t border-slate-100 pt-4 flex items-start space-x-3">
+              <div className="bg-blue-50 text-blue-700 border border-blue-200 p-2.5 rounded-lg shrink-0">
+                <Mail className="h-5 w-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm">Official Email</h4>
+                <a href="mailto:digisevasolution01@gmail.com" className="text-xs text-blue-700 hover:underline font-bold mt-1 inline-block">
+                  digisevasolution01@gmail.com
+                </a>
               </div>
             </div>
           </Card>

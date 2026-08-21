@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useServiceDetail } from "@/hooks/useServices";
+import { renderCategoryIcon } from "@/components/categories/CategoryIcon";
+import { getOptimizedImageUrl } from "@/lib/imageUtils";
 import { stripHtml } from "@/lib/htmlUtils";
 import { SeoHead } from "@/components/common/SeoHead";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -51,7 +53,7 @@ export function ServiceDetailPage() {
     );
   }
 
-  const isVisitRequired = service.category === "VISIT_REQUIRED";
+  const isVisitRequired = service.deliveryMode === "VISIT_REQUIRED";
   const hasValidImage = service.imageUrl && service.imageUrl.trim() !== "" && !imgError;
 
   return (
@@ -83,8 +85,9 @@ export function ServiceDetailPage() {
         {hasValidImage && (
           <div className="relative w-full max-h-72 aspect-[21/9] bg-slate-100 overflow-hidden border-b border-slate-200">
             <img
-              src={service.imageUrl}
+              src={getOptimizedImageUrl(service.imageUrl, 1200)}
               alt={service.name}
+              loading="lazy"
               className="w-full h-full object-cover"
               onError={() => setImgError(true)}
             />
@@ -93,17 +96,25 @@ export function ServiceDetailPage() {
 
         <CardHeader className="bg-slate-950 text-white space-y-3 p-6 sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            {isVisitRequired ? (
-              <span className="inline-flex items-center gap-1.5 text-xs font-black text-slate-950 bg-accent-gold px-3 py-1 rounded-full shadow-xs">
-                <MapPin className="h-3.5 w-3.5" />
-                {t("categories.visitRequired")}
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-primary px-3 py-1 rounded-full shadow-xs">
-                <Globe className="h-3.5 w-3.5" />
-                {t("categories.online")}
-              </span>
-            )}
+            <div className="flex flex-wrap items-center gap-2">
+              {service.categoryName && (
+                <span className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-slate-800 border border-slate-700 px-3 py-1 rounded-full shadow-xs">
+                  {renderCategoryIcon(service.categoryIcon || "Folder", "h-3.5 w-3.5 text-primary-light")}
+                  {service.categoryName}
+                </span>
+              )}
+              {isVisitRequired ? (
+                <span className="inline-flex items-center gap-1.5 text-xs font-black text-slate-950 bg-accent-gold px-3 py-1 rounded-full shadow-xs">
+                  <MapPin className="h-3.5 w-3.5" />
+                  {t("categories.visitRequired")}
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-primary px-3 py-1 rounded-full shadow-xs">
+                  <Globe className="h-3.5 w-3.5" />
+                  {t("categories.online")}
+                </span>
+              )}
+            </div>
 
             {service.price ? (
               <span className="text-xl font-extrabold text-emerald-400 bg-emerald-950/90 border border-emerald-800 px-3.5 py-1 rounded-lg">

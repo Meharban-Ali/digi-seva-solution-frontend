@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Logo } from "@/components/common/Logo";
-import { MapPin, Clock, ShieldCheck } from "lucide-react";
+import { MapPin, Clock, ShieldCheck, PhoneCall, Mail } from "lucide-react";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -44,13 +44,25 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Center Address & Hours */}
+        {/* Center Address, Phone, Email & Hours */}
         <div className="space-y-3">
           <h4 className="text-white font-bold text-sm uppercase tracking-wider">{t("footer.contactInfo")}</h4>
           <ul className="space-y-2.5 text-sm text-slate-400">
             <li className="flex items-start space-x-2.5">
               <MapPin className="h-4 w-4 text-primary-light shrink-0 mt-0.5" />
               <span>{t("about.address")}</span>
+            </li>
+            <li className="flex items-center space-x-2.5">
+              <PhoneCall className="h-4 w-4 text-primary-light shrink-0" />
+              <a href="tel:7900867261" className="hover:text-white font-medium transition-colors">
+                +91 7900867261
+              </a>
+            </li>
+            <li className="flex items-center space-x-2.5">
+              <Mail className="h-4 w-4 text-primary-light shrink-0" />
+              <a href="mailto:digisevasolution01@gmail.com" className="hover:text-white font-medium transition-colors">
+                digisevasolution01@gmail.com
+              </a>
             </li>
             <li className="flex items-start space-x-2.5">
               <Clock className="h-4 w-4 text-primary-light shrink-0 mt-0.5" />

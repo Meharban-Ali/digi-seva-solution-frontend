@@ -24,7 +24,7 @@ export function FaqPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [openIndex, setOpenIndex] = useState<number | null>(0); // First item open by default
 
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "919999999999";
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917900867261";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     t("contact.whatsappDefaultMsg")
   )}`;

@@ -133,6 +133,7 @@
   },
   "adminNav": {
     "dashboard": "Dashboard Overview",
+    "categories": "Category Management",
     "services": "Service Management",
     "content": "Content Blocks",
     "media": "Media Assets",
@@ -226,16 +227,26 @@
     "askQuestionBtn": "Contact Our Helpdesk"
   },
   "howItWorks": {
-    "badge": "Simple 4-Step Process",
+    "badge": "Simple 5-Step Process",
     "title": "How Our Services Work",
-    "subtitle": "Clear, hassle-free steps from selecting your required service to final processing and document issuance.",
-    "step1Title": "1. Choose Your Service",
-    "step1Desc": "Browse our online catalog or visit our center to identify your service needs (marked as Visit Required or Online Service).",
-    "step2Title": "2. Submit Details & Docs",
-    "step2Desc": "Provide required identity or address documents in person at our center or via online enquiry form.",
-    "step3Title": "3. We Process & Verify",
-    "step3Desc": "Our experienced team verifies your documents and submits your application on official government portals at standard rates.",
-    "step4Title": "4. Receive Service & Updates",
-    "step4Desc": "Collect your completed certificate, PAN card, or service receipt with status notifications along the way."
+    "subtitle": "Clear, hassle-free steps from exploring your required service to final processing and document delivery.",
+    "step1Title": "Visit Our Website",
+    "step1Desc": "Browse our website to see all the services we offer, in your preferred language.",
+    "step2Title": "Explore Services",
+    "step2Desc": "Check out our full range of government and digital services, with clear details on what is needed for each.",
+    "step3Title": "Choose & Contact Us",
+    "step3Desc": "Select the service you need and reach out via our enquiry form, WhatsApp, or phone call.",
+    "step4Title": "Submit Documents & Pay",
+    "step4Desc": "Provide your documents (online or in person) and pay at transparent, government-standard rates.",
+    "step5Title": "Get Your Service",
+    "step5Desc": "Receive your completed certificate, document, or service confirmation, with full support throughout."
+  },
+  "projects": {
+    "badge": "Portfolio & Case Studies",
+    "title": "Our Work & Client Projects",
+    "subtitle": "Explore real-world software applications, portals, and digital solutions delivered for our clients.",
+    "viewProject": "View Live Project",
+    "noProjectsTitle": "No Showcase Projects Available Yet",
+    "noProjectsDesc": "Portfolio items will appear here once published by our engineering team."
   }
 }

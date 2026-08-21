@@ -16,7 +16,7 @@ export function WhatsAppIcon({ className = "h-6 w-6" }: { className?: string }) 
 
 export function WhatsAppButton() {
   const { t } = useTranslation();
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "919999999999";
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917900867261";
   const defaultMessage = t("contact.whatsappDefaultMsg", "Hello Digi Seva Solution, I would like to inquire about your services.");
 
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(defaultMessage)}`;

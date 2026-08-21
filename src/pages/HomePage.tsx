@@ -4,8 +4,9 @@ import { useContent } from "@/hooks/useContent";
 import { useServices } from "@/hooks/useServices";
 import { stripHtml } from "@/lib/htmlUtils";
 import { ServiceCard } from "@/components/services/ServiceCard";
+import { ProjectsShowcase } from "@/components/home/ProjectsShowcase";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { SeoHead } from "@/components/common/SeoHead";
 import { motion } from "framer-motion";
 import {
@@ -15,66 +16,82 @@ import {
   Globe,
   Clock,
   Code,
-  Sparkles,
-  CheckCircle2,
   ChevronRight,
-  Star,
-  Search,
   FileText,
   Cpu,
+  MapPin,
+  PhoneCall,
+  Laptop,
+  Sparkles,
+  Search,
+  FileCheck,
+  Award,
 } from "lucide-react";
 
 export function HomePage() {
   const { t } = useTranslation();
   const { data: banners } = useContent("HOME_BANNER");
-  const { data: featuredOnlyServices, isLoading: isFeaturedLoading } = useServices(undefined, true);
-  const { data: allServices, isLoading: isAllLoading } = useServices();
+  const { data: allServices, isLoading: isServicesLoading } = useServices();
 
   const heroBanner = banners && banners.length > 0 ? banners[0] : null;
 
-  // Admin-controlled featured services system (cap at 8, fallback to first 4 active services)
-  const featuredServices =
-    featuredOnlyServices && featuredOnlyServices.length > 0
-      ? featuredOnlyServices.slice(0, 8)
-      : allServices
-      ? allServices.slice(0, 4)
-      : [];
+  // Filter Citizen / CSC Government Services (excluding IT category ID 19 / java-it-services)
+  const citizenServices = (allServices || [])
+    .filter((s) => s.categoryId !== 19 && s.categorySlug !== "java-it-services")
+    .slice(0, 8);
 
-  const totalServicesCount = allServices ? allServices.length : 15;
-  const isServicesLoading = isFeaturedLoading || isAllLoading;
+  // Filter IT / Software Services for dedicated Homepage Section 6
+  const itServices = (allServices || []).filter(
+    (s) =>
+      s.categoryId === 19 ||
+      s.categorySlug === "java-it-services" ||
+      s.name.toLowerCase().includes("development") ||
+      s.name.toLowerCase().includes("software")
+  );
+
+  const totalServicesCount = allServices ? allServices.length : 16;
+
+  // Helper to dynamically locate a service by name keyword and format its price from API
+  const getServicePriceLabel = (keyword: string): string => {
+    if (!allServices || allServices.length === 0) return "Contact for Pricing";
+    const found = allServices.find((s) => s.name.toLowerCase().includes(keyword.toLowerCase()));
+    if (found && found.price != null && Number(found.price) > 0) {
+      return `₹${found.price}`;
+    }
+    return "Contact for Pricing";
+  };
 
   return (
-    <div className="space-y-12 pb-12">
+    <div className="space-y-12 pb-12 bg-slate-50/50">
       <SeoHead
         title="Digi Seva Solution - Aadhaar, PAN & Government Services in New Ashok Nagar, Delhi"
         description="Digi Seva Solution is your trusted Common Service Center (Jan Seva Kendra) in New Ashok Nagar, Delhi, offering Aadhaar, PAN, RTO, banking services and web development."
         path="/"
       />
-      {/* 1. Refined Hero Banner Section (Deep Royal Indigo & Gold Accents) */}
-      <section className="bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 text-white py-14 sm:py-20 px-4 sm:px-6 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        
-        <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Column: Hero Text & CTAs */}
-          <div className="lg:col-span-7 space-y-6 text-center sm:text-left">
-            <div className="inline-flex items-center gap-2 bg-accent-gold/15 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-xs font-bold backdrop-blur-xs">
-              <ShieldCheck className="h-4 w-4 text-accent-gold shrink-0" />
-              <span>Jan Seva Kendra • New Ashok Nagar, Delhi</span>
+
+      {/* 1. Institutional Light Hero Section (csc.gov.in / e-District Light Portal Style) */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6">
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-md overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+          {/* Left Column: Official Heading & Details */}
+          <div className="lg:col-span-7 p-6 sm:p-10 space-y-6 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200 bg-white">
+            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-900 border border-blue-200 px-3.5 py-1.5 rounded-full text-xs font-extrabold w-fit">
+              <ShieldCheck className="h-4 w-4 text-blue-700 shrink-0" />
+              <span>Authorized Jan Seva Kendra • CSC Portal</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight text-white max-w-2xl">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-slate-900">
               {heroBanner ? heroBanner.title : t("hero.defaultTitle")}
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 max-w-xl font-normal leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
               {heroBanner ? stripHtml(heroBanner.body) : t("hero.defaultSubtitle")}
             </p>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-center gap-3.5">
-              <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-primary hover:bg-primary-light text-white shadow-lg shadow-blue-950/40">
+            <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+              <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-blue-700 hover:bg-blue-800 text-white shadow-xs">
                 <Link to="/services">
                   <span>{t("common.viewAllServices")}</span>
-                  <ArrowRight className="h-5 w-5 ml-2" />
+                  <ArrowRight className="h-4 w-4 ml-2 text-white" />
                 </Link>
               </Button>
 
@@ -82,165 +99,143 @@ export function HomePage() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto border-white/30 bg-white/10 hover:bg-white/20 text-white font-bold backdrop-blur-xs transition-colors"
+                className="w-full sm:w-auto border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-900 font-bold transition-colors"
               >
-                <Link to="/about">
-                  <span>{t("nav.about")}</span>
+                <Link to="/contact">
+                  <MapPin className="h-4 w-4 mr-2 text-blue-700" />
+                  <span>Visit Center in Delhi</span>
                 </Link>
               </Button>
             </div>
+
+            <div className="pt-2 grid grid-cols-3 gap-2 border-t border-slate-100 text-center text-[11px] text-slate-700">
+              <div className="p-2.5 bg-slate-50/80 rounded-lg border border-slate-200/80">
+                <p className="font-extrabold text-slate-900 text-xs">Govt. Rates</p>
+                <p className="text-slate-500">Standard Fees</p>
+              </div>
+              <div className="p-2.5 bg-slate-50/80 rounded-lg border border-slate-200/80">
+                <p className="font-extrabold text-slate-900 text-xs">Biometric</p>
+                <p className="text-slate-500">Fingerprint & Iris</p>
+              </div>
+              <div className="p-2.5 bg-slate-50/80 rounded-lg border border-slate-200/80">
+                <p className="font-extrabold text-slate-900 text-xs">Receipts</p>
+                <p className="text-slate-500">Instant Printouts</p>
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Hero Visual Artwork Graphic (Desktop) */}
-          <div className="lg:col-span-5 hidden lg:flex justify-center">
-            <div className="relative w-full max-w-sm">
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 opacity-30 blur-lg"></div>
-              <div className="relative bg-slate-900/90 border border-slate-700/80 backdrop-blur-md rounded-2xl p-6 text-white shadow-2xl space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                  <div className="flex items-center space-x-2">
-                    <div className="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider">
-                      Center Operational
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-1 text-accent-gold text-xs font-bold">
-                    <Star className="h-3.5 w-3.5 fill-current" />
-                    <span>Official CSC</span>
-                  </div>
+          {/* Right Column: Grounded Light Quick Citizen Services Panel */}
+          <div className="lg:col-span-5 bg-slate-50/80 p-6 space-y-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                <FileText className="h-4 w-4 text-blue-700" />
+                Quick Services Access
+              </span>
+              <span className="text-[10px] bg-emerald-100 text-emerald-900 border border-emerald-300 px-2 py-0.5 rounded font-mono font-bold">
+                CENTER ACTIVE
+              </span>
+            </div>
+
+            <div className="space-y-2.5">
+              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">Aadhaar Card Update & Correction</h4>
+                  <p className="text-[11px] text-slate-500">Address, Mobile No., Biometric Update</p>
                 </div>
+                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                  {getServicePriceLabel("aadhaar")}
+                </span>
+              </Link>
 
-                <div className="space-y-3">
-                  <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60 flex items-center gap-3">
-                    <div className="bg-primary/20 text-primary-light p-2 rounded-lg">
-                      <ShieldCheck className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-white">Authorized CSC Portal</h4>
-                      <p className="text-[11px] text-slate-400">Aadhaar, PAN & Government Registrations</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60 flex items-center gap-3">
-                    <div className="bg-amber-500/20 text-accent-gold p-2 rounded-lg">
-                      <CheckCircle2 className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-white">Transparent Fees</h4>
-                      <p className="text-[11px] text-slate-400">Government standard rates with receipts</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700/60 flex items-center gap-3">
-                    <div className="bg-indigo-500/20 text-indigo-400 p-2 rounded-lg">
-                      <Code className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-white">Digital & App Solutions</h4>
-                      <p className="text-[11px] text-slate-400">Custom web development & software apps</p>
-                    </div>
-                  </div>
+              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">PAN Card Application & Correction</h4>
+                  <p className="text-[11px] text-slate-500">New NSDL/UTI PAN Card Request</p>
                 </div>
+                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                  {getServicePriceLabel("pan")}
+                </span>
+              </Link>
 
-                <div className="pt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-                  <span>Delhi CSC Reg.</span>
-                  <span className="text-emerald-400 font-bold">Open Daily 7AM–12AM</span>
+              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">RTO Driving License Services</h4>
+                  <p className="text-[11px] text-slate-500">Learner License & Slot Booking</p>
                 </div>
-              </div>
+                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                  {getServicePriceLabel("driving")}
+                </span>
+              </Link>
+
+              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">Income, Caste & Residence Cert.</h4>
+                  <p className="text-[11px] text-slate-500">e-District Delhi Portal Online Submission</p>
+                </div>
+                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                  {getServicePriceLabel("income")}
+                </span>
+              </Link>
+            </div>
+
+            <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+              <span>Biometric Machine Verified</span>
+              <Link to="/services" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                View All {totalServicesCount} Services <ChevronRight className="h-3 w-3" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. "Why Choose Us" Trust Strip (Refined Colors) */}
-      <section className="bg-slate-950 border-b border-slate-800 text-slate-200 py-8 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-6">
-            <span className="text-xs font-bold text-accent-gold uppercase tracking-widest">
-              {t("trust.badge")}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Point 1: Authorized CSC */}
-            <div className="flex items-start gap-3.5 bg-slate-900/80 p-4 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
-              <div className="bg-primary/20 text-primary-light p-2.5 rounded-lg shrink-0">
-                <ShieldCheck className="h-5 w-5" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="font-bold text-white text-sm">{t("trust.item1Title")}</h4>
-                <p className="text-xs text-slate-400 leading-relaxed">{t("trust.item1Desc")}</p>
-              </div>
-            </div>
-
-            {/* Point 2: Fast & Reliable */}
-            <div className="flex items-start gap-3.5 bg-slate-900/80 p-4 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
-              <div className="bg-amber-500/20 text-accent-gold p-2.5 rounded-lg shrink-0">
-                <Zap className="h-5 w-5" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="font-bold text-white text-sm">{t("trust.item2Title")}</h4>
-                <p className="text-xs text-slate-400 leading-relaxed">{t("trust.item2Desc")}</p>
-              </div>
-            </div>
-
-            {/* Point 3: Bilingual Support */}
-            <div className="flex items-start gap-3.5 bg-slate-900/80 p-4 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
-              <div className="bg-emerald-500/20 text-emerald-400 p-2.5 rounded-lg shrink-0">
-                <Globe className="h-5 w-5" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="font-bold text-white text-sm">{t("trust.item3Title")}</h4>
-                <p className="text-xs text-slate-400 leading-relaxed">{t("trust.item3Desc")}</p>
-              </div>
-            </div>
-
-            {/* Point 4: Operating Hours */}
-            <div className="flex items-start gap-3.5 bg-slate-900/80 p-4 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
-              <div className="bg-indigo-500/20 text-indigo-400 p-2.5 rounded-lg shrink-0">
-                <Clock className="h-5 w-5" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="font-bold text-white text-sm">{t("trust.item4Title")}</h4>
-                <p className="text-xs text-slate-400 leading-relaxed">{t("trust.item4Desc")}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Real Data Stats Bar */}
+      {/* 3. Real Service Verification Standards Strip */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-slate-100">
-          <div className="p-2 space-y-1">
-            <p className="text-3xl font-black text-primary">{totalServicesCount}+</p>
-            <p className="text-xs text-slate-600 font-semibold">{t("stats.servicesCount")}</p>
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex items-start gap-3 p-2">
+            <ShieldCheck className="h-5 w-5 text-slate-900 shrink-0 mt-0.5" />
+            <div>
+              <h4 className="text-xs font-bold text-slate-900">Authorized CSC Center</h4>
+              <p className="text-[11px] text-slate-600">Official Government Services</p>
+            </div>
           </div>
-          <div className="p-2 space-y-1">
-            <p className="text-3xl font-black text-slate-900">2</p>
-            <p className="text-xs text-slate-600 font-semibold">{t("stats.partnersCount")}</p>
+
+          <div className="flex items-start gap-3 p-2 border-t sm:border-t-0 sm:border-l border-slate-100">
+            <Zap className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <h4 className="text-xs font-bold text-slate-900">Same-Day Processing</h4>
+              <p className="text-[11px] text-slate-600">Fast application dispatch</p>
+            </div>
           </div>
-          <div className="p-2 space-y-1">
-            <p className="text-3xl font-black text-indigo-600">7 Days</p>
-            <p className="text-xs text-slate-600 font-semibold">{t("stats.daysCount")}</p>
+
+          <div className="flex items-start gap-3 p-2 border-t lg:border-t-0 lg:border-l border-slate-100">
+            <Globe className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+            <div>
+              <h4 className="text-xs font-bold text-slate-900">Bilingual Assistance</h4>
+              <p className="text-[11px] text-slate-600">Hindi & English support</p>
+            </div>
           </div>
-          <div className="p-2 space-y-1">
-            <p className="text-3xl font-black text-emerald-600">100%</p>
-            <p className="text-xs text-slate-600 font-semibold">{t("stats.transparencyCount")}</p>
+
+          <div className="flex items-start gap-3 p-2 border-t lg:border-t-0 lg:border-l border-slate-100">
+            <Clock className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+            <div>
+              <h4 className="text-xs font-bold text-slate-900">Open 7 Days a Week</h4>
+              <p className="text-[11px] text-slate-600">7:00 AM – 12:00 AM Daily</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. "How It Works" 4-Step Process Section */}
+      {/* 4. "How It Works" 5-Step Animated Process Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4 }}
           className="text-center space-y-2 max-w-2xl mx-auto"
         >
-          <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
-            <Sparkles className="h-3.5 w-3.5 text-accent-gold-dark" />
+          <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-900 border border-blue-200 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
+            <Sparkles className="h-3.5 w-3.5 text-blue-700" />
             <span>{t("howItWorks.badge")}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -251,123 +246,159 @@ export function HomePage() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Step 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.05 }}
-          >
-            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
-              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
-                01
-              </div>
-              <CardContent className="p-6 space-y-3.5">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                  <Search className="h-6 w-6" />
-                </div>
-                <h3 className="text-base font-bold text-slate-900 leading-tight">
-                  {t("howItWorks.step1Title")}
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {t("howItWorks.step1Desc")}
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+        {/* 5-Step Process Container with connecting sequence line */}
+        <div className="relative">
+          {/* Desktop horizontal connecting sequence line */}
+          <div className="hidden md:block absolute top-1/2 left-8 right-8 h-0.5 bg-slate-200 -z-10 -translate-y-8"></div>
 
-          {/* Step 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-          >
-            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
-              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
-                02
-              </div>
-              <CardContent className="p-6 space-y-3.5">
-                <div className="h-12 w-12 rounded-xl bg-amber-500/15 text-amber-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                  <FileText className="h-6 w-6" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+            {/* Step 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.05 }}
+              className="h-full"
+            >
+              <Card className="h-full border-slate-200 shadow-2xs hover:shadow-md transition-all bg-white relative overflow-hidden group flex flex-col justify-between">
+                <div className="p-5 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <Globe className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs font-black text-blue-900 bg-blue-100/80 px-2.5 py-0.5 rounded-full font-mono">01</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                    {t("howItWorks.step1Title")}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {t("howItWorks.step1Desc")}
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 leading-tight">
-                  {t("howItWorks.step2Title")}
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {t("howItWorks.step2Desc")}
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </Card>
+            </motion.div>
 
-          {/* Step 3 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.15 }}
-          >
-            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
-              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
-                03
-              </div>
-              <CardContent className="p-6 space-y-3.5">
-                <div className="h-12 w-12 rounded-xl bg-indigo-500/15 text-indigo-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                  <Cpu className="h-6 w-6" />
+            {/* Step 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.12 }}
+              className="h-full"
+            >
+              <Card className="h-full border-slate-200 shadow-2xs hover:shadow-md transition-all bg-white relative overflow-hidden group flex flex-col justify-between">
+                <div className="p-5 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="h-10 w-10 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <Search className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs font-black text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full font-mono">02</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                    {t("howItWorks.step2Title")}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {t("howItWorks.step2Desc")}
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 leading-tight">
-                  {t("howItWorks.step3Title")}
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {t("howItWorks.step3Desc")}
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </Card>
+            </motion.div>
 
-          {/* Step 4 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          >
-            <Card className="h-full border-slate-200 shadow-xs hover:shadow-md transition-all bg-white relative overflow-hidden group">
-              <div className="absolute top-0 right-0 bg-accent-gold text-slate-950 font-black text-xs px-3 py-1 rounded-bl-xl shadow-2xs">
-                04
-              </div>
-              <CardContent className="p-6 space-y-3.5">
-                <div className="h-12 w-12 rounded-xl bg-emerald-500/15 text-emerald-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                  <CheckCircle2 className="h-6 w-6" />
+            {/* Step 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.19 }}
+              className="h-full"
+            >
+              <Card className="h-full border-slate-200 shadow-2xs hover:shadow-md transition-all bg-white relative overflow-hidden group flex flex-col justify-between">
+                <div className="p-5 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="h-10 w-10 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <PhoneCall className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs font-black text-indigo-900 bg-indigo-100/80 px-2.5 py-0.5 rounded-full font-mono">03</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                    {t("howItWorks.step3Title")}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {t("howItWorks.step3Desc")}
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 leading-tight">
-                  {t("howItWorks.step4Title")}
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {t("howItWorks.step4Desc")}
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </Card>
+            </motion.div>
+
+            {/* Step 4 */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.26 }}
+              className="h-full"
+            >
+              <Card className="h-full border-slate-200 shadow-2xs hover:shadow-md transition-all bg-white relative overflow-hidden group flex flex-col justify-between">
+                <div className="p-5 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="h-10 w-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <FileCheck className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs font-black text-emerald-900 bg-emerald-100/80 px-2.5 py-0.5 rounded-full font-mono">04</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                    {t("howItWorks.step4Title")}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {t("howItWorks.step4Desc")}
+                  </p>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Step 5 */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.33 }}
+              className="h-full"
+            >
+              <Card className="h-full border-slate-200 shadow-2xs hover:shadow-md transition-all bg-white relative overflow-hidden group flex flex-col justify-between">
+                <div className="p-5 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="h-10 w-10 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <Award className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs font-black text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full font-mono">05</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                    {t("howItWorks.step5Title")}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {t("howItWorks.step5Desc")}
+                  </p>
+                </div>
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* 5. Featured Business Services Section */}
+      {/* 5. Citizen & Government Services Grid (Section 5) */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-              {t("services.title")}
+            <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">
+              JAN SEVA KENDRA CATALOG
+            </span>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mt-0.5">
+              Government & Citizen Services
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 font-normal mt-1">
-              {t("services.subtitle")}
-            </p>
           </div>
-          <Button asChild variant="outline" size="sm" className="font-bold text-xs shrink-0 self-start sm:self-auto border-primary text-primary hover:bg-primary/10">
+          <Button asChild variant="outline" size="sm" className="font-bold text-xs shrink-0 border-slate-300 text-slate-800 hover:bg-slate-100">
             <Link to="/services">
-              <span>{t("common.viewAllServices")} ({totalServicesCount})</span>
+              <span>View All Catalog ({totalServicesCount})</span>
               <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </Button>
@@ -381,43 +412,131 @@ export function HomePage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredServices.map((service) => (
+            {citizenServices.map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
         )}
       </section>
 
-      {/* 6. Software & Application Development Banner Section */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6">
-        <Card className="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 text-white border-slate-800 shadow-xl overflow-hidden relative">
-          <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-accent-gold/10 rounded-full blur-3xl pointer-events-none"></div>
-
-          <CardContent className="p-8 sm:p-10 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-4 text-center sm:text-left">
-              <div className="inline-flex items-center gap-2 bg-accent-gold/20 text-accent-gold border border-amber-400/30 px-3 py-1 rounded-full text-xs font-bold">
-                <Code className="h-4 w-4" />
-                <span>{t("techBanner.badge")}</span>
+      {/* 6. Dedicated Light IT & Software Development Showcase (Section 6) */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-2">
+        <div className="bg-white text-slate-900 border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 bg-slate-100 text-slate-900 border border-slate-300 px-3 py-1 rounded-full text-xs font-bold">
+                <Code className="h-3.5 w-3.5 text-blue-700" />
+                <span>BUSINESS IT & SOFTWARE SOLUTIONS</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
-                {t("techBanner.title")}
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                Software & Web Development Services
               </h3>
-              <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
-                {t("techBanner.desc")}
+              <p className="text-xs sm:text-sm text-slate-600">
+                Custom web applications, mobile apps, and business software tools built for business clients.
               </p>
             </div>
 
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-center gap-3">
-              <Button asChild size="lg" className="w-full font-bold bg-accent-gold hover:bg-amber-600 text-slate-950 shadow-md">
-                <Link to="/contact">
-                  <span>{t("techBanner.ctaButton")}</span>
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            <Button asChild size="sm" className="bg-slate-900 hover:bg-slate-800 text-white font-bold shrink-0">
+              <Link to="/contact">
+                <span>Request IT Consultation</span>
+                <ArrowRight className="h-4 w-4 ml-1.5 text-white" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {itServices.length > 0 ? (
+              itServices.map((service) => (
+                <div key={service.id} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
+                  <div className="space-y-2">
+                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                      {service.name.toLowerCase().includes("web") ? (
+                        <Globe className="h-5 w-5" />
+                      ) : service.name.toLowerCase().includes("app") ? (
+                        <Laptop className="h-5 w-5" />
+                      ) : (
+                        <Cpu className="h-5 w-5" />
+                      )}
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-base">{service.name}</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                      {service.description || "Professional software development and consulting services."}
+                    </p>
+                  </div>
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <span className="text-slate-700 font-bold">{service.price && Number(service.price) > 0 ? `₹${service.price}` : "Contact for Pricing"}</span>
+                    <Link to={`/services/${service.id}`} className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                      Details <ChevronRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <>
+                {/* Fallback IT Service Card 1: Web Development */}
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
+                  <div className="space-y-2">
+                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                      <Globe className="h-5 w-5" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-base">Web Development</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Responsive websites, landing pages, e-commerce stores, and custom Web portals for local & enterprise businesses.
+                    </p>
+                  </div>
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <span className="text-slate-700 font-bold">Contact for Pricing</span>
+                    <Link to="/contact" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                      Enquire <ChevronRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Fallback IT Service Card 2: App Development */}
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
+                  <div className="space-y-2">
+                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                      <Laptop className="h-5 w-5" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-base">App Development</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Android and iOS mobile app development, cross-platform Flutter/React Native solutions with API integration.
+                    </p>
+                  </div>
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <span className="text-slate-700 font-bold">Contact for Pricing</span>
+                    <Link to="/contact" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                      Enquire <ChevronRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Fallback IT Service Card 3: Custom Software Solutions */}
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
+                  <div className="space-y-2">
+                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                      <Cpu className="h-5 w-5" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-base">Custom Software Solutions</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Business automation tools, internal CRM/ERP management systems, database software, and tailored IT consulting.
+                    </p>
+                  </div>
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <span className="text-slate-700 font-bold">Contact for Pricing</span>
+                    <Link to="/contact" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                      Enquire <ChevronRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       </section>
+
+      {/* 7. Portfolio & Client Projects Showcase (Section 7) */}
+      <ProjectsShowcase />
     </div>
   );
 }

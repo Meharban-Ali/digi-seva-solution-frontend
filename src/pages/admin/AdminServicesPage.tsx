@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import {
-  useAdminServicesPage,
-  useCreateAdminService,
-  useUpdateAdminService,
-  useDeleteAdminService,
-} from "@/hooks/useAdminServices";
+import { useAdminServicesPage, useCreateAdminService, useUpdateAdminService, useDeleteAdminService } from "@/hooks/useAdminServices";
+import { useAdminCategories } from "@/features/adminCategories/adminCategoriesApi";
 import { AdminServiceResponse, AdminServiceRequest } from "@/types/adminService.types";
-import { ServiceCategory } from "@/types/service.types";
+import { CategoryResponse } from "@/types/category.types";
+import { DeliveryMode } from "@/types/service.types";
 import { MediaPickerModal } from "@/components/media/MediaPickerModal";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
@@ -32,7 +29,10 @@ import {
 
 export function AdminServicesPage() {
   const [page, setPage] = useState(0);
-  const { data: servicesPage, isLoading, isError, error, refetch } = useAdminServicesPage(page, 10);
+  const pageSize = 10;
+
+  const { data: servicesPage, isLoading, isError, error, refetch } = useAdminServicesPage(page, pageSize);
+  const { data: categories } = useAdminCategories();
 
   const createMutation = useCreateAdminService();
   const updateMutation = useUpdateAdminService();
@@ -50,7 +50,8 @@ export function AdminServicesPage() {
   const [nameHi, setNameHi] = useState("");
   const [descriptionEn, setDescriptionEn] = useState("");
   const [descriptionHi, setDescriptionHi] = useState("");
-  const [category, setCategory] = useState<ServiceCategory>("ONLINE");
+  const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>("ONLINE");
+  const [categoryId, setCategoryId] = useState<number | "">("");
   const [price, setPrice] = useState<string>("");
   const [imageUrl, setImageUrl] = useState("");
   const [displayOrder, setDisplayOrder] = useState<number>(0);
@@ -63,7 +64,8 @@ export function AdminServicesPage() {
     setNameHi("");
     setDescriptionEn("");
     setDescriptionHi("");
-    setCategory("ONLINE");
+    setDeliveryMode("ONLINE");
+    setCategoryId("");
     setPrice("");
     setImageUrl("");
     setDisplayOrder(0);
@@ -79,7 +81,8 @@ export function AdminServicesPage() {
     setNameHi(service.nameHi || service.name || "");
     setDescriptionEn(service.descriptionEn || service.description || "");
     setDescriptionHi(service.descriptionHi || service.description || "");
-    setCategory(service.category);
+    setDeliveryMode(service.deliveryMode);
+    setCategoryId(service.categoryId || "");
     setPrice(service.price !== undefined && service.price !== null ? String(service.price) : "");
     setImageUrl(service.imageUrl || "");
     setDisplayOrder(service.displayOrder || 0);
@@ -98,7 +101,8 @@ export function AdminServicesPage() {
       nameHi: nameHi.trim(),
       descriptionEn: descriptionEn.trim() || undefined,
       descriptionHi: descriptionHi.trim() || undefined,
-      category,
+      deliveryMode,
+      categoryId: categoryId !== "" ? Number(categoryId) : null,
       price: price ? Number(price) : undefined,
       imageUrl: imageUrl.trim() || undefined,
       displayOrder,
@@ -199,7 +203,7 @@ export function AdminServicesPage() {
                     <tr>
                       <th className="px-4 py-3">Order</th>
                       <th className="px-4 py-3">Service Name (EN / HI)</th>
-                      <th className="px-4 py-3">Category</th>
+                      <th className="px-4 py-3">Delivery Mode</th>
                       <th className="px-4 py-3">Price</th>
                       <th className="px-4 py-3">Status</th>
                       <th className="px-4 py-3 text-right">Actions</th>
@@ -218,9 +222,14 @@ export function AdminServicesPage() {
                           <p className="text-slate-500 font-medium text-xs">
                             {service.nameHi || service.name}
                           </p>
+                          {service.categoryNameEn && (
+                            <span className="inline-block mt-1 text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200">
+                              {service.categoryNameEn}
+                            </span>
+                          )}
                         </td>
                         <td className="px-4 py-3">
-                          {service.category === "ONLINE" ? (
+                          {service.deliveryMode === "ONLINE" ? (
                             <span className="inline-flex items-center gap-1 bg-primary text-white font-extrabold px-2 py-0.5 rounded text-[10px] shadow-2xs">
                               <Globe className="h-3 w-3" /> Online Service
                             </span>
@@ -314,7 +323,7 @@ export function AdminServicesPage() {
                         {service.price ? `₹${service.price}` : "Free / Standard"}
                       </span>
                       <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded font-mono">
-                        {service.category}
+                        {service.deliveryMode}
                       </span>
                     </div>
 
@@ -493,12 +502,32 @@ export function AdminServicesPage() {
                 {/* Category Dropdown */}
                 <div className="space-y-1">
                   <label htmlFor="categorySelect" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Category *
+                    Category (Group)
                   </label>
                   <select
                     id="categorySelect"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value as ServiceCategory)}
+                    value={categoryId}
+                    onChange={(e) => setCategoryId(e.target.value ? Number(e.target.value) : "")}
+                    className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="">-- Uncategorized --</option>
+                    {categories?.map((cat: CategoryResponse) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.nameEn} ({cat.nameHi})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Delivery Mode Dropdown */}
+                <div className="space-y-1">
+                  <label htmlFor="deliveryModeSelect" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Delivery Mode *
+                  </label>
+                  <select
+                    id="deliveryModeSelect"
+                    value={deliveryMode}
+                    onChange={(e) => setDeliveryMode(e.target.value as DeliveryMode)}
                     className="w-full px-3.5 py-2 text-xs bg-white border border-slate-300 rounded-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="ONLINE">Online Service</option>

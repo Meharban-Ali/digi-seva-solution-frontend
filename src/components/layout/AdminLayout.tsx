@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
   Layers,
+  FolderTree,
+  FolderKanban,
   FileText,
   Image,
   Inbox,
@@ -35,7 +37,9 @@ export function AdminLayout() {
 
   const navItems = [
     { path: "/admin/dashboard", label: t("adminNav.dashboard"), icon: LayoutDashboard },
+    { path: "/admin/categories", label: t("adminNav.categories"), icon: FolderTree },
     { path: "/admin/services", label: t("adminNav.services"), icon: Layers },
+    { path: "/admin/projects", label: "Projects", icon: FolderKanban },
     { path: "/admin/content", label: t("adminNav.content"), icon: FileText },
     { path: "/admin/media", label: t("adminNav.media"), icon: Image },
     { path: "/admin/enquiries", label: t("adminNav.enquiries"), icon: Inbox },

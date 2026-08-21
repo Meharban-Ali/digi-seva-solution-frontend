@@ -246,6 +246,17 @@ export function AdminContentPage() {
           >
             FAQ
           </Button>
+          <Button
+            variant={selectedSection === "WELCOME_POPUP" ? "default" : "outline"}
+            size="sm"
+            onClick={() => {
+              setSelectedSection("WELCOME_POPUP");
+              setPage(0);
+            }}
+            className="text-xs font-semibold py-1 px-3 h-8"
+          >
+            Welcome Popup
+          </Button>
         </div>
       </div>
 
@@ -415,6 +426,7 @@ export function AdminContentPage() {
                   <option value="ANNOUNCEMENT">ANNOUNCEMENT</option>
                   <option value="OFFER">OFFER</option>
                   <option value="FAQ">FAQ (Frequently Asked Questions)</option>
+                  <option value="WELCOME_POPUP">WELCOME_POPUP (Auto-Dismissing Notice)</option>
                 </select>
               </div>
 

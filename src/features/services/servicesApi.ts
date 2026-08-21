@@ -1,15 +1,15 @@
 import { apiClient } from "@/lib/axios";
 import { ApiResponse } from "@/types/api";
-import { PublicService, ServiceCategory } from "@/types/service.types";
+import { PublicService, DeliveryMode } from "@/types/service.types";
 
 export async function getPublicServices(
   lang: string = "en",
-  category?: ServiceCategory,
+  deliveryMode?: DeliveryMode,
   featured?: boolean
 ): Promise<PublicService[]> {
   const params: Record<string, string | boolean> = { lang };
-  if (category) {
-    params.category = category;
+  if (deliveryMode) {
+    params.mode = deliveryMode;
   }
   if (featured !== undefined) {
     params.featured = featured;

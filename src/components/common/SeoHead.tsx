@@ -38,6 +38,8 @@ export function SeoHead({
     "alternateName": "Jan Seva Kendra New Ashok Nagar",
     "url": canonicalUrl,
     "logo": `${baseUrl}/pwa-192x192.png`,
+    "telephone": "+917900867261",
+    "email": "digisevasolution01@gmail.com",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": SITE_CONFIG.address.street,

@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useApiLang } from "@/hooks/useApiLang";
 import { getPublicServices, getPublicServiceById } from "@/features/services/servicesApi";
-import { PublicService, ServiceCategory } from "@/types/service.types";
+import { PublicService, DeliveryMode } from "@/types/service.types";
 
-export function useServices(category?: ServiceCategory, featured?: boolean) {
+export function useServices(deliveryMode?: DeliveryMode, featured?: boolean) {
   const lang = useApiLang();
 
   return useQuery<PublicService[]>({
-    queryKey: ["services", lang, category || "ALL", featured ? "FEATURED" : "ALL_FEATURED"],
-    queryFn: () => getPublicServices(lang, category, featured),
+    queryKey: ["services", lang, deliveryMode || "ALL", featured ? "FEATURED" : "ALL_FEATURED"],
+    queryFn: () => getPublicServices(lang, deliveryMode, featured),
   });
 }
 

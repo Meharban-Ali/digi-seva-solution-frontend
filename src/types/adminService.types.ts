@@ -1,11 +1,12 @@
-import { ServiceCategory } from "@/types/service.types";
+import { DeliveryMode } from "@/types/service.types";
 
 export interface AdminServiceRequest {
   nameEn: string;
   nameHi: string;
   descriptionEn?: string;
   descriptionHi?: string;
-  category: ServiceCategory;
+  deliveryMode: DeliveryMode;
+  categoryId?: number | null;
   price?: number;
   imageUrl?: string;
   displayOrder?: number;
@@ -21,7 +22,12 @@ export interface AdminServiceResponse {
   nameHi?: string;
   descriptionEn?: string;
   descriptionHi?: string;
-  category: ServiceCategory;
+  deliveryMode: DeliveryMode;
+  categoryId?: number | null;
+  categoryNameEn?: string | null;
+  categoryNameHi?: string | null;
+  categorySlug?: string | null;
+  categoryIcon?: string | null;
   price?: number;
   imageUrl?: string;
   displayOrder: number;

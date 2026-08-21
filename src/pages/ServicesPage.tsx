@@ -1,77 +1,201 @@
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useServices } from "@/hooks/useServices";
-import { ServiceCategory } from "@/types/service.types";
+import { useCategories } from "@/hooks/useCategories";
+import { DeliveryMode } from "@/types/service.types";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { Button } from "@/components/ui/button";
 import { SeoHead } from "@/components/common/SeoHead";
-import { FileSearch, Layers, Globe, MapPin, Search, X } from "lucide-react";
+import { renderCategoryIcon } from "@/components/categories/CategoryIcon";
+import { FileSearch, Layers, Globe, MapPin, Search, X, FolderTree } from "lucide-react";
 
 export function ServicesPage() {
   const { t } = useTranslation();
-  const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | undefined>(undefined);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Read URL query parameters for persistent category and delivery mode filtering
+  const categorySlugParam = searchParams.get("category") || "";
+  const modeParam = (searchParams.get("mode") as DeliveryMode) || undefined;
+
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState<DeliveryMode | undefined>(modeParam);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: services, isLoading, isError, error, refetch } = useServices(selectedCategory);
+  const { data: categories, isLoading: isCategoriesLoading } = useCategories();
+  const { data: services, isLoading: isServicesLoading, isError, error, refetch } = useServices(selectedDeliveryMode);
 
-  // Client-side real-time text search filtering on the fetched list
+  // Category selection handler that synchronizes with URL query parameters
+  const handleSelectCategory = (slug?: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (slug) {
+      newParams.set("category", slug);
+    } else {
+      newParams.delete("category");
+    }
+    setSearchParams(newParams);
+  };
+
+  const handleSelectDeliveryMode = (mode?: DeliveryMode) => {
+    setSelectedDeliveryMode(mode);
+    const newParams = new URLSearchParams(searchParams);
+    if (mode) {
+      newParams.set("mode", mode);
+    } else {
+      newParams.delete("mode");
+    }
+    setSearchParams(newParams);
+  };
+
+  // Client-side real-time combined filtering across Category + Delivery Mode + Text Query
   const filteredServices = useMemo(() => {
     if (!services) return [];
-    if (!searchQuery.trim()) return services;
 
-    const query = searchQuery.toLowerCase().trim();
-    return services.filter(
-      (s) =>
-        s.name.toLowerCase().includes(query) ||
-        (s.description && s.description.toLowerCase().includes(query))
-    );
-  }, [services, searchQuery]);
+    return services.filter((s) => {
+      // 1. Category Filter
+      if (categorySlugParam) {
+        if (!s.categorySlug || s.categorySlug !== categorySlugParam) {
+          return false;
+        }
+      }
+
+      // 2. Delivery Mode Filter (handled by API + double checked)
+      if (selectedDeliveryMode && s.deliveryMode !== selectedDeliveryMode) {
+        return false;
+      }
+
+      // 3. Search Query Filter
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const matchesName = s.name.toLowerCase().includes(query);
+        const matchesDesc = s.description && s.description.toLowerCase().includes(query);
+        const matchesCat = s.categoryName && s.categoryName.toLowerCase().includes(query);
+        if (!matchesName && !matchesDesc && !matchesCat) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [services, categorySlugParam, selectedDeliveryMode, searchQuery]);
+
+  const activeCategoryObj = useMemo(() => {
+    if (!categorySlugParam || !categories) return null;
+    return categories.find((c) => c.slug === categorySlugParam);
+  }, [categorySlugParam, categories]);
+
+  const clearAllFilters = () => {
+    setSearchParams(new URLSearchParams());
+    setSelectedDeliveryMode(undefined);
+    setSearchQuery("");
+  };
+
+  const isLoading = isServicesLoading || isCategoriesLoading;
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
       <SeoHead
-        title="Our Services - Digi Seva Solution"
-        description="Explore government certificate applications, Aadhaar updates, PAN card applications, utility bill payments, and digital web development services."
+        title={activeCategoryObj ? `${activeCategoryObj.name} - Services | Digi Seva Solution` : "Our Services - Digi Seva Solution"}
+        description="Explore government certificate applications, Aadhaar updates, PAN card applications, utility bill payments, and digital web development services grouped by business category."
         path="/services"
       />
       {/* Header Banner */}
       <div className="space-y-2 border-b border-slate-200 pb-6">
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-          {t("services.title")}
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+          <span>{t("services.title")}</span>
+          {activeCategoryObj && (
+            <span className="text-sm bg-primary/10 text-primary font-bold px-3 py-1 rounded-full border border-primary/20 flex items-center gap-1.5">
+              {renderCategoryIcon(activeCategoryObj.icon, "h-4 w-4")}
+              {activeCategoryObj.name}
+            </span>
+          )}
         </h1>
         <p className="text-sm text-slate-600 max-w-3xl leading-relaxed">
           {t("services.subtitle")}
         </p>
       </div>
 
-      {/* Controls Bar: Search Input + Category Tabs */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
-        {/* Category Tabs Switcher */}
+      {/* Category Filter Chips Carousel / Grid Bar */}
+      {categories && categories.length > 0 && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <FolderTree className="h-3.5 w-3.5 text-primary" />
+              <span>Browse by Category ({categories.length})</span>
+            </h2>
+            {categorySlugParam && (
+              <button
+                onClick={() => handleSelectCategory(undefined)}
+                className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
+              >
+                <X className="h-3 w-3" /> Clear Category
+              </button>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-1">
+            {/* All Categories Chip */}
+            <button
+              onClick={() => handleSelectCategory(undefined)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
+                !categorySlugParam
+                  ? "bg-slate-900 text-white shadow-xs"
+                  : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
+              }`}
+            >
+              <Layers className="h-3.5 w-3.5" />
+              <span>All Categories</span>
+            </button>
+
+            {/* Seeded Category Chips */}
+            {categories.map((cat) => {
+              const isSelected = categorySlugParam === cat.slug;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleSelectCategory(cat.slug)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-primary text-white shadow-xs"
+                      : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                  }`}
+                >
+                  {renderCategoryIcon(cat.icon, "h-3.5 w-3.5")}
+                  <span>{cat.name || cat.nameEn}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Controls Bar: Search Input + Delivery Mode Tabs */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 border-t border-b border-slate-200 py-4">
+        {/* Delivery Mode Tabs Switcher */}
         <div className="flex flex-wrap gap-2">
           <Button
-            variant={selectedCategory === undefined ? "default" : "outline"}
+            variant={selectedDeliveryMode === undefined ? "default" : "outline"}
             size="sm"
-            onClick={() => setSelectedCategory(undefined)}
+            onClick={() => handleSelectDeliveryMode(undefined)}
             className={`flex items-center gap-2 font-bold ${
-              selectedCategory === undefined
-                ? "bg-primary hover:bg-primary-light text-white shadow-xs"
+              selectedDeliveryMode === undefined
+                ? "bg-slate-900 text-white shadow-xs"
                 : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
             }`}
-            aria-label="Filter all services"
+            aria-label="Filter all delivery modes"
           >
             <Layers className="h-4 w-4" />
             <span>{t("services.allTab")}</span>
           </Button>
 
           <Button
-            variant={selectedCategory === "ONLINE" ? "default" : "outline"}
+            variant={selectedDeliveryMode === "ONLINE" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSelectedCategory("ONLINE")}
+            onClick={() => handleSelectDeliveryMode("ONLINE")}
             className={`flex items-center gap-2 font-bold ${
-              selectedCategory === "ONLINE"
+              selectedDeliveryMode === "ONLINE"
                 ? "bg-primary hover:bg-primary-light text-white shadow-xs"
                 : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
             }`}
@@ -82,11 +206,11 @@ export function ServicesPage() {
           </Button>
 
           <Button
-            variant={selectedCategory === "VISIT_REQUIRED" ? "default" : "outline"}
+            variant={selectedDeliveryMode === "VISIT_REQUIRED" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSelectedCategory("VISIT_REQUIRED")}
+            onClick={() => handleSelectDeliveryMode("VISIT_REQUIRED")}
             className={`flex items-center gap-2 font-bold ${
-              selectedCategory === "VISIT_REQUIRED"
+              selectedDeliveryMode === "VISIT_REQUIRED"
                 ? "bg-primary hover:bg-primary-light text-white shadow-xs"
                 : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
             }`}
@@ -138,16 +262,16 @@ export function ServicesPage() {
       ) : (
         <EmptyState
           title={t("common.noServicesFound")}
+          description={
+            categorySlugParam
+              ? `No services currently listed under "${activeCategoryObj?.name || categorySlugParam}". Try selecting another category or clearing filters.`
+              : "No services match your active filter criteria."
+          }
           icon={FileSearch}
-          actionLabel={(selectedCategory || searchQuery) ? "Clear Search & Filters" : undefined}
-          onAction={() => {
-            setSelectedCategory(undefined);
-            setSearchQuery("");
-          }}
+          actionLabel={(categorySlugParam || selectedDeliveryMode || searchQuery) ? "Clear All Filters" : undefined}
+          onAction={clearAllFilters}
         />
       )}
     </div>
   );
 }
-
-export default ServicesPage;

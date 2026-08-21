@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { Logo } from "@/components/common/Logo";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Clock, PhoneCall, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -19,37 +19,49 @@ export function Navbar() {
   ];
 
   return (
-    <header className="border-b bg-white/90 backdrop-blur-md sticky top-0 z-30 shadow-xs transition-all">
+    <header className="sticky top-0 z-40 bg-white border-b border-slate-200/90 shadow-md shadow-slate-900/5 transition-all">
+      {/* 1. Main Navigation Bar */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Brand Logo & Name */}
-        <Link to="/" className="hover:opacity-90 transition-opacity">
+        <Link to="/" className="hover:opacity-95 transition-opacity flex items-center">
           <Logo size="md" />
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links with Sliding Underline Indicator */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `transition-colors py-1 relative ${
-                  isActive
-                    ? "text-primary font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:rounded-full"
-                    : "text-slate-600 hover:text-primary"
+                `transition-colors duration-200 py-1 relative ${
+                  isActive ? "text-blue-700 font-bold" : "text-slate-600 hover:text-blue-700"
                 }`
               }
             >
-              {item.label}
+              {({ isActive }) => (
+                <>
+                  <span>{item.label}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-active-indicator"
+                      className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-blue-700 rounded-full shadow-2xs"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
 
         {/* Actions & Language Switcher */}
         <div className="flex items-center space-x-3">
-          <LanguageToggle />
+          <div className="hover:scale-[1.03] transition-transform duration-200">
+            <LanguageToggle />
+          </div>
 
-          {/* Mobile Menu Toggle Button with smooth Framer Motion icon transition */}
+          {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none"
@@ -71,7 +83,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu with smooth Framer Motion slide & fade animation */}
+      {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -79,7 +91,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0, y: -6 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden border-b bg-white px-4 pt-2 pb-4 space-y-1.5 shadow-lg overflow-hidden"
+            className="md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1.5 shadow-lg overflow-hidden"
           >
             {navItems.map((item) => (
               <NavLink
@@ -88,7 +100,7 @@ export function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) =>
                   `block px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive ? "bg-primary/10 text-primary font-bold" : "text-slate-700 hover:bg-slate-100"
+                    isActive ? "bg-blue-50 text-blue-700 font-bold" : "text-slate-700 hover:bg-slate-100"
                   }`
                 }
               >
@@ -98,6 +110,51 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* 2. Official Government CSC Center Info Strip (Positioned Directly Under Navbar in Primary Button Blue) */}
+      <div className="bg-blue-700 text-white border-t border-blue-600/80 text-[11px] py-2 px-4 sm:px-6 relative overflow-hidden shadow-xs">
+        {/* Subtle Ambient Glow */}
+        <div className="absolute top-0 right-12 w-40 h-full bg-white/10 rounded-full blur-xl pointer-events-none motion-reduce:hidden" />
+
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 font-medium relative z-10">
+          <div className="flex items-center gap-2.5">
+            <span className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-xs border border-amber-300/60 hover:scale-[1.03] transition-transform duration-200">
+              <ShieldCheck className="h-3 w-3 text-slate-950 shrink-0" />
+              <span>Govt. CSC Center</span>
+            </span>
+            <span className="text-blue-50 hidden sm:inline font-medium tracking-tight">
+              VLE Center • District East Delhi • New Ashok Nagar 110096
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 text-[11px]">
+            <span className="flex items-center gap-1.5 text-blue-50 font-medium">
+              <motion.span
+                animate={{ rotate: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                className="inline-block motion-reduce:animate-none"
+              >
+                <Clock className="h-3.5 w-3.5 text-amber-300 shrink-0" />
+              </motion.span>
+              <span>Open Daily: 7:00 AM – 12:00 AM</span>
+            </span>
+
+            <a
+              href="tel:7900867261"
+              className="flex items-center gap-1.5 text-amber-300 hover:text-white font-bold transition-colors group"
+            >
+              <motion.span
+                animate={{ scale: [1, 1.15, 1] }}
+                transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+                className="inline-block motion-reduce:animate-none"
+              >
+                <PhoneCall className="h-3.5 w-3.5 shrink-0 group-hover:rotate-12 transition-transform duration-200" />
+              </motion.span>
+              <span>Helpdesk: +91 7900867261</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }

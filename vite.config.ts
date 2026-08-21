@@ -82,6 +82,20 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/react-quill") || id.includes("node_modules/quill")) {
+            return "quill-vendor";
+          }
+          if (id.includes("node_modules/lucide-react")) {
+            return "lucide-icons";
+          }
+        },
+      },
+    },
+  },
   server: {
     port: 5173,
     host: true,

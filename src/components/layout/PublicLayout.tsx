@@ -3,6 +3,7 @@ import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { OfferBannerStrip } from "@/components/common/OfferBannerStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
+import { WelcomeModal } from "@/components/common/WelcomeModal";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function PublicLayout() {
@@ -10,6 +11,7 @@ export function PublicLayout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 relative">
+      <WelcomeModal />
       <OfferBannerStrip />
       <Navbar />
       <div className="flex-1">

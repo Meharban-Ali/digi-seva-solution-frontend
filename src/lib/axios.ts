@@ -2,14 +2,13 @@ import axios from "axios";
 import { useAuthStore } from "@/features/auth/authStore";
 
 const getDynamicBaseURL = (): string => {
+  let url = "http://localhost:8080";
   if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+    url = import.meta.env.VITE_API_BASE_URL;
+  } else if (import.meta.env.DEV && typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    url = `${window.location.protocol}//${window.location.hostname}:8080`;
   }
-  // In dev mode, if accessing via network IP (e.g. 10.x.x.x or 192.168.x.x), target the same host on port 8080
-  if (import.meta.env.DEV && typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
-    return `${window.location.protocol}//${window.location.hostname}:8080`;
-  }
-  return "http://localhost:8080";
+  return url.replace(/\/+$/, "");
 };
 
 export const apiClient = axios.create({
