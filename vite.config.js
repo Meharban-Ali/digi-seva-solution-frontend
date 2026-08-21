@@ -11,13 +11,15 @@ export default defineConfig({
             workbox: {
                 cleanupOutdatedCaches: true,
                 navigateFallback: "/index.html",
+                // Do NOT precache admin JS chunks for public visitors on SW install
+                globIgnores: ["**/Admin*.js", "**/ChangePassword*.js", "**/MediaPicker*.js"],
                 runtimeCaching: [
                     {
-                        // API Calls: Network-First strategy ensures dynamic catalog data is always fetched live
-                        urlPattern: /\/api\/.*/i,
+                        // Public API Calls: Exclude /api/admin/ from service worker runtime caching
+                        urlPattern: /\/api\/(?!admin\/).*/i,
                         handler: "NetworkFirst",
                         options: {
-                            cacheName: "api-cache",
+                            cacheName: "public-api-cache",
                             networkTimeoutSeconds: 3,
                             expiration: {
                                 maxEntries: 100,
@@ -85,11 +87,23 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: function (id) {
-                    if (id.includes("node_modules/react-quill") || id.includes("node_modules/quill")) {
-                        return "quill-vendor";
+                    if (id.includes("node_modules/@tiptap")) {
+                        return "tiptap-editor";
+                    }
+                    if (id.includes("node_modules/framer-motion")) {
+                        return "framer-motion";
+                    }
+                    if (id.includes("node_modules/@tanstack/react-query")) {
+                        return "react-query";
+                    }
+                    if (id.includes("node_modules/i18next") || id.includes("node_modules/react-i18next")) {
+                        return "i18n-vendor";
                     }
                     if (id.includes("node_modules/lucide-react")) {
                         return "lucide-icons";
+                    }
+                    if (id.includes("node_modules/react/") || id.includes("node_modules/react-dom/") || id.includes("node_modules/react-router-dom/")) {
+                        return "vendor-core";
                     }
                 },
             },

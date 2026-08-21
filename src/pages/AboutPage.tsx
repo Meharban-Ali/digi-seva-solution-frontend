@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useContent } from "@/hooks/useContent";
 import { SeoHead } from "@/components/common/SeoHead";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, MapPin, Clock, Users, ShieldCheck, CheckCircle } from "lucide-react";
 
@@ -48,7 +49,7 @@ export function AboutPage() {
           ) : aboutContent ? (
             <div
               className="prose prose-slate max-w-none text-base text-slate-700 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: aboutContent.body }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutContent.body) }}
             />
           ) : (
             <p className="text-base text-slate-700 leading-relaxed whitespace-pre-line">

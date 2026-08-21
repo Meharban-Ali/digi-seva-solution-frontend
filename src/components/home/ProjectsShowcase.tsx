@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useProjects } from "@/hooks/useProjects";
 import { ExternalLink, Tag, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getOptimizedImageUrl } from "@/lib/imageUtils";
 
 export function ProjectsShowcase() {
   const { t, i18n } = useTranslation();
@@ -59,8 +60,9 @@ export function ProjectsShowcase() {
                 <div className="relative h-44 bg-slate-100 overflow-hidden">
                   {project.imageUrl ? (
                     <img
-                      src={project.imageUrl}
+                      src={getOptimizedImageUrl(project.imageUrl, 600)}
                       alt={title}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (

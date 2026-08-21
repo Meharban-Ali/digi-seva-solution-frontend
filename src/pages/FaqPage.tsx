@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useContent } from "@/hooks/useContent";
 import { stripHtml } from "@/lib/htmlUtils";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { SeoHead } from "@/components/common/SeoHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -175,7 +176,7 @@ export function FaqPage() {
                         <div className="px-5 pb-5 pt-1 border-t border-slate-100 text-xs sm:text-sm text-slate-700 leading-relaxed pl-14">
                           <div
                             className="prose prose-slate max-w-none text-slate-700"
-                            dangerouslySetInnerHTML={{ __html: faq.body }}
+                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(faq.body) }}
                           />
                         </div>
                       </motion.div>

@@ -31,16 +31,20 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response Interceptor: Global 401 handling
+// Response Interceptor: Scoped 401 handling
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Avoid infinite redirect loops on login endpoint failure
       const isLoginRequest = error.config?.url?.includes("/api/admin/auth/");
+      const isAdminRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
+
       if (!isLoginRequest) {
+        // Clear stale/expired token silently
         useAuthStore.getState().logout();
-        if (window.location.pathname !== "/admin/login") {
+
+        // ONLY redirect to /admin/login if the user is actively inside the admin portal
+        if (isAdminRoute && window.location.pathname !== "/admin/login") {
           window.location.href = "/admin/login";
         }
       }

@@ -11,6 +11,7 @@ import {
 } from "@/hooks/useAdminContent";
 import { AdminContentResponse, AdminContentRequest, ContentSection } from "@/types/adminContent.types";
 import { RichTextEditor } from "@/components/common/RichTextEditor";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
@@ -551,7 +552,7 @@ export function AdminContentPage() {
                 <h2 className="text-xl font-bold text-slate-900">{previewContent.titleEn || previewContent.title}</h2>
                 <div
                   className="prose prose-sm max-w-none text-slate-700 mt-2"
-                  dangerouslySetInnerHTML={{ __html: previewContent.bodyEn || previewContent.body || "" }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(previewContent.bodyEn || previewContent.body || "") }}
                 />
               </div>
 
@@ -560,7 +561,7 @@ export function AdminContentPage() {
                 <h2 className="text-xl font-bold text-slate-900">{previewContent.titleHi || previewContent.title}</h2>
                 <div
                   className="prose prose-sm max-w-none text-slate-700 mt-2"
-                  dangerouslySetInnerHTML={{ __html: previewContent.bodyHi || previewContent.body || "" }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(previewContent.bodyHi || previewContent.body || "") }}
                 />
               </div>
             </div>
