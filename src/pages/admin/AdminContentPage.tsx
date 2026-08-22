@@ -54,6 +54,7 @@ export function AdminContentPage() {
   const [titleHi, setTitleHi] = useState("");
   const [bodyEn, setBodyEn] = useState("");
   const [bodyHi, setBodyHi] = useState("");
+  const [displayOrder, setDisplayOrder] = useState<number>(15);
 
   const handleOpenCreateModal = () => {
     setEditingContent(null);
@@ -62,6 +63,7 @@ export function AdminContentPage() {
     setTitleHi("");
     setBodyEn("");
     setBodyHi("");
+    setDisplayOrder(15);
     setActiveTab("EN");
     setIsModalOpen(true);
   };
@@ -73,6 +75,7 @@ export function AdminContentPage() {
     setTitleHi(item.titleHi || item.title || "");
     setBodyEn(item.bodyEn || item.body || "");
     setBodyHi(item.bodyHi || item.body || "");
+    setDisplayOrder(item.displayOrder != null ? item.displayOrder : 15);
     setActiveTab("EN");
     setIsModalOpen(true);
   };
@@ -87,6 +90,7 @@ export function AdminContentPage() {
       titleHi: titleHi.trim(),
       bodyEn: bodyEn.trim(),
       bodyHi: bodyHi.trim(),
+      displayOrder: Number(displayOrder) || 15,
     };
 
     if (editingContent) {
@@ -430,6 +434,38 @@ export function AdminContentPage() {
                   <option value="WELCOME_POPUP">WELCOME_POPUP (Auto-Dismissing Notice)</option>
                 </select>
               </div>
+
+              {section === "WELCOME_POPUP" ? (
+                <div className="space-y-1">
+                  <label htmlFor="displayOrderInput" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Popup Display Duration (Seconds) *
+                  </label>
+                  <input
+                    id="displayOrderInput"
+                    type="number"
+                    min={3}
+                    max={120}
+                    value={displayOrder}
+                    onChange={(e) => setDisplayOrder(Number(e.target.value))}
+                    className="w-full text-sm border border-slate-300 rounded-lg p-2 bg-white text-slate-900 focus:ring-2 focus:ring-primary focus:outline-none"
+                  />
+                  <p className="text-[11px] text-slate-500">Auto-dismiss countdown duration in seconds (e.g. 15 for 15s timer).</p>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  <label htmlFor="displayOrderInput" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Display Order *
+                  </label>
+                  <input
+                    id="displayOrderInput"
+                    type="number"
+                    min={0}
+                    value={displayOrder}
+                    onChange={(e) => setDisplayOrder(Number(e.target.value))}
+                    className="w-full text-sm border border-slate-300 rounded-lg p-2 bg-white text-slate-900 focus:ring-2 focus:ring-primary focus:outline-none"
+                  />
+                </div>
+              )}
 
               {/* Bilingual Tab Switcher */}
               <div className="flex border-b border-slate-200 space-x-4 pt-2">

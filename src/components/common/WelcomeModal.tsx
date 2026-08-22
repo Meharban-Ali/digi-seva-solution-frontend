@@ -25,11 +25,15 @@ export function WelcomeModal() {
     }
   }, [activeBlock, isLoading]);
 
-  // Auto-dismiss countdown timer (5 seconds)
+  // Auto-dismiss countdown timer (admin-configurable via activeBlock.displayOrder, default 15s)
   useEffect(() => {
     if (!isOpen) return;
 
-    const duration = 5000; // 5 seconds
+    const durationSeconds =
+      activeBlock && activeBlock.displayOrder && activeBlock.displayOrder > 0
+        ? activeBlock.displayOrder
+        : 15;
+    const duration = durationSeconds * 1000;
     const intervalTime = 50; // update progress every 50ms
     const step = (intervalTime / duration) * 100;
 
@@ -45,7 +49,7 @@ export function WelcomeModal() {
     }, intervalTime);
 
     return () => clearInterval(interval);
-  }, [isOpen]);
+  }, [isOpen, activeBlock]);
 
   const handleClose = () => {
     setIsOpen(false);

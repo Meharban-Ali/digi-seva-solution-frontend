@@ -7,6 +7,7 @@ export interface AdminContentRequest {
   titleHi: string;
   bodyEn: string;
   bodyHi: string;
+  displayOrder?: number;
 }
 
 export interface AdminContentResponse {
@@ -19,6 +20,7 @@ export interface AdminContentResponse {
   bodyEn?: string;
   bodyHi?: string;
   status: ContentStatus;
+  displayOrder?: number;
   publishedAt?: string;
   createdAt: string;
   updatedAt: string;
