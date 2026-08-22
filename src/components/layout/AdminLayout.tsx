@@ -148,8 +148,12 @@ export function AdminLayout() {
               className="flex items-center space-x-2.5 px-3 py-1.5 rounded-lg bg-blue-50/80 hover:bg-blue-100/60 transition-colors border border-blue-200/80 text-slate-800"
               title="View & manage account profile"
             >
-              <div className="h-7 w-7 rounded-full bg-primary text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0">
-                {user?.fullName?.charAt(0) || "A"}
+              <div className="h-7 w-7 rounded-full bg-primary text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0 overflow-hidden">
+                {user?.profileImageUrl ? (
+                  <img src={user.profileImageUrl} alt={user?.fullName || "Admin Profile"} className="w-full h-full object-cover" />
+                ) : (
+                  user?.fullName?.charAt(0) || "A"
+                )}
               </div>
               <div className="hidden sm:flex flex-col text-left leading-tight">
                 <span className="font-bold text-slate-800 text-xs truncate max-w-[130px]">

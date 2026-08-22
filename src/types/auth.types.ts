@@ -2,6 +2,7 @@ export interface AdminUserDto {
   id: number;
   email: string;
   fullName: string;
+  profileImageUrl?: string;
   isFirstLogin: boolean;
   firstLogin?: boolean;
 }

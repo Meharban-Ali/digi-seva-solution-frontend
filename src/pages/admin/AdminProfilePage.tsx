@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { changePasswordSchema, ChangePasswordFormData } from "@/schemas/authSchema";
-import { changeAdminPassword } from "@/features/auth/authApi";
+import { changeAdminPassword, uploadAdminProfileAvatar, updateAdminProfile } from "@/features/auth/authApi";
 import { useAuthStore } from "@/features/auth/authStore";
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, Mail, ShieldCheck, Lock, ArrowRight, AlertCircle, KeyRound, CheckCircle2 } from "lucide-react";
+import {
+  User,
+  Mail,
+  ShieldCheck,
+  Lock,
+  ArrowRight,
+  AlertCircle,
+  KeyRound,
+  CheckCircle2,
+  Camera,
+  Upload,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import { AxiosError } from "axios";
 import { ApiResponse } from "@/types/api";
 import { toast } from "sonner";
@@ -18,8 +31,11 @@ export function AdminProfilePage() {
   const { user, updateUser } = useAuthStore();
 
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     register,
@@ -35,6 +51,58 @@ export function AdminProfilePage() {
     },
   });
 
+  const handleAvatarClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select a valid image file (JPEG, PNG, WebP).");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image file size must be less than 5 MB.");
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      const updatedUser = await uploadAdminProfileAvatar(file);
+      updateUser(updatedUser);
+      toast.success("Profile picture updated successfully!");
+    } catch (err) {
+      const msg = getDiagnosticErrorMessage(err) || "Failed to upload profile picture.";
+      toast.error(msg);
+    } finally {
+      setUploadingImage(false);
+      if (e.target) {
+        e.target.value = "";
+      }
+    }
+  };
+
+  const handleRemovePhoto = async () => {
+    if (!user?.profileImageUrl) return;
+
+    setUploadingImage(true);
+    try {
+      const updatedUser = await updateAdminProfile({ profileImageUrl: "" });
+      updateUser(updatedUser);
+      toast.success("Profile picture removed successfully!");
+    } catch (err) {
+      const msg = getDiagnosticErrorMessage(err) || "Failed to remove profile picture.";
+      toast.error(msg);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const onSubmit: SubmitHandler<ChangePasswordFormData> = async (formData) => {
     setLoading(true);
     setErrorMessage(null);
@@ -45,7 +113,6 @@ export function AdminProfilePage() {
         newPassword: formData.newPassword,
       });
 
-      // Update Zustand user state if needed
       if (user && (user.isFirstLogin || user.firstLogin)) {
         updateUser({
           ...user,
@@ -73,6 +140,15 @@ export function AdminProfilePage() {
 
   return (
     <div className="space-y-6">
+      {/* Hidden File Input for Avatar Upload */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/png, image/jpeg, image/webp"
+        className="hidden"
+      />
+
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
@@ -85,19 +161,77 @@ export function AdminProfilePage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Read-Only Profile Details */}
+        {/* Left Column: Interactive Profile & Photo Details Card */}
         <div className="lg:col-span-1 space-y-6">
           <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
             <CardHeader className="bg-slate-900 text-white p-5 pb-6">
-              <div className="flex items-center space-x-3">
-                <div className="h-12 w-12 rounded-full bg-primary text-white font-black text-lg flex items-center justify-center shadow-md">
-                  {user?.fullName?.charAt(0) || "A"}
+              <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 text-center sm:text-left">
+                {/* Interactive Avatar Container with Camera Hover Overlay */}
+                <div className="relative group shrink-0">
+                  <div className="h-20 w-20 rounded-full border-2 border-white/80 shadow-lg overflow-hidden bg-primary flex items-center justify-center relative">
+                    {user?.profileImageUrl ? (
+                      <img
+                        src={user.profileImageUrl}
+                        alt={user?.fullName || "Admin Profile"}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="font-black text-white text-2xl">
+                        {user?.fullName?.charAt(0) || "A"}
+                      </span>
+                    )}
+
+                    {/* Loading Overlay */}
+                    {uploadingImage && (
+                      <div className="absolute inset-0 bg-slate-900/70 flex items-center justify-center">
+                        <Loader2 className="w-6 h-6 text-white animate-spin" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Camera Icon Overlay Trigger */}
+                  <button
+                    type="button"
+                    onClick={handleAvatarClick}
+                    disabled={uploadingImage}
+                    aria-label="Upload profile picture"
+                    title="Upload profile picture"
+                    className="absolute bottom-0 right-0 p-1.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-md border-2 border-slate-900 transition-transform group-hover:scale-110 focus:outline-none"
+                  >
+                    <Camera className="w-3.5 h-3.5" />
+                  </button>
                 </div>
-                <div>
-                  <CardTitle className="text-base font-bold text-white leading-snug">
+
+                <div className="min-w-0">
+                  <CardTitle className="text-base font-bold text-white leading-snug truncate">
                     {user?.fullName || "Partner Admin"}
                   </CardTitle>
                   <p className="text-xs text-slate-400 font-mono truncate">{user?.email}</p>
+                  
+                  {/* Photo Actions */}
+                  <div className="mt-2.5 flex items-center justify-center sm:justify-start gap-2">
+                    <button
+                      type="button"
+                      onClick={handleAvatarClick}
+                      disabled={uploadingImage}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-300 hover:text-white transition-colors"
+                    >
+                      <Upload className="w-3 h-3" />
+                      <span>{user?.profileImageUrl ? "Change Photo" : "Upload Photo"}</span>
+                    </button>
+
+                    {user?.profileImageUrl && (
+                      <button
+                        type="button"
+                        onClick={handleRemovePhoto}
+                        disabled={uploadingImage}
+                        className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-400 hover:text-rose-300 transition-colors ml-2"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                        <span>Remove</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </CardHeader>

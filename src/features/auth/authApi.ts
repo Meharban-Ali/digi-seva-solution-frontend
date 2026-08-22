@@ -31,6 +31,7 @@ export async function verifyAdminOtp(data: VerifyOtpRequest): Promise<JwtAuthRes
     id: Number(rawUser?.id || 0),
     email: String(rawUser?.email || ""),
     fullName: String(rawUser?.fullName || ""),
+    profileImageUrl: rawUser?.profileImageUrl ? String(rawUser.profileImageUrl) : undefined,
     isFirstLogin: isFirstLoginVal,
     firstLogin: isFirstLoginVal,
   };
@@ -52,4 +53,26 @@ export async function verifyAdminOtp(data: VerifyOtpRequest): Promise<JwtAuthRes
 export async function changeAdminPassword(data: ChangePasswordRequest): Promise<string> {
   const response = await apiClient.post<ApiResponse<string>>("/api/admin/auth/change-password", data);
   return response.data.message;
+}
+
+export async function uploadAdminProfileAvatar(file: File): Promise<AdminUserDto> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await apiClient.post<ApiResponse<AdminUserDto>>(
+    "/api/admin/auth/profile/avatar",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return response.data.data;
+}
+
+export async function updateAdminProfile(data: { fullName?: string; profileImageUrl?: string }): Promise<AdminUserDto> {
+  const response = await apiClient.put<ApiResponse<AdminUserDto>>("/api/admin/auth/profile", data);
+  return response.data.data;
 }
