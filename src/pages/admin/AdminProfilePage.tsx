@@ -196,7 +196,7 @@ export function AdminProfilePage() {
                     disabled={uploadingImage}
                     aria-label="Upload profile picture"
                     title="Upload profile picture"
-                    className="absolute bottom-0 right-0 p-1.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-md border-2 border-slate-900 transition-transform group-hover:scale-110 focus:outline-none"
+                    className="absolute bottom-0 right-0 p-1.5 rounded-full bg-accent hover:bg-accent-dark text-white shadow-md border-2 border-slate-900 transition-transform group-hover:scale-110 focus:outline-none"
                   >
                     <Camera className="w-3.5 h-3.5" />
                   </button>
@@ -214,7 +214,7 @@ export function AdminProfilePage() {
                       type="button"
                       onClick={handleAvatarClick}
                       disabled={uploadingImage}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-300 hover:text-white transition-colors"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-orange-300 hover:text-white transition-colors"
                     >
                       <Upload className="w-3 h-3" />
                       <span>{user?.profileImageUrl ? "Change Photo" : "Upload Photo"}</span>

@@ -58,7 +58,7 @@ export function AdminLayout() {
 
       {/* Sidebar Navigation Panel (Regal Midnight Navy) */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-slate-950 text-slate-300 flex flex-col justify-between border-r border-slate-800/80 transition-transform duration-200 ease-in-out ${
+        className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#0B2046] text-slate-200 flex flex-col justify-between border-r border-blue-900/60 transition-transform duration-200 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
@@ -69,7 +69,7 @@ export function AdminLayout() {
               <LogoIcon className="h-7 w-7 shrink-0" />
               <div className="flex flex-col">
                 <span className="text-white font-extrabold text-base leading-none">Partner Portal</span>
-                <span className="text-[11px] text-slate-400 font-medium">Digi Seva Solution</span>
+                <span className="text-[11px] text-slate-300 font-medium">Digi Seva Solution</span>
               </div>
             </div>
             <button
@@ -93,8 +93,8 @@ export function AdminLayout() {
                   className={({ isActive }) =>
                     `flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? "bg-primary text-white font-bold shadow-xs"
-                        : "text-slate-400 hover:bg-slate-900 hover:text-white"
+                        ? "bg-accent text-white font-bold shadow-xs"
+                        : "text-slate-300 hover:bg-white/10 hover:text-white"
                     }`
                   }
                 >
@@ -145,7 +145,7 @@ export function AdminLayout() {
             {/* Header Admin Profile Link */}
             <Link
               to="/admin/profile"
-              className="flex items-center space-x-2.5 px-3 py-1.5 rounded-lg bg-blue-50/80 hover:bg-blue-100/60 transition-colors border border-blue-200/80 text-slate-800"
+              className="flex items-center space-x-2.5 px-3 py-1.5 rounded-lg bg-orange-50/80 hover:bg-orange-100/60 transition-colors border border-orange-200/80 text-slate-800"
               title="View & manage account profile"
             >
               <div className="h-7 w-7 rounded-full bg-primary text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0 overflow-hidden">

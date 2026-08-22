@@ -25,7 +25,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
       className="h-full"
     >
-      <Card className="h-full flex flex-col justify-between hover:shadow-xl transition-all duration-300 border-slate-200/90 bg-white group overflow-hidden hover:border-primary/40">
+      <Card className="h-full flex flex-col justify-between hover:shadow-xl transition-all duration-300 border-slate-200/90 bg-white group overflow-hidden hover:border-orange-300">
         {/* Service Image Banner / Header */}
         <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden border-b border-slate-100 flex items-center justify-center">
           {hasValidImage ? (
@@ -38,8 +38,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
               onError={() => setImgError(true)}
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex flex-col items-center justify-center gap-1.5 p-4 text-center">
-              <FileText className="h-8 w-8 text-primary-light" />
+            <div className="w-full h-full bg-gradient-to-br from-slate-900 via-[#0B2046] to-slate-900 flex flex-col items-center justify-center gap-1.5 p-4 text-center">
+              <FileText className="h-8 w-8 text-orange-400" />
               <span className="text-[11px] font-bold text-slate-300 tracking-wide uppercase">Jan Seva Kendra</span>
             </div>
           )}
@@ -60,7 +60,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 </>
               ) : (
                 <>
-                  <Globe className="h-3 w-3 text-blue-400" />
+                  <Globe className="h-3 w-3 text-orange-400" />
                   {t("categories.online")}
                 </>
               )}
@@ -78,7 +78,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
         </div>
 
         <CardHeader className="p-5 pb-3 space-y-2">
-          <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-primary transition-colors line-clamp-1">
+          <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-accent-dark transition-colors line-clamp-1">
             {service.name}
           </CardTitle>
 
@@ -102,7 +102,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
               asChild
               variant="outline"
               size="sm"
-              className="text-xs font-bold border-slate-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white transition-all"
+              className="text-xs font-bold border-slate-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white transition-all"
             >
               <Link
                 to={`/services/${service.id}`}

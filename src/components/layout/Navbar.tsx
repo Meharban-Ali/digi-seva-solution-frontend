@@ -22,7 +22,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200/90 shadow-md shadow-slate-900/5 transition-all">
       {/* 1. Main Navigation Bar */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand Logo & Name */}
+        {/* Brand Logo */}
         <Link to="/" className="hover:opacity-95 transition-opacity flex items-center">
           <Logo size="md" />
         </Link>
@@ -35,7 +35,7 @@ export function Navbar() {
               to={item.path}
               className={({ isActive }) =>
                 `transition-colors duration-200 py-1 relative ${
-                  isActive ? "text-blue-700 font-bold" : "text-slate-600 hover:text-blue-700"
+                  isActive ? "text-accent-dark font-bold" : "text-slate-700 hover:text-accent-dark"
                 }`
               }
             >
@@ -45,7 +45,7 @@ export function Navbar() {
                   {isActive && (
                     <motion.div
                       layoutId="navbar-active-indicator"
-                      className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-blue-700 rounded-full shadow-2xs"
+                      className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-accent rounded-full shadow-2xs"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -100,7 +100,7 @@ export function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) =>
                   `block px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive ? "bg-blue-50 text-blue-700 font-bold" : "text-slate-700 hover:bg-slate-100"
+                    isActive ? "bg-orange-50 text-accent-dark font-bold" : "text-slate-700 hover:bg-slate-100"
                   }`
                 }
               >
@@ -111,37 +111,37 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* 2. Official Government CSC Center Info Strip (Positioned Directly Under Navbar in Primary Button Blue) */}
-      <div className="bg-blue-700 text-white border-t border-blue-600/80 text-[11px] py-2 px-4 sm:px-6 relative overflow-hidden shadow-xs">
+      {/* 2. Official Government CSC Center Info Strip (Brand Navy Background) */}
+      <div className="bg-[#0B2046] text-white border-t border-blue-900/60 text-[11px] py-2 px-4 sm:px-6 relative overflow-hidden shadow-xs">
         {/* Subtle Ambient Glow */}
-        <div className="absolute top-0 right-12 w-40 h-full bg-white/10 rounded-full blur-xl pointer-events-none motion-reduce:hidden" />
+        <div className="absolute top-0 right-12 w-40 h-full bg-orange-500/10 rounded-full blur-xl pointer-events-none motion-reduce:hidden" />
 
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 font-medium relative z-10">
           <div className="flex items-center gap-2.5">
-            <span className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-xs border border-amber-300/60 hover:scale-[1.03] transition-transform duration-200">
-              <ShieldCheck className="h-3 w-3 text-slate-950 shrink-0" />
+            <span className="bg-accent text-white font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-xs border border-orange-400/40 hover:scale-[1.03] transition-transform duration-200">
+              <ShieldCheck className="h-3 w-3 text-white shrink-0" />
               <span>Govt. CSC Center</span>
             </span>
-            <span className="text-blue-50 hidden sm:inline font-medium tracking-tight">
+            <span className="text-slate-200 hidden sm:inline font-medium tracking-tight">
               VLE Center • District East Delhi • New Ashok Nagar 110096
             </span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px]">
-            <span className="flex items-center gap-1.5 text-blue-50 font-medium">
+            <span className="flex items-center gap-1.5 text-slate-200 font-medium">
               <motion.span
                 animate={{ rotate: [0, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
                 className="inline-block motion-reduce:animate-none"
               >
-                <Clock className="h-3.5 w-3.5 text-amber-300 shrink-0" />
+                <Clock className="h-3.5 w-3.5 text-orange-400 shrink-0" />
               </motion.span>
               <span>Open Daily: 7:00 AM – 12:00 AM</span>
             </span>
 
             <a
               href="tel:7900867261"
-              className="flex items-center gap-1.5 text-amber-300 hover:text-white font-bold transition-colors group"
+              className="flex items-center gap-1.5 text-orange-400 hover:text-white font-bold transition-colors group"
             >
               <motion.span
                 animate={{ scale: [1, 1.15, 1] }}

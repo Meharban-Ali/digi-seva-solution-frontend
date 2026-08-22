@@ -122,8 +122,8 @@ export function AdminEnquiriesPage() {
             }}
             className={`text-xs font-semibold py-1 px-3 h-8 ${
               selectedStatus === "CONTACTED"
-                ? "bg-blue-600 text-white font-extrabold"
-                : "text-blue-800 border-blue-300 bg-blue-50/60"
+                ? "bg-accent text-white font-extrabold"
+                : "text-accent-dark border-orange-300 bg-orange-50"
             }`}
           >
             {t("adminEnquiries.filterPendingContacted")}
@@ -222,7 +222,7 @@ export function AdminEnquiriesPage() {
                                 enquiry.status === "NEW"
                                   ? "bg-amber-100 text-amber-900 border-amber-300"
                                   : enquiry.status === "CONTACTED"
-                                  ? "bg-blue-100 text-blue-900 border-blue-300"
+                                  ? "bg-orange-100 text-accent-dark border-orange-300"
                                   : "bg-emerald-100 text-emerald-900 border-emerald-300"
                               }`}
                             >
@@ -274,7 +274,7 @@ export function AdminEnquiriesPage() {
                             <Sparkles className="h-3 w-3" /> {t("adminEnquiries.statusPendingNew")}
                           </span>
                         ) : enquiry.status === "CONTACTED" ? (
-                          <span className="bg-blue-100 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded">
+                          <span className="bg-orange-100 text-accent-dark text-[10px] font-bold px-2 py-0.5 rounded">
                             {t("adminEnquiries.statusPendingContacted")}
                           </span>
                         ) : (

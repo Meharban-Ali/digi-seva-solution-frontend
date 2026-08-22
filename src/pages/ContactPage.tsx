@@ -91,8 +91,8 @@ export function ContactPage() {
       />
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 bg-accent-gold/15 text-accent-gold-dark border border-amber-300/40 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">
-          <ShieldCheck className="h-4 w-4 text-accent-gold-dark" /> Jan Seva Kendra Helpdesk
+        <div className="inline-flex items-center gap-2 bg-orange-50 text-accent-dark border border-orange-200 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">
+          <ShieldCheck className="h-4 w-4 text-accent" /> Jan Seva Kendra Helpdesk
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
           {t("contact.title")}
@@ -106,9 +106,9 @@ export function ContactPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Enquiry Form (7 Columns on large screen) */}
         <Card className="lg:col-span-7 shadow-md border-slate-200 overflow-hidden">
-          <CardHeader className="border-b bg-slate-950 text-white p-6">
+          <CardHeader className="border-b bg-[#0B2046] text-white p-6">
             <CardTitle className="text-xl font-bold flex items-center gap-2">
-              <Send className="h-5 w-5 text-accent-gold" />
+              <Send className="h-5 w-5 text-accent" />
               {t("contact.formTitle")}
             </CardTitle>
             <CardDescription className="text-slate-300 text-xs">
@@ -288,7 +288,7 @@ export function ContactPage() {
           {/* Operational Info Card */}
           <Card className="border-slate-200 bg-white shadow-sm space-y-4 p-6">
             <div className="flex items-start space-x-3">
-              <div className="bg-amber-50 text-accent-gold-dark border border-amber-200 p-2.5 rounded-lg shrink-0">
+              <div className="bg-orange-50 text-accent-dark border border-orange-200 p-2.5 rounded-lg shrink-0">
                 <MapPin className="h-5 w-5" />
               </div>
               <div>
@@ -298,7 +298,7 @@ export function ContactPage() {
             </div>
 
             <div className="border-t border-slate-100 pt-4 flex items-start space-x-3">
-              <div className="bg-blue-50 text-primary border border-blue-200 p-2.5 rounded-lg shrink-0">
+              <div className="bg-orange-50 text-accent-dark border border-orange-200 p-2.5 rounded-lg shrink-0">
                 <Clock className="h-5 w-5" />
               </div>
               <div>
@@ -321,12 +321,12 @@ export function ContactPage() {
             </div>
 
             <div className="border-t border-slate-100 pt-4 flex items-start space-x-3">
-              <div className="bg-blue-50 text-blue-700 border border-blue-200 p-2.5 rounded-lg shrink-0">
+              <div className="bg-orange-50 text-accent-dark border border-orange-200 p-2.5 rounded-lg shrink-0">
                 <Mail className="h-5 w-5" />
               </div>
               <div>
                 <h4 className="font-bold text-slate-900 text-sm">Official Email</h4>
-                <a href="mailto:digisevasolution01@gmail.com" className="text-xs text-blue-700 hover:underline font-bold mt-1 inline-block">
+                <a href="mailto:digisevasolution01@gmail.com" className="text-xs text-accent-dark hover:underline font-bold mt-1 inline-block">
                   digisevasolution01@gmail.com
                 </a>
               </div>

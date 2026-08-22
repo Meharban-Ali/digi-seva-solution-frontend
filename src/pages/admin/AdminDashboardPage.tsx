@@ -10,7 +10,7 @@ export function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <Card className="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white shadow-md border-slate-800 overflow-hidden">
+      <Card className="bg-gradient-to-r from-slate-950 via-[#0B2046] to-slate-900 text-white shadow-md border-slate-800 overflow-hidden">
         <CardContent className="p-6 sm:p-8 space-y-2">
           <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-semibold">
             <ShieldCheck className="h-4 w-4" /> Partner Control Panel • Active JWT Session
@@ -39,16 +39,16 @@ export function AdminDashboardPage() {
 
       {/* Module Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <Card className="border-slate-200 shadow-xs bg-white hover:border-primary/40 transition-colors">
+        <Card className="border-slate-200 shadow-xs bg-white hover:border-orange-300 transition-colors">
           <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-bold text-slate-900">Services</CardTitle>
-            <div className="bg-blue-50 text-primary border border-blue-200/60 p-2 rounded-lg">
+            <div className="bg-orange-50 text-accent-dark border border-orange-200 p-2 rounded-lg">
               <Layers className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent className="p-5 pt-0 space-y-1">
             <p className="text-xs text-slate-500 font-medium">Bilingual Catalog CRUD</p>
-            <span className="inline-block text-[10px] font-bold text-primary bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">
+            <span className="inline-block text-[10px] font-bold text-accent-dark bg-orange-50 border border-orange-200 px-2 py-0.5 rounded">
               Active Management
             </span>
           </CardContent>

@@ -144,7 +144,7 @@ export function AdminLoginPage() {
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-2xl border-slate-800 bg-slate-900 text-slate-100">
         <CardHeader className="space-y-2 text-center pb-6 border-b border-slate-800">
-          <div className="mx-auto bg-primary text-white p-3 rounded-xl w-fit shadow-md mb-1">
+          <div className="mx-auto bg-accent text-white p-3 rounded-xl w-fit shadow-md mb-1">
             <ShieldCheck className="h-7 w-7" />
           </div>
           <CardTitle className="text-2xl font-black text-white tracking-tight">
@@ -182,7 +182,7 @@ export function AdminLoginPage() {
                     type="email"
                     {...step1Form.register("email")}
                     placeholder={t("adminAuth.emailPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-accent ${
                       step1Form.formState.errors.email ? "border-rose-500" : "border-slate-800"
                     }`}
                   />
@@ -205,7 +205,7 @@ export function AdminLoginPage() {
                     type="password"
                     {...step1Form.register("password")}
                     placeholder={t("adminAuth.passwordPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-accent ${
                       step1Form.formState.errors.password ? "border-rose-500" : "border-slate-800"
                     }`}
                   />
@@ -220,7 +220,7 @@ export function AdminLoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full font-bold bg-primary hover:bg-primary-light text-white mt-2 shadow-md"
+                className="w-full font-bold bg-accent hover:bg-accent-dark text-white mt-2 shadow-md"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">

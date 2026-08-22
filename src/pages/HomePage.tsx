@@ -74,8 +74,8 @@ export function HomePage() {
         <div className="bg-white rounded-2xl border border-slate-200/90 shadow-md overflow-hidden grid grid-cols-1 lg:grid-cols-12">
           {/* Left Column: Official Heading & Details */}
           <div className="lg:col-span-7 p-6 sm:p-10 space-y-6 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200 bg-white">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-900 border border-blue-200 px-3.5 py-1.5 rounded-full text-xs font-extrabold w-fit">
-              <ShieldCheck className="h-4 w-4 text-blue-700 shrink-0" />
+            <div className="inline-flex items-center gap-2 bg-orange-50 text-accent-dark border border-orange-200 px-3.5 py-1.5 rounded-full text-xs font-extrabold w-fit">
+              <ShieldCheck className="h-4 w-4 text-accent shrink-0" />
               <span>Authorized Jan Seva Kendra • CSC Portal</span>
             </div>
 
@@ -88,7 +88,7 @@ export function HomePage() {
             </p>
 
             <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
-              <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-blue-700 hover:bg-blue-800 text-white shadow-xs">
+              <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-accent hover:bg-accent-dark text-white shadow-md">
                 <Link to="/services">
                   <span>{t("common.viewAllServices")}</span>
                   <ArrowRight className="h-4 w-4 ml-2 text-white" />
@@ -102,7 +102,7 @@ export function HomePage() {
                 className="w-full sm:w-auto border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-900 font-bold transition-colors"
               >
                 <Link to="/contact">
-                  <MapPin className="h-4 w-4 mr-2 text-blue-700" />
+                  <MapPin className="h-4 w-4 mr-2 text-accent" />
                   <span>Visit Center in Delhi</span>
                 </Link>
               </Button>
@@ -128,7 +128,7 @@ export function HomePage() {
           <div className="lg:col-span-5 bg-slate-50/80 p-6 space-y-4 flex flex-col justify-between">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="h-4 w-4 text-blue-700" />
+                <FileText className="h-4 w-4 text-accent" />
                 Quick Services Access
               </span>
               <span className="text-[10px] bg-emerald-100 text-emerald-900 border border-emerald-300 px-2 py-0.5 rounded font-mono font-bold">
@@ -137,42 +137,42 @@ export function HomePage() {
             </div>
 
             <div className="space-y-2.5">
-              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">Aadhaar Card Update & Correction</h4>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">Aadhaar Card Update & Correction</h4>
                   <p className="text-[11px] text-slate-500">Address, Mobile No., Biometric Update</p>
                 </div>
-                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
                   {getServicePriceLabel("aadhaar")}
                 </span>
               </Link>
 
-              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">PAN Card Application & Correction</h4>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">PAN Card Application & Correction</h4>
                   <p className="text-[11px] text-slate-500">New NSDL/UTI PAN Card Request</p>
                 </div>
-                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
                   {getServicePriceLabel("pan")}
                 </span>
               </Link>
 
-              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">RTO Driving License Services</h4>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">RTO Driving License Services</h4>
                   <p className="text-[11px] text-slate-500">Learner License & Slot Booking</p>
                 </div>
-                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
                   {getServicePriceLabel("driving")}
                 </span>
               </Link>
 
-              <Link to="/services" className="p-3 bg-white hover:bg-blue-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">Income, Caste & Residence Cert.</h4>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">Income, Caste & Residence Cert.</h4>
                   <p className="text-[11px] text-slate-500">e-District Delhi Portal Online Submission</p>
                 </div>
-                <span className="text-xs font-extrabold text-blue-900 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 shrink-0">
+                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
                   {getServicePriceLabel("income")}
                 </span>
               </Link>
@@ -180,7 +180,7 @@ export function HomePage() {
 
             <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500 font-medium">
               <span>Biometric Machine Verified</span>
-              <Link to="/services" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+              <Link to="/services" className="text-accent-dark hover:underline font-bold flex items-center gap-1">
                 View All {totalServicesCount} Services <ChevronRight className="h-3 w-3" />
               </Link>
             </div>
@@ -208,7 +208,7 @@ export function HomePage() {
           </div>
 
           <div className="flex items-start gap-3 p-2 border-t lg:border-t-0 lg:border-l border-slate-100">
-            <Globe className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+            <Globe className="h-5 w-5 text-accent shrink-0 mt-0.5" />
             <div>
               <h4 className="text-xs font-bold text-slate-900">Bilingual Assistance</h4>
               <p className="text-[11px] text-slate-600">Hindi & English support</p>
@@ -234,8 +234,8 @@ export function HomePage() {
           transition={{ duration: 0.4 }}
           className="text-center space-y-2 max-w-2xl mx-auto"
         >
-          <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-900 border border-blue-200 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
-            <Sparkles className="h-3.5 w-3.5 text-blue-700" />
+          <div className="inline-flex items-center gap-1.5 bg-orange-50 text-accent-dark border border-orange-200 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider">
+            <Sparkles className="h-3.5 w-3.5 text-accent" />
             <span>{t("howItWorks.badge")}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -263,10 +263,10 @@ export function HomePage() {
               <Card className="h-full border-slate-200 shadow-2xs hover:shadow-md transition-all bg-white relative overflow-hidden group flex flex-col justify-between">
                 <div className="p-5 space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <div className="h-10 w-10 rounded-xl bg-orange-50 text-accent-dark border border-orange-200 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                       <Globe className="h-5 w-5" />
                     </div>
-                    <span className="text-xs font-black text-blue-900 bg-blue-100/80 px-2.5 py-0.5 rounded-full font-mono">01</span>
+                    <span className="text-xs font-black text-accent-dark bg-orange-100/80 px-2.5 py-0.5 rounded-full font-mono">01</span>
                   </div>
                   <h3 className="text-sm font-bold text-slate-900 leading-snug">
                     {t("howItWorks.step1Title")}
@@ -424,8 +424,8 @@ export function HomePage() {
         <div className="bg-white text-slate-900 border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-md">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
             <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 bg-slate-100 text-slate-900 border border-slate-300 px-3 py-1 rounded-full text-xs font-bold">
-                <Code className="h-3.5 w-3.5 text-blue-700" />
+              <div className="inline-flex items-center gap-2 bg-orange-50 text-accent-dark border border-orange-200 px-3 py-1 rounded-full text-xs font-bold">
+                <Code className="h-3.5 w-3.5 text-accent" />
                 <span>BUSINESS IT & SOFTWARE SOLUTIONS</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
@@ -436,7 +436,7 @@ export function HomePage() {
               </p>
             </div>
 
-            <Button asChild size="sm" className="bg-slate-900 hover:bg-slate-800 text-white font-bold shrink-0">
+            <Button asChild size="sm" className="bg-accent hover:bg-accent-dark text-white font-bold shrink-0">
               <Link to="/contact">
                 <span>Request IT Consultation</span>
                 <ArrowRight className="h-4 w-4 ml-1.5 text-white" />
@@ -449,7 +449,7 @@ export function HomePage() {
               itServices.map((service) => (
                 <div key={service.id} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
                   <div className="space-y-2">
-                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-lg bg-orange-50 text-accent-dark border border-orange-200 flex items-center justify-center">
                       {service.name.toLowerCase().includes("web") ? (
                         <Globe className="h-5 w-5" />
                       ) : service.name.toLowerCase().includes("app") ? (
@@ -465,7 +465,7 @@ export function HomePage() {
                   </div>
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
                     <span className="text-slate-700 font-bold">{service.price && Number(service.price) > 0 ? `₹${service.price}` : "Contact for Pricing"}</span>
-                    <Link to={`/services/${service.id}`} className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                    <Link to={`/services/${service.id}`} className="text-accent-dark hover:underline font-bold flex items-center gap-1">
                       Details <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
@@ -476,7 +476,7 @@ export function HomePage() {
                 {/* Fallback IT Service Card 1: Web Development */}
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
                   <div className="space-y-2">
-                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-lg bg-orange-50 text-accent-dark border border-orange-200 flex items-center justify-center">
                       <Globe className="h-5 w-5" />
                     </div>
                     <h4 className="font-bold text-slate-900 text-base">Web Development</h4>
@@ -486,7 +486,7 @@ export function HomePage() {
                   </div>
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
                     <span className="text-slate-700 font-bold">Contact for Pricing</span>
-                    <Link to="/contact" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                    <Link to="/contact" className="text-accent-dark hover:underline font-bold flex items-center gap-1">
                       Enquire <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
@@ -495,7 +495,7 @@ export function HomePage() {
                 {/* Fallback IT Service Card 2: App Development */}
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
                   <div className="space-y-2">
-                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-lg bg-orange-50 text-accent-dark border border-orange-200 flex items-center justify-center">
                       <Laptop className="h-5 w-5" />
                     </div>
                     <h4 className="font-bold text-slate-900 text-base">App Development</h4>
@@ -505,7 +505,7 @@ export function HomePage() {
                   </div>
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
                     <span className="text-slate-700 font-bold">Contact for Pricing</span>
-                    <Link to="/contact" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                    <Link to="/contact" className="text-accent-dark hover:underline font-bold flex items-center gap-1">
                       Enquire <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>
@@ -514,7 +514,7 @@ export function HomePage() {
                 {/* Fallback IT Service Card 3: Custom Software Solutions */}
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 hover:border-slate-300 transition-all flex flex-col justify-between shadow-2xs">
                   <div className="space-y-2">
-                    <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-lg bg-orange-50 text-accent-dark border border-orange-200 flex items-center justify-center">
                       <Cpu className="h-5 w-5" />
                     </div>
                     <h4 className="font-bold text-slate-900 text-base">Custom Software Solutions</h4>
@@ -524,7 +524,7 @@ export function HomePage() {
                   </div>
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
                     <span className="text-slate-700 font-bold">Contact for Pricing</span>
-                    <Link to="/contact" className="text-blue-700 hover:underline font-bold flex items-center gap-1">
+                    <Link to="/contact" className="text-accent-dark hover:underline font-bold flex items-center gap-1">
                       Enquire <ChevronRight className="h-3 w-3" />
                     </Link>
                   </div>

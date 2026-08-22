@@ -18,6 +18,7 @@ export default {
           foreground: "hsl(var(--primary-foreground))",
           dark: "hsl(var(--primary-dark))",
           light: "hsl(var(--primary-light))",
+          navy: "#0E3676",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -26,9 +27,12 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
-          gold: "hsl(var(--accent-gold))",
-          "gold-dark": "hsl(var(--accent-gold-dark))",
-          "gold-subtle": "hsl(var(--accent-gold-subtle))",
+          dark: "hsl(var(--accent-dark))",
+          light: "hsl(var(--accent-light))",
+          subtle: "hsl(var(--accent-subtle))",
+          orange: "#F95700",
+          "orange-dark": "#EA580C",
+          "orange-subtle": "#FFF4ED",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

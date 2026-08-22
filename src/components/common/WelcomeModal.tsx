@@ -77,15 +77,15 @@ export function WelcomeModal() {
           {/* Top Animated Auto-Dismiss Progress Bar */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 overflow-hidden">
             <div
-              className="h-full bg-blue-600 transition-all ease-linear"
+              className="h-full bg-accent transition-all ease-linear"
               style={{ width: `${progress}%` }}
             />
           </div>
 
           {/* Modal Header */}
           <div className="flex items-start justify-between gap-3 pt-1">
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full text-xs font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <div className="inline-flex items-center gap-1.5 bg-orange-50 text-accent-dark border border-orange-200 px-3 py-1 rounded-full text-xs font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-accent" />
               <span>Jan Seva Kendra • Notice</span>
             </div>
             <button
@@ -111,7 +111,7 @@ export function WelcomeModal() {
           <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
             <Button
               onClick={handleClose}
-              className="bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs py-2 px-5 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
+              className="bg-accent hover:bg-accent-dark text-white font-bold text-xs py-2 px-5 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>Got It / Continue</span>

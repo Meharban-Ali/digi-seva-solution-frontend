@@ -13,18 +13,18 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Brand Primary: Deep Rich Royal Indigo-Blue (#1e3a8a / #1d4ed8) */
-    --primary-dark: 224 71% 16%;
-    --primary: 224 76% 40%;
+    /* Brand Primary: Sampled Logo Deep Navy Blue (#0E3676 / #0B2046) */
+    --primary-dark: 218 73% 16%;
+    --primary: 217 79% 26%;
     --primary-light: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
-    /* Brand Accent: Warm Trust Gold (#f59e0b / #d97706) */
-    --accent: 38 92% 50%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --accent-gold: 38 92% 50%;
-    --accent-gold-dark: 36 100% 39%;
-    --accent-gold-subtle: 45 100% 96%;
+    /* Brand Accent: Sampled Logo Vibrant Orange (#F95700 / #EA580C) */
+    --accent: 21 100% 49%;
+    --accent-dark: 21 90% 42%;
+    --accent-light: 21 100% 60%;
+    --accent-subtle: 21 100% 96%;
+    --accent-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -37,7 +37,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 224 76% 40%;
+    --ring: 21 100% 49%;
 
     --radius: 0.5rem;
   }
@@ -52,7 +52,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary-dark: 224 71% 12%;
+    --primary-dark: 218 73% 12%;
     --primary: 217 91% 60%;
     --primary-light: 217 91% 70%;
     --primary-foreground: 222.2 47.4% 11.2%;
@@ -63,15 +63,18 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 38 92% 50%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 21 100% 49%;
+    --accent-dark: 21 90% 42%;
+    --accent-light: 21 100% 60%;
+    --accent-subtle: 21 100% 96%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 346 84% 61%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 60%;
+    --ring: 21 100% 49%;
   }
 }
 
