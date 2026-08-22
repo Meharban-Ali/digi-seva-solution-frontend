@@ -8,6 +8,8 @@ import { ArrowRight, Globe, MapPin, CheckCircle2, FileText } from "lucide-react"
 import { motion } from "framer-motion";
 import { getOptimizedImageUrl } from "@/lib/imageUtils";
 
+import { TitleHighlight } from "@/components/common/TitleHighlight";
+
 interface ServiceCardProps {
   service: ServiceResponse;
 }
@@ -78,8 +80,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
         </div>
 
         <CardHeader className="p-5 pb-3 space-y-2">
-          <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-accent-dark transition-colors line-clamp-1">
-            {service.name}
+          <CardTitle className="text-base sm:text-lg font-bold text-slate-900 line-clamp-1 py-0.5">
+            <TitleHighlight>{service.name}</TitleHighlight>
           </CardTitle>
 
           <CardDescription className="text-xs text-slate-600 line-clamp-2 leading-relaxed min-h-[2.25rem]">

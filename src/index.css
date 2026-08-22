@@ -87,3 +87,10 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+@layer components {
+  /* Reusable Highlighter Title Badge for Service Cards & Project Cards */
+  .card-title-highlight {
+    @apply inline-block max-w-full bg-orange-100/75 text-slate-900 border border-orange-200/70 rounded-md px-2 py-0.5 box-decoration-clone transition-all duration-200;
+  }
+}

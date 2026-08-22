@@ -4,6 +4,7 @@ import { useProjects } from "@/hooks/useProjects";
 import { ExternalLink, Tag, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getOptimizedImageUrl } from "@/lib/imageUtils";
+import { TitleHighlight } from "@/components/common/TitleHighlight";
 
 export function ProjectsShowcase() {
   const { t, i18n } = useTranslation();
@@ -83,8 +84,8 @@ export function ProjectsShowcase() {
                 {/* Content */}
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-1.5">
-                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-accent-dark transition-colors line-clamp-1">
-                      {title}
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-1 py-0.5">
+                      <TitleHighlight>{title}</TitleHighlight>
                     </h3>
                     {description && (
                       <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
