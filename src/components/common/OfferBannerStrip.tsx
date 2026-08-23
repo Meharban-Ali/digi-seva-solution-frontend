@@ -53,10 +53,10 @@ export function OfferBannerStrip() {
         {/* Subtle Ambient Radial Lighting Glows */}
         <div className="absolute top-1/2 left-8 -translate-y-1/2 w-48 h-20 bg-orange-500/10 rounded-full blur-2xl pointer-events-none motion-reduce:hidden" />
 
-        <div className="max-w-6xl mx-auto px-4 py-2 sm:px-6 flex items-center justify-between gap-3 relative z-10">
-          {/* Announcement / Offer Tag & Clean Plain Text Copy */}
-          <div className="flex items-center space-x-3 min-w-0 flex-1">
-            <span className="inline-flex items-center gap-1.5 bg-accent text-white font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider shrink-0 shadow-sm border border-orange-400/40 hover:scale-[1.03] transition-transform duration-200">
+        <div className="max-w-6xl mx-auto px-4 py-2 sm:px-6 flex items-center justify-between gap-2.5 sm:gap-3 relative z-10">
+          {/* Static Left Group: Badge & Heading Title */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 border-r border-blue-800/80 pr-2.5 sm:pr-3">
+            <span className="inline-flex items-center gap-1.5 bg-accent text-white font-black px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider shrink-0 shadow-sm border border-orange-400/40 hover:scale-[1.03] transition-transform duration-200">
               <motion.span
                 animate={{ scale: [1, 1.15, 1], rotate: [0, -5, 5, 0] }}
                 transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
@@ -67,25 +67,36 @@ export function OfferBannerStrip() {
               <span>{isOffer ? "Special Offer" : "Announcement"}</span>
             </span>
 
-            <motion.div
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-              className="truncate text-xs sm:text-sm font-semibold text-slate-100 leading-tight"
-            >
-              <span className="font-extrabold text-white tracking-tight">{activeBlock.title}</span>
-              {cleanBodyText && (
-                <span className="hidden sm:inline font-normal text-slate-300 ml-2.5 border-l border-blue-800/80 pl-2.5">
-                  {cleanBodyText}
-                </span>
-              )}
-            </motion.div>
+            <span className="font-extrabold text-white text-xs sm:text-sm tracking-tight whitespace-nowrap">
+              {activeBlock.title}
+            </span>
           </div>
+
+          {/* Horizontally Scrolling Marquee/Ticker Area for Body Text */}
+          {cleanBodyText ? (
+            <div className="overflow-hidden flex-1 min-w-0 relative flex items-center h-5 select-none">
+              <motion.div
+                key={`${activeBlock.id}-${cleanBodyText}`}
+                className="whitespace-nowrap inline-block text-xs sm:text-sm font-normal text-slate-200"
+                initial={{ x: "100%" }}
+                animate={{ x: "-100%" }}
+                transition={{
+                  repeat: Infinity,
+                  ease: "linear",
+                  duration: Math.max(16, cleanBodyText.length * 0.22),
+                }}
+              >
+                {cleanBodyText}
+              </motion.div>
+            </div>
+          ) : (
+            <div className="flex-1" />
+          )}
 
           {/* Dismiss Button */}
           <button
             onClick={handleDismiss}
-            className="p-1 rounded-md text-slate-300 hover:text-white hover:bg-white/10 transition-colors shrink-0 focus:outline-none"
+            className="p-1 rounded-md text-slate-300 hover:text-white hover:bg-white/10 transition-colors shrink-0 focus:outline-none z-20"
             aria-label="Dismiss offer banner"
             title="Dismiss notification strip"
           >
