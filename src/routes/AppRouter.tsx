@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { HomePage } from "@/pages/HomePage";
 import { ServicesPage } from "@/pages/ServicesPage";
@@ -10,6 +10,7 @@ import { FaqPage } from "@/pages/FaqPage";
 
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { ScrollToTop } from "@/components/common/ScrollToTop";
 
 // Lazy-load admin components to split code and minimize public bundle size
 const AdminLayout = lazy(() => import("@/components/layout/AdminLayout").then((m) => ({ default: m.AdminLayout })));
@@ -24,123 +25,142 @@ const AdminMediaPage = lazy(() => import("@/pages/admin/AdminMediaPage").then((m
 const AdminEnquiriesPage = lazy(() => import("@/pages/admin/AdminEnquiriesPage").then((m) => ({ default: m.AdminEnquiriesPage })));
 const AdminProfilePage = lazy(() => import("@/pages/admin/AdminProfilePage").then((m) => ({ default: m.AdminProfilePage })));
 
+/**
+ * RootLayout Wrapper
+ * Renders ScrollToTop globally inside the Router context to instantly reset
+ * scroll position to (0, 0) on every route navigation.
+ */
+function RootLayout() {
+  return (
+    <>
+      <ScrollToTop />
+      <Outlet />
+    </>
+  );
+}
+
 const router = createBrowserRouter([
-  /* Public Routes */
   {
-    path: "/",
-    element: <PublicLayout />,
+    element: <RootLayout />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: "services", element: <ServicesPage /> },
-      { path: "services/:id", element: <ServiceDetailPage /> },
-      { path: "about", element: <AboutPage /> },
-      { path: "contact", element: <ContactPage /> },
-      { path: "faq", element: <FaqPage /> },
-    ],
-  },
-
-  /* Admin Unprotected Auth Routes */
-  {
-    path: "/admin/login",
-    element: (
-      <Suspense fallback={<LoadingSpinner fullScreen label="Loading Admin Login..." />}>
-        <AdminLoginPage />
-      </Suspense>
-    ),
-  },
-
-  /* Admin Protected Routes */
-  {
-    path: "/admin",
-    element: <ProtectedRoute />,
-    children: [
+      /* Public Routes */
       {
-        path: "change-password",
-        element: (
-          <Suspense fallback={<div className="p-8 flex justify-center"><LoadingSpinner label="Loading..." /></div>}>
-            <ChangePasswordPage />
-          </Suspense>
-        ),
-      },
-      {
-        element: (
-          <Suspense fallback={<LoadingSpinner fullScreen label="Loading Admin Portal..." />}>
-            <AdminLayout />
-          </Suspense>
-        ),
+        path: "/",
+        element: <PublicLayout />,
         children: [
-          {
-            path: "dashboard",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Dashboard..." />}>
-                <AdminDashboardPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: "categories",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Categories..." />}>
-                <AdminCategoriesPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: "services",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Services..." />}>
-                <AdminServicesPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: "projects",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Projects..." />}>
-                <AdminProjectsPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: "content",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Content..." />}>
-                <AdminContentPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: "media",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Media..." />}>
-                <AdminMediaPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: "enquiries",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Enquiries..." />}>
-                <AdminEnquiriesPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: "profile",
-            element: (
-              <Suspense fallback={<LoadingSpinner label="Loading Profile..." />}>
-                <AdminProfilePage />
-              </Suspense>
-            ),
-          },
-          { index: true, element: <Navigate to="/admin/dashboard" replace /> },
+          { index: true, element: <HomePage /> },
+          { path: "services", element: <ServicesPage /> },
+          { path: "services/:id", element: <ServiceDetailPage /> },
+          { path: "about", element: <AboutPage /> },
+          { path: "contact", element: <ContactPage /> },
+          { path: "faq", element: <FaqPage /> },
         ],
       },
+
+      /* Admin Unprotected Auth Routes */
+      {
+        path: "/admin/login",
+        element: (
+          <Suspense fallback={<LoadingSpinner fullScreen label="Loading Admin Login..." />}>
+            <AdminLoginPage />
+          </Suspense>
+        ),
+      },
+
+      /* Admin Protected Routes */
+      {
+        path: "/admin",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "change-password",
+            element: (
+              <Suspense fallback={<div className="p-8 flex justify-center"><LoadingSpinner label="Loading..." /></div>}>
+                <ChangePasswordPage />
+              </Suspense>
+            ),
+          },
+          {
+            element: (
+              <Suspense fallback={<LoadingSpinner fullScreen label="Loading Admin Portal..." />}>
+                <AdminLayout />
+              </Suspense>
+            ),
+            children: [
+              {
+                path: "dashboard",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Dashboard..." />}>
+                    <AdminDashboardPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "categories",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Categories..." />}>
+                    <AdminCategoriesPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "services",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Services..." />}>
+                    <AdminServicesPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "projects",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Projects..." />}>
+                    <AdminProjectsPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "content",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Content..." />}>
+                    <AdminContentPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "media",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Media..." />}>
+                    <AdminMediaPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "enquiries",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Enquiries..." />}>
+                    <AdminEnquiriesPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "profile",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Profile..." />}>
+                    <AdminProfilePage />
+                  </Suspense>
+                ),
+              },
+              { index: true, element: <Navigate to="/admin/dashboard" replace /> },
+            ],
+          },
+        ],
+      },
+
+      /* Fallback Route */
+      { path: "*", element: <Navigate to="/" replace /> },
     ],
   },
-
-  /* Fallback Route */
-  { path: "*", element: <Navigate to="/" replace /> },
 ]);
 
 export function AppRouter() {
