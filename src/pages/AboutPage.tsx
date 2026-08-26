@@ -14,8 +14,8 @@ export function AboutPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
       <SeoHead
-        title="About Us - Digi Seva Solution"
-        description="Learn about Digi Seva Solution, authorized Common Service Center (Jan Seva Kendra) operated by dedicated partners in New Ashok Nagar, Delhi."
+        title="About Us - Jan Seva Kendra Digi Seva Solution New Ashok Nagar, Delhi"
+        description="About Digi Seva Solution - Authorized Common Service Center (Jan Seva Kendra) at Block D, Masjid Wali Gali, New Ashok Nagar, Delhi 110096. Providing Aadhaar, PAN card, banking, RTO, and IT software development services."
         path="/about"
       />
       {/* Page Title Header */}

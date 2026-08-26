@@ -85,8 +85,8 @@ export function ContactPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
       <SeoHead
-        title="Contact Us - Digi Seva Solution | New Ashok Nagar, Delhi"
-        description="Get in touch with Digi Seva Solution in New Ashok Nagar, Delhi. Send an online enquiry or connect directly via WhatsApp."
+        title="Contact Us - Jan Seva Kendra New Ashok Nagar Delhi | Digi Seva Solution"
+        description="Contact Digi Seva Solution Jan Seva Kendra in New Ashok Nagar, East Delhi 110096. Call +91 7900867261, WhatsApp, or visit Block D, Masjid Wali Gali for Aadhaar, PAN, Banking, RTO & IT services."
         path="/contact"
       />
       {/* Header Banner */}

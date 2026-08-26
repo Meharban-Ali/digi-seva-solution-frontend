@@ -50,8 +50,8 @@ export function FaqPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-10">
       <SeoHead
-        title="Frequently Asked Questions - Digi Seva Solution"
-        description="Find answers to common questions about Aadhaar updates, PAN processing times, center operating hours, and online vs in-person services."
+        title="Frequently Asked Questions (FAQ) - Jan Seva Kendra New Ashok Nagar | Digi Seva Solution"
+        description="Frequently Asked Questions (FAQ) - Digi Seva Solution Jan Seva Kendra New Ashok Nagar Delhi. Learn about Aadhaar updates, PAN card fees, AEPS banking, RTO services, operating hours, and document requirements."
         path="/faq"
       />
       {/* Header Banner */}

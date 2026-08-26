@@ -97,8 +97,8 @@ export function ServicesPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
       <SeoHead
-        title={activeCategoryObj ? `${activeCategoryObj.name} - Services | Digi Seva Solution` : "Our Services - Digi Seva Solution"}
-        description="Explore government certificate applications, Aadhaar updates, PAN card applications, utility bill payments, and digital web development services grouped by business category."
+        title={activeCategoryObj ? `${activeCategoryObj.name} - Jan Seva Kendra Services | Digi Seva Solution` : "Government & Citizen Services Catalog - Digi Seva Solution New Ashok Nagar"}
+        description="Browse government & citizen services at Digi Seva Solution Jan Seva Kendra New Ashok Nagar Delhi: Aadhaar correction, PAN card, AEPS money transfer, RTO driving licence, GST, ITR, SBI & Axis Bank account opening, and IT software development."
         path="/services"
       />
       {/* Header Banner */}

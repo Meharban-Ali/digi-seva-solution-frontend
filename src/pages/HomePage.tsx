@@ -65,7 +65,7 @@ export function HomePage() {
     <div className="space-y-12 pb-12 bg-slate-50/50">
       <SeoHead
         title="Digi Seva Solution - Aadhaar, PAN & Government Services in New Ashok Nagar, Delhi"
-        description="Digi Seva Solution is your trusted Common Service Center (Jan Seva Kendra) in New Ashok Nagar, Delhi, offering Aadhaar, PAN, RTO, banking services and web development."
+        description="Digi Seva Solution is your trusted Jan Seva Kendra (CSC Center) in New Ashok Nagar, Delhi. Services: Aadhaar update, PAN card, AEPS banking, RTO, income certificate, ITR filing, GST registration, Axis Bank & SBI account opening, web development, app development, Java software development."
         path="/"
       />
 
