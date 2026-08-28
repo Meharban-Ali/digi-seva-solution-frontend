@@ -36,16 +36,18 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      const isLoginRequest = error.config?.url?.includes("/api/admin/auth/");
+      const isPublicAuthRoute =
+        error.config?.url?.includes("/api/admin/auth/login") ||
+        error.config?.url?.includes("/api/admin/auth/verify-otp");
       const isAdminRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
 
-      if (!isLoginRequest) {
+      if (!isPublicAuthRoute) {
         // Clear stale/expired token silently
         useAuthStore.getState().logout();
 
-        // ONLY redirect to /admin/login if the user is actively inside the admin portal
+        // Redirect to /admin/login with session_expired reason
         if (isAdminRoute && window.location.pathname !== "/admin/login") {
-          window.location.href = "/admin/login";
+          window.location.href = "/admin/login?reason=session_expired";
         }
       }
     }

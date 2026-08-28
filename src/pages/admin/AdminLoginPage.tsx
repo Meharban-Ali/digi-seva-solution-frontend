@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ import { toast } from "sonner";
 export function AdminLoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const setAuth = useAuthStore((state) => state.setAuth);
 
   const [step, setStep] = useState<1 | 2>(1);
@@ -27,6 +28,18 @@ export function AdminLoginPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [otpSentNotice, setOtpSentNotice] = useState<string | null>(null);
   const [cooldownSeconds, setCooldownSeconds] = useState<number>(60);
+
+  // Check URL reason parameter (e.g. inactivity, session_expired, absolute_limit)
+  useEffect(() => {
+    const reason = searchParams.get("reason");
+    if (reason === "inactivity") {
+      setErrorMessage("You were logged out automatically due to 5 minutes of inactivity.");
+    } else if (reason === "session_expired") {
+      setErrorMessage("Your session expired or became invalid. Please login again.");
+    } else if (reason === "absolute_limit") {
+      setErrorMessage("Your session reached its 8-hour maximum limit. Please login again.");
+    }
+  }, [searchParams]);
 
   // 60-second visual cooldown timer for Resend OTP
   useEffect(() => {

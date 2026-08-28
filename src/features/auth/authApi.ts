@@ -76,3 +76,39 @@ export async function updateAdminProfile(data: { fullName?: string; profileImage
   const response = await apiClient.put<ApiResponse<AdminUserDto>>("/api/admin/auth/profile", data);
   return response.data.data;
 }
+
+export async function refreshAdminToken(): Promise<JwtAuthResponse> {
+  const response = await apiClient.post<ApiResponse<unknown>>("/api/admin/auth/refresh");
+  const rawData = response.data.data as Record<string, unknown>;
+
+  const rawUser = (rawData.user || rawData.adminUser) as Record<string, unknown> | undefined;
+
+  const isFirstLoginVal =
+    rawUser?.isFirstLogin !== undefined
+      ? Boolean(rawUser.isFirstLogin)
+      : rawUser?.firstLogin !== undefined
+      ? Boolean(rawUser.firstLogin)
+      : false;
+
+  const user: AdminUserDto = {
+    id: Number(rawUser?.id || 0),
+    email: String(rawUser?.email || ""),
+    fullName: String(rawUser?.fullName || ""),
+    profileImageUrl: rawUser?.profileImageUrl ? String(rawUser.profileImageUrl) : undefined,
+    isFirstLogin: isFirstLoginVal,
+    firstLogin: isFirstLoginVal,
+  };
+
+  const tokenStr = String(rawData.accessToken || rawData.token || "");
+  const expiresMs = Number(rawData.expiresInMs || rawData.expirationMs || 0);
+
+  return {
+    accessToken: tokenStr,
+    token: tokenStr,
+    tokenType: String(rawData.tokenType || "Bearer"),
+    expiresInMs: expiresMs,
+    expirationMs: expiresMs,
+    user,
+    adminUser: user,
+  };
+}

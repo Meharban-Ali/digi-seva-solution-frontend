@@ -3,6 +3,7 @@ import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-do
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/features/auth/authStore";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
+import { SessionTimeoutManager } from "@/components/common/SessionTimeoutManager";
 import { LogoIcon } from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,6 +49,7 @@ export function AdminLayout() {
 
   return (
     <div className="min-h-screen flex bg-slate-100 font-sans">
+      <SessionTimeoutManager />
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
