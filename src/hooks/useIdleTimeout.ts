@@ -17,89 +17,100 @@ export function useIdleTimeout({
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const onTimeoutRef = useRef(onTimeout);
+  const isIdleRef = useRef(isIdle);
 
   useEffect(() => {
     onTimeoutRef.current = onTimeout;
   }, [onTimeout]);
 
-  const clearTimers = useCallback(() => {
+  useEffect(() => {
+    isIdleRef.current = isIdle;
+  }, [isIdle]);
+
+  const clearIdleTimer = useCallback(() => {
     if (idleTimerRef.current) {
       clearTimeout(idleTimerRef.current);
       idleTimerRef.current = null;
     }
+  }, []);
+
+  const clearCountdown = useCallback(() => {
     if (countdownIntervalRef.current) {
       clearInterval(countdownIntervalRef.current);
       countdownIntervalRef.current = null;
     }
   }, []);
 
+  // Start the 5-minute idle timer
   const startIdleTimer = useCallback(() => {
-    clearTimers();
+    clearIdleTimer();
     idleTimerRef.current = setTimeout(() => {
       setIsIdle(true);
       setRemainingSeconds(Math.floor(warningTimeMs / 1000));
     }, idleTimeMs);
-  }, [idleTimeMs, warningTimeMs, clearTimers]);
+  }, [idleTimeMs, warningTimeMs, clearIdleTimer]);
 
+  // Reset the timer back to 5 minutes (e.g. when "Stay Logged In" is clicked)
   const resetIdleTimer = useCallback(() => {
     setIsIdle(false);
+    clearCountdown();
     setRemainingSeconds(Math.floor(warningTimeMs / 1000));
     startIdleTimer();
-  }, [warningTimeMs, startIdleTimer]);
+  }, [warningTimeMs, startIdleTimer, clearCountdown]);
 
-  // Handle live 60-second countdown interval when isIdle is true
+  // Countdown timer effect (runs when isIdle is true)
   useEffect(() => {
-    if (!isIdle) return;
+    if (!isIdle) {
+      clearCountdown();
+      return;
+    }
 
     countdownIntervalRef.current = setInterval(() => {
       setRemainingSeconds((prev) => {
-        if (prev <= 1) {
-          clearTimers();
+        const next = prev - 1;
+        if (next <= 0) {
+          clearCountdown();
           onTimeoutRef.current();
           return 0;
         }
-        return prev - 1;
+        return next;
       });
     }, 1000);
 
     return () => {
-      if (countdownIntervalRef.current) {
-        clearInterval(countdownIntervalRef.current);
-        countdownIntervalRef.current = null;
-      }
+      clearCountdown();
     };
-  }, [isIdle, clearTimers]);
+  }, [isIdle, clearCountdown]);
 
-  // Event listeners for user activity (mousemove, mousedown, keydown, touchstart, scroll)
+  // Intentional user activity listeners (mousedown, keydown, touchstart, click)
   useEffect(() => {
-    let lastActivityTime = Date.now();
+    let lastReset = Date.now();
 
-    const handleActivity = () => {
-      // If warning modal is active, user activity does NOT auto-dismiss modal unless Stay Logged In is clicked
-      if (isIdle) return;
+    const handleUserActivity = () => {
+      // Ignore background movements if warning modal is active
+      if (isIdleRef.current) return;
 
       const now = Date.now();
-      // Throttle activity resets to once per second
-      if (now - lastActivityTime > 1000) {
-        lastActivityTime = now;
+      // Throttle resets to once every 2 seconds
+      if (now - lastReset > 2000) {
+        lastReset = now;
         startIdleTimer();
       }
     };
 
-    const events = ["mousemove", "mousedown", "keydown", "touchstart", "scroll"];
-    events.forEach((event) => {
-      window.addEventListener(event, handleActivity, { passive: true });
-    });
+    // Intentional user actions (excludes scroll and raw mousemove)
+    const events = ["mousedown", "keydown", "touchstart", "click"];
+    events.forEach((evt) => window.addEventListener(evt, handleUserActivity, { passive: true }));
 
+    // Initial timer launch on hook mount
     startIdleTimer();
 
     return () => {
-      clearTimers();
-      events.forEach((event) => {
-        window.removeEventListener(event, handleActivity);
-      });
+      clearIdleTimer();
+      clearCountdown();
+      events.forEach((evt) => window.removeEventListener(evt, handleUserActivity));
     };
-  }, [isIdle, startIdleTimer, clearTimers]);
+  }, [startIdleTimer, clearIdleTimer, clearCountdown]);
 
   return {
     isIdle,
