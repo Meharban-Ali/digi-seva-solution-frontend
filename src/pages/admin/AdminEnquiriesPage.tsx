@@ -6,6 +6,7 @@ import { AdminEnquiryResponse, EnquiryStatus } from "@/types/adminEnquiry.types"
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,8 +43,7 @@ export function AdminEnquiriesPage() {
       {
         onSuccess: () => toast.success(t("adminEnquiries.statusSuccess")),
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminEnquiries.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminEnquiries.actionError")));
         },
       }
     );
@@ -162,8 +162,8 @@ export function AdminEnquiriesPage() {
           ) : isError ? (
             <div className="p-4">
               <ErrorAlert
-                message={error instanceof Error ? error.message : "Failed to load enquiries"}
-                onRetry={refetch}
+                error={error}
+                onRetry={() => refetch()}
               />
             </div>
           ) : enquiriesPage && enquiriesPage.content.length > 0 ? (

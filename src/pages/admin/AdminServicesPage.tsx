@@ -10,6 +10,7 @@ import { MediaPickerModal } from "@/components/media/MediaPickerModal";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -119,8 +120,7 @@ export function AdminServicesPage() {
             toast.success(t("adminServices.updatedSuccess"));
           },
           onError: (err: unknown) => {
-            const errorObj = err as { response?: { data?: { message?: string } } };
-            toast.error(errorObj?.response?.data?.message || t("adminServices.actionError"));
+            toast.error(getDiagnosticErrorMessage(err, t("adminServices.actionError")));
           },
         }
       );
@@ -131,8 +131,7 @@ export function AdminServicesPage() {
           toast.success(t("adminServices.createdSuccess"));
         },
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminServices.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminServices.actionError")));
         },
       });
     }
@@ -146,8 +145,7 @@ export function AdminServicesPage() {
           toast.success(t("adminServices.deletedSuccess"));
         },
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminServices.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminServices.actionError")));
         },
       });
     }
@@ -190,8 +188,8 @@ export function AdminServicesPage() {
           ) : isError ? (
             <div className="p-4">
               <ErrorAlert
-                message={error instanceof Error ? error.message : "Failed to load services"}
-                onRetry={refetch}
+                error={error}
+                onRetry={() => refetch()}
               />
             </div>
           ) : servicesPage && servicesPage.content.length > 0 ? (

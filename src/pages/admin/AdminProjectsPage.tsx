@@ -11,6 +11,7 @@ import { MediaPickerModal } from "@/components/media/MediaPickerModal";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -116,8 +117,8 @@ export function AdminProjectsPage() {
         toast.success("Project created successfully!");
       }
       setIsModalOpen(false);
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to save project");
+    } catch (err: unknown) {
+      toast.error(getDiagnosticErrorMessage(err, "Failed to save project"));
     }
   };
 
@@ -127,8 +128,8 @@ export function AdminProjectsPage() {
       await deleteMutation.mutateAsync(deleteTarget.id);
       toast.success("Project deleted successfully");
       setDeleteTarget(null);
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to delete project");
+    } catch (err: unknown) {
+      toast.error(getDiagnosticErrorMessage(err, "Failed to delete project"));
     }
   };
 
@@ -155,7 +156,7 @@ export function AdminProjectsPage() {
       {isLoading ? (
         <SkeletonLoader count={4} />
       ) : isError ? (
-        <ErrorAlert message={error?.message || "Failed to load projects"} onRetry={() => refetch()} />
+        <ErrorAlert error={error} onRetry={() => refetch()} />
       ) : !projectsPage || projectsPage.content.length === 0 ? (
         <EmptyState
           icon={FolderKanban}

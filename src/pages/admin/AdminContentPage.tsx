@@ -15,6 +15,7 @@ import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -102,8 +103,7 @@ export function AdminContentPage() {
             toast.success(t("adminContent.updatedSuccess"));
           },
           onError: (err: unknown) => {
-            const errorObj = err as { response?: { data?: { message?: string } } };
-            toast.error(errorObj?.response?.data?.message || t("adminContent.actionError"));
+            toast.error(getDiagnosticErrorMessage(err, t("adminContent.actionError")));
           },
         }
       );
@@ -114,8 +114,7 @@ export function AdminContentPage() {
           toast.success(t("adminContent.createdSuccess"));
         },
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminContent.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminContent.actionError")));
         },
       });
     }
@@ -126,16 +125,14 @@ export function AdminContentPage() {
       unpublishMutation.mutate(item.id, {
         onSuccess: () => toast.success(t("adminContent.statusSuccess")),
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminContent.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminContent.actionError")));
         },
       });
     } else {
       publishMutation.mutate(item.id, {
         onSuccess: () => toast.success(t("adminContent.statusSuccess")),
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminContent.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminContent.actionError")));
         },
       });
     }
@@ -149,8 +146,7 @@ export function AdminContentPage() {
           toast.success(t("adminContent.deletedSuccess"));
         },
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminContent.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminContent.actionError")));
         },
       });
     }
@@ -270,8 +266,8 @@ export function AdminContentPage() {
         <SkeletonLoader count={4} type="card" />
       ) : isError ? (
         <ErrorAlert
-          message={error instanceof Error ? error.message : "Failed to load content blocks"}
-          onRetry={refetch}
+          error={error}
+          onRetry={() => refetch()}
         />
       ) : contentPage && contentPage.content.length > 0 ? (
         <div className="space-y-6">

@@ -21,6 +21,13 @@
     "serviceNotFoundTitle": "Service Not Found",
     "serviceNotFoundDesc": "The requested service could not be found or is currently unavailable."
   },
+  "errors": {
+    "networkError": "Internet connection issue detected. Please check your connection and try again.",
+    "serverError": "Server is temporarily unavailable. Please try again in a few minutes.",
+    "unauthorized": "Invalid credentials or authorization failed.",
+    "tryAgain": "Try Again",
+    "retrying": "Retrying..."
+  },
   "hero": {
     "defaultTitle": "Welcome to Digi Seva Solution",
     "defaultSubtitle": "Your Trusted Common Service Center (Jan Seva Kendra) in New Ashok Nagar, Delhi."

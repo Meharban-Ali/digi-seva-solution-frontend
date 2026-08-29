@@ -22,8 +22,6 @@ import {
   Loader2,
   Trash2,
 } from "lucide-react";
-import { AxiosError } from "axios";
-import { ApiResponse } from "@/types/api";
 import { toast } from "sonner";
 
 export function AdminProfilePage() {
@@ -126,11 +124,7 @@ export function AdminProfilePage() {
       toast.success(msg);
       reset();
     } catch (err) {
-      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
-      const msg =
-        axiosErr.response?.data?.message ||
-        getDiagnosticErrorMessage(err) ||
-        "Failed to change password. Please check your current password.";
+      const msg = getDiagnosticErrorMessage(err, "Failed to change password. Please check your current password.");
       setErrorMessage(msg);
       toast.error(msg);
     } finally {

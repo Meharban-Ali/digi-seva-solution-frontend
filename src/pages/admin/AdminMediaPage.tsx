@@ -6,6 +6,7 @@ import { MediaType, AdminMediaResponse } from "@/types/adminMedia.types";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +21,6 @@ import {
   Loader2,
   Filter,
 } from "lucide-react";
-import { AxiosError } from "axios";
-import { ApiResponse } from "@/types/api";
 
 export function AdminMediaPage() {
   const [selectedType, setSelectedType] = useState<MediaType | undefined>(undefined);
@@ -92,8 +91,7 @@ export function AdminMediaPage() {
         },
         onError: (err: unknown) => {
           setUploadProgress(null);
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminMedia.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminMedia.actionError")));
         },
       }
     );
@@ -114,8 +112,7 @@ export function AdminMediaPage() {
           toast.success(t("adminMedia.deletedSuccess"));
         },
         onError: (err: unknown) => {
-          const errorObj = err as { response?: { data?: { message?: string } } };
-          toast.error(errorObj?.response?.data?.message || t("adminMedia.actionError"));
+          toast.error(getDiagnosticErrorMessage(err, t("adminMedia.actionError")));
         },
       });
     }
@@ -127,8 +124,6 @@ export function AdminMediaPage() {
     if (kb < 1024) return `${kb.toFixed(1)} KB`;
     return `${(kb / 1024).toFixed(1)} MB`;
   };
-
-  const uploadAxiosError = uploadMutation.error as AxiosError<ApiResponse<unknown>> | null;
 
   return (
     <div className="space-y-8">
@@ -159,9 +154,7 @@ export function AdminMediaPage() {
             <div className="p-3.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2">
               <AlertCircle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
               <span>
-                {uploadAxiosError?.response?.data?.message ||
-                  uploadMutation.error?.message ||
-                  "Upload failed."}
+                {getDiagnosticErrorMessage(uploadMutation.error, "Upload failed.")}
               </span>
             </div>
           )}
@@ -338,8 +331,8 @@ export function AdminMediaPage() {
         <SkeletonLoader count={8} type="card" />
       ) : isError ? (
         <ErrorAlert
-          message={error instanceof Error ? error.message : "Failed to load media assets"}
-          onRetry={refetch}
+          error={error}
+          onRetry={() => refetch()}
         />
       ) : mediaPage && mediaPage.content.length > 0 ? (
         <div className="space-y-6">

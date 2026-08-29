@@ -9,6 +9,7 @@ import { CategoryResponse, CategoryRequest } from "@/types/category.types";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Button } from "@/components/ui/button";
 import {
   FolderTree,
@@ -94,8 +95,7 @@ export function AdminCategoriesPage() {
             toast.success("Category updated successfully!");
           },
           onError: (err: unknown) => {
-            const apiError = err as AxiosError<ApiResponse<null>>;
-            toast.error(apiError.response?.data?.message || "Failed to update category");
+            toast.error(getDiagnosticErrorMessage(err, "Failed to update category"));
           },
         }
       );
@@ -106,8 +106,7 @@ export function AdminCategoriesPage() {
           toast.success("Category created successfully!");
         },
         onError: (err: unknown) => {
-          const apiError = err as AxiosError<ApiResponse<null>>;
-          toast.error(apiError.response?.data?.message || "Failed to create category");
+          toast.error(getDiagnosticErrorMessage(err, "Failed to create category"));
         },
       });
     }
@@ -196,7 +195,7 @@ export function AdminCategoriesPage() {
       {isLoading ? (
         <SkeletonLoader count={5} />
       ) : isError ? (
-        <ErrorAlert message={(error as Error)?.message || "Failed to load categories"} onRetry={refetch} />
+        <ErrorAlert error={error} onRetry={() => refetch()} />
       ) : !categories || categories.length === 0 ? (
         <EmptyState
           title="No Categories Found"

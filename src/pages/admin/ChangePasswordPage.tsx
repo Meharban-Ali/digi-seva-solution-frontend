@@ -6,11 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { changePasswordSchema, ChangePasswordFormData } from "@/schemas/authSchema";
 import { changeAdminPassword } from "@/features/auth/authApi";
 import { useAuthStore } from "@/features/auth/authStore";
+import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Lock, ShieldAlert, ArrowRight, AlertCircle } from "lucide-react";
-import { AxiosError } from "axios";
-import { ApiResponse } from "@/types/api";
 import { toast } from "sonner";
 
 export function ChangePasswordPage() {
@@ -57,8 +56,7 @@ export function ChangePasswordPage() {
       // Redirect to dashboard
       navigate("/admin/dashboard", { replace: true });
     } catch (err) {
-      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
-      const msg = axiosErr.response?.data?.message || axiosErr.message || "Failed to change password";
+      const msg = getDiagnosticErrorMessage(err, "Failed to change password");
       setErrorMessage(msg);
       toast.error(msg);
     } finally {

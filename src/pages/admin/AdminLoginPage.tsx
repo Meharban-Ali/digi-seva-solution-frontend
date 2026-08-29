@@ -10,8 +10,6 @@ import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Lock, Mail, KeyRound, ArrowRight, AlertCircle, ArrowLeft, CheckCircle2, RefreshCw } from "lucide-react";
-import { AxiosError } from "axios";
-import { ApiResponse } from "@/types/api";
 import { toast } from "sonner";
 
 export function AdminLoginPage() {
@@ -71,10 +69,13 @@ export function AdminLoginPage() {
     },
   });
 
+  const [lastFailedStep, setLastFailedStep] = useState<1 | 2 | null>(null);
+
   // Submit Step 1: Initiate Login
   const onStep1Submit: SubmitHandler<LoginFormData> = async (formData) => {
     setLoading(true);
     setErrorMessage(null);
+    setLastFailedStep(null);
     try {
       const msg = await initiateAdminLogin(formData);
       setUserEmail(formData.email);
@@ -83,10 +84,8 @@ export function AdminLoginPage() {
       setCooldownSeconds(60);
       setStep(2);
     } catch (err) {
-      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
-      setErrorMessage(
-        axiosErr.response?.data?.message || getDiagnosticErrorMessage(err) || "Invalid email or password"
-      );
+      setLastFailedStep(1);
+      setErrorMessage(getDiagnosticErrorMessage(err, "Invalid email or password"));
     } finally {
       setLoading(false);
     }
@@ -104,8 +103,7 @@ export function AdminLoginPage() {
       setCooldownSeconds(60);
       toast.success(successMsg);
     } catch (err) {
-      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
-      const msg = axiosErr.response?.data?.message || getDiagnosticErrorMessage(err) || "Failed to resend OTP";
+      const msg = getDiagnosticErrorMessage(err, "Failed to resend OTP");
       setErrorMessage(msg);
       toast.error(msg);
     } finally {
@@ -117,6 +115,7 @@ export function AdminLoginPage() {
   const onStep2Submit: SubmitHandler<OtpFormData> = async (formData) => {
     setLoading(true);
     setErrorMessage(null);
+    setLastFailedStep(null);
     try {
       const authData = await verifyAdminOtp({
         email: userEmail,
@@ -144,12 +143,20 @@ export function AdminLoginPage() {
         navigate("/admin/dashboard", { replace: true });
       }
     } catch (err) {
-      const axiosErr = err as AxiosError<ApiResponse<unknown>>;
-      const msg = axiosErr.response?.data?.message || getDiagnosticErrorMessage(err) || "Invalid or expired OTP code";
+      setLastFailedStep(2);
+      const msg = getDiagnosticErrorMessage(err, "Invalid or expired OTP code");
       setErrorMessage(msg);
       toast.error(msg);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRetrySubmit = () => {
+    if (lastFailedStep === 1) {
+      step1Form.handleSubmit(onStep1Submit)();
+    } else if (lastFailedStep === 2) {
+      step2Form.handleSubmit(onStep2Submit)();
     }
   };
 
@@ -169,11 +176,28 @@ export function AdminLoginPage() {
         </CardHeader>
 
         <CardContent className="p-6 space-y-6">
-          {/* Error Banner Display */}
+          {/* Error Banner Display with Try Again Retry Button */}
           {errorMessage && (
-            <div className="p-3.5 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-start gap-2.5 animate-in fade-in">
-              <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
-              <span>{errorMessage}</span>
+            <div className="p-3.5 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs space-y-2 animate-in fade-in">
+              <div className="flex items-start gap-2.5">
+                <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                <span className="flex-1 leading-relaxed">{errorMessage}</span>
+              </div>
+              {lastFailedStep && (
+                <div className="pl-6 pt-0.5">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={handleRetrySubmit}
+                    disabled={loading}
+                    className="text-xs py-1 h-7 border-rose-700 text-rose-200 hover:bg-rose-900/80 font-bold flex items-center gap-1.5"
+                  >
+                    <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
+                    <span>{loading ? t("errors.retrying", "Retrying...") : t("errors.tryAgain", "Try Again")}</span>
+                  </Button>
+                </div>
+              )}
             </div>
           )}
 
