@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/features/auth/authStore";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
-import { SessionTimeoutManager } from "@/components/common/SessionTimeoutManager";
 import { LogoIcon } from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
+import { useIdleTimeout } from "@/hooks/useIdleTimeout";
+import { IdleTimeoutWarning } from "@/components/admin/IdleTimeoutWarning";
 import {
   LayoutDashboard,
   Layers,
@@ -36,6 +37,18 @@ export function AdminLayout() {
     navigate("/admin/login");
   };
 
+  const handleIdleTimeout = useCallback(() => {
+    logout();
+    toast.info(t("idleTimeout.loggedOutMessage", "You were logged out due to inactivity."));
+    navigate("/admin/login?reason=idle_timeout");
+  }, [logout, navigate, t]);
+
+  const { isIdle, remainingSeconds, resetIdleTimer } = useIdleTimeout({
+    idleTimeMs: 5 * 60 * 1000, // 5 minutes
+    warningTimeMs: 60 * 1000,  // 1 minute
+    onTimeout: handleIdleTimeout,
+  });
+
   const navItems = [
     { path: "/admin/dashboard", label: t("adminNav.dashboard"), icon: LayoutDashboard },
     { path: "/admin/categories", label: t("adminNav.categories"), icon: FolderTree },
@@ -49,7 +62,12 @@ export function AdminLayout() {
 
   return (
     <div className="min-h-screen flex bg-slate-100 font-sans">
-      <SessionTimeoutManager />
+      <IdleTimeoutWarning
+        isOpen={isIdle}
+        remainingSeconds={remainingSeconds}
+        onStayLoggedIn={resetIdleTimer}
+        onLogoutNow={handleIdleTimeout}
+      />
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div

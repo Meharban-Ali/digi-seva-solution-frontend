@@ -27,17 +27,15 @@ export function AdminLoginPage() {
   const [otpSentNotice, setOtpSentNotice] = useState<string | null>(null);
   const [cooldownSeconds, setCooldownSeconds] = useState<number>(60);
 
-  // Check URL reason parameter (e.g. inactivity, session_expired, absolute_limit)
+  // Check URL reason parameter (e.g. idle_timeout, session_expired)
   useEffect(() => {
     const reason = searchParams.get("reason");
-    if (reason === "inactivity") {
-      setErrorMessage("You were logged out automatically due to 5 minutes of inactivity.");
+    if (reason === "inactivity" || reason === "idle_timeout") {
+      setErrorMessage(t("idleTimeout.loggedOutMessage", "You were logged out due to inactivity."));
     } else if (reason === "session_expired") {
       setErrorMessage("Your session expired or became invalid. Please login again.");
-    } else if (reason === "absolute_limit") {
-      setErrorMessage("Your session reached its 8-hour maximum limit. Please login again.");
     }
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   // 60-second visual cooldown timer for Resend OTP
   useEffect(() => {
