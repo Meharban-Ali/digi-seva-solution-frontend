@@ -31,8 +31,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: !!initialToken && !!initialUser,
 
   setAuth: (token: string, user: AdminUserDto) => {
+    const nowStr = Date.now().toString();
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(USER_KEY, JSON.stringify(user));
+    localStorage.setItem("digiseva_admin_last_activity", nowStr);
     set({
       token,
       user,
@@ -48,6 +50,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: () => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem("digiseva_admin_last_activity");
     set({
       token: null,
       user: null,

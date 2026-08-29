@@ -26,6 +26,11 @@ export function SessionTimeoutManager() {
 
   const performLogout = useCallback(
     (reason: "inactivity" | "session_expired" | "absolute_limit" | "manual" = "inactivity") => {
+      console.warn(
+        `[SessionTimeoutManager] Triggering auto-logout. Reason: ${reason} | IdleMs: ${
+          Date.now() - lastActivityRef.current
+        }ms`
+      );
       logout();
       if (channelRef.current) {
         channelRef.current.postMessage({ type: "LOGOUT" });
@@ -91,15 +96,24 @@ export function SessionTimeoutManager() {
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    // Initialize last activity timestamp
+    // Initialize last activity timestamp - validate age to prevent stale timestamps from causing immediate logouts
+    const now = Date.now();
     const storedLastActivity = localStorage.getItem(LAST_ACTIVITY_KEY);
+
     if (storedLastActivity) {
       const parsed = parseInt(storedLastActivity, 10);
-      if (!isNaN(parsed) && parsed <= Date.now()) {
+      const ageMs = now - parsed;
+      // Only keep stored activity timestamp if valid, not in future, and less than IDLE_TIMEOUT_MS (5 min) old
+      if (!isNaN(parsed) && parsed <= now && ageMs < IDLE_TIMEOUT_MS) {
         lastActivityRef.current = parsed;
+      } else {
+        // Stale timestamp left behind by an old session -> Reset to current time!
+        lastActivityRef.current = now;
+        localStorage.setItem(LAST_ACTIVITY_KEY, now.toString());
       }
     } else {
-      localStorage.setItem(LAST_ACTIVITY_KEY, Date.now().toString());
+      lastActivityRef.current = now;
+      localStorage.setItem(LAST_ACTIVITY_KEY, now.toString());
     }
 
     if (typeof BroadcastChannel !== "undefined") {
@@ -109,11 +123,13 @@ export function SessionTimeoutManager() {
       channel.onmessage = (event) => {
         if (!event.data) return;
         if (event.data.type === "ACTIVITY" || event.data.type === "SESSION_REFRESHED") {
-          lastActivityRef.current = event.data.timestamp || Date.now();
-          setIsWarningOpen(false);
+          const ts = event.data.timestamp || Date.now();
+          if (Date.now() - ts < IDLE_TIMEOUT_MS) {
+            lastActivityRef.current = ts;
+            setIsWarningOpen(false);
+          }
         } else if (event.data.type === "LOGOUT") {
-          logout();
-          navigate("/admin/login?reason=inactivity", { replace: true });
+          performLogout("manual");
         }
       };
     }
@@ -122,7 +138,8 @@ export function SessionTimeoutManager() {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === LAST_ACTIVITY_KEY && e.newValue) {
         const parsed = parseInt(e.newValue, 10);
-        if (!isNaN(parsed)) {
+        const ageMs = Date.now() - parsed;
+        if (!isNaN(parsed) && ageMs < IDLE_TIMEOUT_MS) {
           lastActivityRef.current = parsed;
           setIsWarningOpen(false);
         }
@@ -137,7 +154,7 @@ export function SessionTimeoutManager() {
         channelRef.current.close();
       }
     };
-  }, [isAuthenticated, logout, navigate]);
+  }, [isAuthenticated, logout, navigate, performLogout]);
 
   // 2. Attach genuine user DOM interaction event listeners
   useEffect(() => {
