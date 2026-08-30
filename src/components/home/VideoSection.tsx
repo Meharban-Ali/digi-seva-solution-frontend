@@ -118,7 +118,7 @@ export function VideoSection() {
             <div className="max-w-[240px] sm:max-w-[260px] md:max-w-[280px] mx-auto w-full">
               <div className="relative aspect-[9/16] rounded-2xl overflow-hidden shadow-xl border border-slate-200/90 bg-slate-950">
                 <iframe
-                  src="https://www.youtube.com/embed/dCQC0wocvzg"
+                  src="https://www.youtube-nocookie.com/embed/dCQC0wocvzg"
                   title="Digi Seva Solution Services"
                   allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
