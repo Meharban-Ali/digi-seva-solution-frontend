@@ -5,6 +5,7 @@ import { useServices } from "@/hooks/useServices";
 import { stripHtml } from "@/lib/htmlUtils";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { ProjectsShowcase } from "@/components/home/ProjectsShowcase";
+import { VideoSection } from "@/components/home/VideoSection";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SeoHead } from "@/components/common/SeoHead";
@@ -26,6 +27,8 @@ import {
   Search,
   FileCheck,
   Award,
+  Building2,
+  Landmark,
 } from "lucide-react";
 
 export function HomePage() {
@@ -51,14 +54,30 @@ export function HomePage() {
 
   const totalServicesCount = allServices ? allServices.length : 16;
 
-  // Helper to dynamically locate a service by name keyword and format its price from API
-  const getServicePriceLabel = (keyword: string): string => {
-    if (!allServices || allServices.length === 0) return "Contact for Pricing";
+  // Helper to dynamically render price or enquire badge for Quick Services Panel
+  const renderQuickServiceBadge = (keyword: string) => {
+    if (!allServices || allServices.length === 0) {
+      return (
+        <span className="text-xs font-semibold text-slate-500 group-hover:text-accent-dark shrink-0 flex items-center gap-1 transition-colors">
+          <span>{t("common.enquire", "Enquire")}</span>
+          <ArrowRight className="h-3.5 w-3.5" />
+        </span>
+      );
+    }
     const found = allServices.find((s) => s.name.toLowerCase().includes(keyword.toLowerCase()));
     if (found && found.price != null && Number(found.price) > 0) {
-      return `₹${found.price}`;
+      return (
+        <span className="text-xs font-extrabold text-slate-900 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200 shrink-0 font-mono">
+          ₹{found.price}
+        </span>
+      );
     }
-    return "Contact for Pricing";
+    return (
+      <span className="text-xs font-semibold text-slate-500 group-hover:text-accent-dark shrink-0 flex items-center gap-1 transition-colors">
+        <span>{t("common.enquire", "Enquire")}</span>
+        <ArrowRight className="h-3.5 w-3.5" />
+      </span>
+    );
   };
 
   return (
@@ -76,7 +95,7 @@ export function HomePage() {
           <div className="lg:col-span-7 p-6 sm:p-10 space-y-6 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200 bg-white">
             <div className="inline-flex items-center gap-2 bg-orange-50 text-accent-dark border border-orange-200 px-3.5 py-1.5 rounded-full text-xs font-extrabold w-fit">
               <ShieldCheck className="h-4 w-4 text-accent shrink-0" />
-              <span>Authorized Jan Seva Kendra • CSC Portal</span>
+              <span>{t("hero.authorizedBadge", "Authorized Jan Seva Kendra • CSC Portal")}</span>
             </div>
 
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-slate-900">
@@ -87,7 +106,17 @@ export function HomePage() {
               {heroBanner ? stripHtml(heroBanner.body) : t("hero.defaultSubtitle")}
             </p>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+            {/* Dynamic Service Count Highlight */}
+            <div className="inline-flex items-center gap-2 bg-slate-100/90 text-slate-800 border border-slate-200 px-3.5 py-1.5 rounded-md text-xs font-extrabold w-fit">
+              <Sparkles className="h-4 w-4 text-accent shrink-0" />
+              <span>
+                {allServices && allServices.length > 0
+                  ? t("hero.servicesAvailable", { count: allServices.length })
+                  : t("hero.servicesAvailableFallback", "13+ Government & Digital Services Available")}
+              </span>
+            </div>
+
+            <div className="pt-1 flex flex-col sm:flex-row items-center gap-3">
               <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-accent hover:bg-accent-dark text-white shadow-md">
                 <Link to="/services">
                   <span>{t("common.viewAllServices")}</span>
@@ -101,32 +130,42 @@ export function HomePage() {
                 size="lg"
                 className="w-full sm:w-auto border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-900 font-bold transition-colors"
               >
-                <Link to="/contact">
+                <Link to="/contact#map">
                   <MapPin className="h-4 w-4 mr-2 text-accent" />
-                  <span>Visit Center in Delhi</span>
+                  <span>{t("hero.findUsOnMap", "Find Us on Map")}</span>
                 </Link>
               </Button>
             </div>
 
-            <div className="pt-2 grid grid-cols-3 gap-2 border-t border-slate-100 text-center text-[11px] text-slate-700">
-              <div className="p-2.5 bg-slate-50/80 rounded-lg border border-slate-200/80">
-                <p className="font-extrabold text-slate-900 text-xs">Govt. Rates</p>
-                <p className="text-slate-500">Standard Fees</p>
-              </div>
-              <div className="p-2.5 bg-slate-50/80 rounded-lg border border-slate-200/80">
-                <p className="font-extrabold text-slate-900 text-xs">Biometric</p>
-                <p className="text-slate-500">Fingerprint & Iris</p>
-              </div>
-              <div className="p-2.5 bg-slate-50/80 rounded-lg border border-slate-200/80">
-                <p className="font-extrabold text-slate-900 text-xs">Receipts</p>
-                <p className="text-slate-500">Instant Printouts</p>
+            {/* Partners & Authorizations Strip */}
+            <div className="pt-3 border-t border-slate-100 space-y-2">
+              <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block">
+                {t("hero.partnersTitle", "Partners & Authorizations")}
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5 text-slate-800">
+                <div className="px-2 py-0.5 bg-slate-50 border border-slate-200/90 rounded-full text-[11px] font-bold flex items-center gap-1 shadow-2xs whitespace-nowrap">
+                  <ShieldCheck className="h-3.5 w-3.5 text-accent shrink-0" />
+                  <span>{t("hero.partners.uidai", "UIDAI Authorized")}</span>
+                </div>
+                <div className="px-2 py-0.5 bg-slate-50 border border-slate-200/90 rounded-full text-[11px] font-bold flex items-center gap-1 shadow-2xs whitespace-nowrap">
+                  <Building2 className="h-3.5 w-3.5 text-indigo-600 shrink-0" />
+                  <span>{t("hero.partners.axisBank", "Axis Bank BC Partner")}</span>
+                </div>
+                <div className="px-2 py-0.5 bg-slate-50 border border-slate-200/90 rounded-full text-[11px] font-bold flex items-center gap-1 shadow-2xs whitespace-nowrap">
+                  <Landmark className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                  <span>{t("hero.partners.sbiBank", "SBI BC Partner")}</span>
+                </div>
+                <div className="px-2 py-0.5 bg-slate-50 border border-slate-200/90 rounded-full text-[11px] font-bold flex items-center gap-1 shadow-2xs whitespace-nowrap">
+                  <Award className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+                  <span>{t("hero.partners.cscSpv", "CSC-SPV Registered")}</span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Right Column: Grounded Light Quick Citizen Services Panel */}
-          <div className="lg:col-span-5 bg-slate-50/80 p-6 space-y-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <div className="lg:col-span-5 bg-slate-50/80 p-5 sm:p-6 space-y-3 flex flex-col justify-between">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
               <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
                 <FileText className="h-4 w-4 text-accent" />
                 Quick Services Access
@@ -136,45 +175,53 @@ export function HomePage() {
               </span>
             </div>
 
-            <div className="space-y-2.5">
-              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+            <div className="space-y-1.5">
+              <Link to="/services" className="p-2.5 px-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
                   <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">Aadhaar Card Update & Correction</h4>
                   <p className="text-[11px] text-slate-500">Address, Mobile No., Biometric Update</p>
                 </div>
-                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
-                  {getServicePriceLabel("aadhaar")}
-                </span>
+                {renderQuickServiceBadge("aadhaar")}
               </Link>
 
-              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+              <Link to="/services" className="p-2.5 px-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
                   <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">PAN Card Application & Correction</h4>
                   <p className="text-[11px] text-slate-500">New NSDL/UTI PAN Card Request</p>
                 </div>
-                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
-                  {getServicePriceLabel("pan")}
-                </span>
+                {renderQuickServiceBadge("pan")}
               </Link>
 
-              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+              <Link to="/services" className="p-2.5 px-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
                   <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">RTO Driving License Services</h4>
                   <p className="text-[11px] text-slate-500">Learner License & Slot Booking</p>
                 </div>
-                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
-                  {getServicePriceLabel("driving")}
-                </span>
+                {renderQuickServiceBadge("driving")}
               </Link>
 
-              <Link to="/services" className="p-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+              <Link to="/services" className="p-2.5 px-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
                 <div>
                   <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">Income, Caste & Residence Cert.</h4>
                   <p className="text-[11px] text-slate-500">e-District Delhi Portal Online Submission</p>
                 </div>
-                <span className="text-xs font-extrabold text-accent-dark bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200 shrink-0">
-                  {getServicePriceLabel("income")}
-                </span>
+                {renderQuickServiceBadge("income")}
+              </Link>
+
+              <Link to="/services" className="p-2.5 px-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">Voter ID Card Application</h4>
+                  <p className="text-[11px] text-slate-500">NVSP Portal New Registration & Correction</p>
+                </div>
+                {renderQuickServiceBadge("voter")}
+              </Link>
+
+              <Link to="/services" className="p-2.5 px-3 bg-white hover:bg-orange-50/50 rounded-xl border border-slate-200 transition-all flex items-center justify-between group shadow-2xs">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-accent-dark transition-colors">AEPS Cash Withdrawal & Banking</h4>
+                  <p className="text-[11px] text-slate-500">Aadhaar ATM, Balance & Account Opening</p>
+                </div>
+                {renderQuickServiceBadge("banking")}
               </Link>
             </div>
 
@@ -418,6 +465,9 @@ export function HomePage() {
           </div>
         )}
       </section>
+
+      {/* 5.5. "See Our Services in Action" Video Showcase Section */}
+      <VideoSection />
 
       {/* 6. Dedicated Light IT & Software Development Showcase (Section 6) */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-2">

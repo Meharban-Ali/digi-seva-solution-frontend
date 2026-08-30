@@ -336,7 +336,7 @@ export function ContactPage() {
       </div>
 
       {/* Embedded Google Map Section */}
-      <section className="space-y-4 pt-4 border-t border-slate-200">
+      <section id="map" className="space-y-4 pt-4 border-t border-slate-200">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
           <MapPin className="h-5 w-5 text-primary" />
           {t("contact.mapTitle")}

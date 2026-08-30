@@ -1,10 +1,40 @@
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { useProjects } from "@/hooks/useProjects";
-import { ExternalLink, Tag, Briefcase } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Briefcase } from "lucide-react";
 import { getOptimizedImageUrl } from "@/lib/imageUtils";
 import { TitleHighlight } from "@/components/common/TitleHighlight";
+
+// Helper to determine specific category badges for projects
+const getCategoryBadge = (categoryTag?: string, title?: string) => {
+  const text = `${categoryTag || ""} ${title || ""}`.toLowerCase();
+  if (text.includes("travel") || text.includes("booking")) {
+    return { label: "🌐 Web App", className: "bg-blue-600/90 text-white border border-blue-400/30" };
+  }
+  if (text.includes("blood") || text.includes("donor") || text.includes("ai") || text.includes("social")) {
+    return { label: "❤️ Social Impact", className: "bg-rose-600/90 text-white border border-rose-400/30" };
+  }
+  if (text.includes("commerce") || text.includes("e-commerce") || text.includes("shop")) {
+    return { label: "🛒 E-Commerce", className: "bg-emerald-600/90 text-white border border-emerald-400/30" };
+  }
+  return { label: categoryTag || "🌐 Web App", className: "bg-slate-900/80 text-white border border-slate-700/40" };
+};
+
+// Helper to determine tech stack tags for projects
+const getTechStack = (title?: string, categoryTag?: string): string[] => {
+  const text = `${title || ""} ${categoryTag || ""}`.toLowerCase();
+  if (text.includes("travel") || text.includes("booking")) {
+    return ["React", "Spring Boot", "MySQL"];
+  }
+  if (text.includes("blood") || text.includes("donor")) {
+    return ["React", "FastAPI", "PostgreSQL"];
+  }
+  if (text.includes("commerce") || text.includes("e-commerce") || text.includes("shop")) {
+    return ["React", "Spring Boot", "Redis"];
+  }
+  return ["React", "TypeScript", "Tailwind CSS"];
+};
 
 export function ProjectsShowcase() {
   const { t, i18n } = useTranslation();
@@ -40,31 +70,34 @@ export function ProjectsShowcase() {
           </p>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Projects Grid (3-column desktop, equal height, 24px gap) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayProjects.map((project, idx) => {
             const title = isHi ? project.titleHi || project.titleEn : project.titleEn;
             const description = isHi
               ? project.descriptionHi || project.descriptionEn
               : project.descriptionEn;
 
+            const categoryBadge = getCategoryBadge(project.categoryTag, project.titleEn);
+            const techStack = getTechStack(project.titleEn, project.categoryTag);
+
             return (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: idx * 0.08 }}
-                className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col hover:border-orange-300 hover:shadow-md transition-all duration-300 group shadow-xs"
+                transition={{ duration: 0.4, delay: idx * 0.15 }}
+                className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group shadow-md h-full"
               >
-                {/* Thumbnail Container */}
-                <div className="relative h-44 bg-slate-100 overflow-hidden">
+                {/* 1. Image Area (Top, fixed 220px height) */}
+                <div className="relative h-[220px] bg-slate-100 overflow-hidden shrink-0">
                   {project.imageUrl ? (
                     <img
                       src={getOptimizedImageUrl(project.imageUrl, 600)}
                       alt={title}
                       loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
@@ -72,19 +105,19 @@ export function ProjectsShowcase() {
                     </div>
                   )}
 
-                  {/* Category Tag Badge */}
-                  {project.categoryTag && (
-                    <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-xs text-white text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-1.5 shadow-xs">
-                      <Tag className="w-3 h-3 text-orange-400" />
-                      {project.categoryTag}
-                    </div>
-                  )}
+                  {/* Dark Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent pointer-events-none" />
+
+                  {/* Specific Category Badge Overlay (Top Left) */}
+                  <div className={`absolute top-3 left-3 text-xs font-extrabold px-3 py-1 rounded-full shadow-xs backdrop-blur-xs ${categoryBadge.className}`}>
+                    {categoryBadge.label}
+                  </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-1.5">
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-1 py-0.5">
+                {/* 2. Card Body */}
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4 bg-white">
+                  <div className="space-y-2.5">
+                    <h3 className="text-lg font-extrabold text-[#0B2046] group-hover:text-accent-dark transition-colors line-clamp-1 py-0.5">
                       <TitleHighlight>{title}</TitleHighlight>
                     </h3>
                     {description && (
@@ -94,25 +127,28 @@ export function ProjectsShowcase() {
                     )}
                   </div>
 
-                  {/* External Project Link Button */}
-                  {project.projectUrl && (
-                    <div className="pt-3 border-t border-slate-100">
-                      <Button
-                        asChild
-                        size="sm"
-                        className="w-full bg-accent hover:bg-accent-dark text-white font-bold text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+                  {/* Tech Stack Pills */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {techStack.map((tech, i) => (
+                      <span
+                        key={i}
+                        className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200/80"
                       >
-                        <a
-                          href={project.projectUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <span>{t("projects.viewProject")}</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </a>
-                      </Button>
-                    </div>
-                  )}
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* 3. Card Footer Divider & Link */}
+                  <div className="pt-4 border-t border-slate-100 mt-auto flex items-center justify-between">
+                    <Link
+                      to="/contact?service=portfolio"
+                      className="text-accent-dark hover:text-accent font-extrabold text-xs flex items-center gap-1.5 transition-colors group/link"
+                    >
+                      <span>{t("projects.viewProjectDetails", "View Project Details")}</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             );
@@ -122,3 +158,5 @@ export function ProjectsShowcase() {
     </section>
   );
 }
+
+export default ProjectsShowcase;

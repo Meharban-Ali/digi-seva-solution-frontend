@@ -19,7 +19,8 @@
     "apiLanguage": "API Request Language Parameter",
     "noServicesFound": "No services available in this category.",
     "serviceNotFoundTitle": "Service Not Found",
-    "serviceNotFoundDesc": "The requested service could not be found or is currently unavailable."
+    "serviceNotFoundDesc": "The requested service could not be found or is currently unavailable.",
+    "enquire": "Enquire"
   },
   "errors": {
     "networkError": "Internet connection issue detected. Please check your connection and try again.",
@@ -30,7 +31,18 @@
   },
   "hero": {
     "defaultTitle": "Welcome to Digi Seva Solution",
-    "defaultSubtitle": "Your Trusted Common Service Center (Jan Seva Kendra) in New Ashok Nagar, Delhi."
+    "defaultSubtitle": "Your Trusted Common Service Center (Jan Seva Kendra) in New Ashok Nagar, Delhi.",
+    "authorizedBadge": "Authorized Jan Seva Kendra • CSC Portal",
+    "findUsOnMap": "Find Us on Map",
+    "servicesAvailable": "{{count}}+ Government & Digital Services Available",
+    "servicesAvailableFallback": "13+ Government & Digital Services Available",
+    "partnersTitle": "Partners & Authorizations",
+    "partners": {
+      "uidai": "UIDAI Authorized",
+      "axisBank": "Axis Bank BC Partner",
+      "sbiBank": "SBI BC Partner",
+      "cscSpv": "CSC-SPV Registered"
+    }
   },
   "services": {
     "title": "Our Government & Online Services",
@@ -248,11 +260,19 @@
     "step5Title": "Get Your Service",
     "step5Desc": "Receive your completed certificate, document, or service confirmation, with full support throughout."
   },
+  "video": {
+    "badge": "Video Showcase",
+    "title": "See Our Services in Action",
+    "subtitle": "Watch how we help citizens with government services, banking, and digital solutions",
+    "watchOnYoutube": "▶ Watch on YouTube",
+    "subscribeUpdates": "📱 Subscribe for Updates"
+  },
   "projects": {
     "badge": "Portfolio & Case Studies",
     "title": "Our Work & Client Projects",
     "subtitle": "Explore real-world software applications, portals, and digital solutions delivered for our clients.",
     "viewProject": "View Live Project",
+    "viewProjectDetails": "View Project Details",
     "noProjectsTitle": "No Showcase Projects Available Yet",
     "noProjectsDesc": "Portfolio items will appear here once published by our engineering team."
   },
