@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Lock, Mail, KeyRound, ArrowRight, AlertCircle, ArrowLeft, CheckCircle2, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { LoginBackground } from "@/components/admin/LoginBackground";
 
 export function AdminLoginPage() {
   const { t } = useTranslation();
@@ -160,37 +161,10 @@ export function AdminLoginPage() {
 
   return (
     <div className="relative min-h-screen bg-slate-950 flex items-center justify-center p-4 overflow-hidden selection:bg-accent selection:text-white">
-      {/* Background Layer 1: Rich Royal Navy & Slate Gradient */}
-      <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(11,32,70,0.7),rgba(2,6,23,1))]"
-        aria-hidden="true"
-      />
+      {/* Separate Isolated Background Component Layer */}
+      <LoginBackground />
 
-      {/* Background Layer 2: Subtle Security Mesh Grid Pattern */}
-      <div
-        className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Background Layer 3: Security Shield Watermark */}
-      <div
-        className="absolute -right-20 -bottom-20 opacity-[0.03] text-white pointer-events-none select-none hidden lg:block"
-        aria-hidden="true"
-      >
-        <ShieldCheck className="w-[550px] h-[550px]" />
-      </div>
-
-      {/* Background Layer 4: Soft Ambient Accent Glow behind Login Card */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[480px] h-[340px] sm:h-[480px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none animate-pulse duration-3000"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] sm:w-[380px] h-[260px] sm:h-[380px] bg-blue-600/15 rounded-full blur-2xl pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Card Container with Entrance Animation */}
+      {/* Existing Card Container with Entrance Animation */}
       <div className="relative w-full max-w-md animate-in fade-in zoom-in-95 duration-500">
         <Card className="w-full shadow-2xl border-slate-800/80 bg-slate-900/90 backdrop-blur-md text-slate-100 relative overflow-hidden">
           {/* Accent Gold Top Highlight Bar */}
