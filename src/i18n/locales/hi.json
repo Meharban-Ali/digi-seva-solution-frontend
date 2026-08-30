@@ -263,5 +263,28 @@
     "stayLoggedIn": "लॉग इन रहें",
     "logoutNow": "अभी लॉग आउट करें",
     "loggedOutMessage": "निष्क्रियता के कारण आप लॉग आउट हो गए।"
+  },
+  "analytics": {
+    "title": "एनालिटिक्स और सिस्टम इनसाइट्स",
+    "subtitle": "रियल-टाइम सारांश आंकड़े, सेवा कैटलॉग वितरण और ग्राहक गतिविधि",
+    "lastUpdated": "अंतिम अपडेट: {{time}}",
+    "justNow": "अभी-अभी",
+    "minutesAgo": "{{count}} मिनट पहले",
+    "refresh": "डेटा रिफ्रेश करें",
+    "totalServices": "कुल सेवाएं",
+    "publishedContent": "प्रकाशित सामग्री",
+    "mediaAssets": "कुल मीडिया फाइलें",
+    "newEnquiries": "नई पूछताछ",
+    "totalEnquiries": "कुल पूछताछ",
+    "featuredServices": "फीचर्ड सेवाएं",
+    "servicesByCategory": "श्रेणी अनुसार सेवाएं",
+    "enquiriesByStatus": "स्थिति अनुसार पूछताछ",
+    "contentBySection": "सेक्शन अनुसार सामग्री",
+    "recentActivity": "हाल की ग्राहक पूछताछ",
+    "viewAllEnquiries": "सभी पूछताछ देखें",
+    "noRecentEnquiries": "अभी कोई ग्राहक पूछताछ दर्ज नहीं की गई है।",
+    "draft": "ड्राफ्ट",
+    "published": "प्रकाशित",
+    "errorLoading": "डेटा लोड करने में विफल"
   }
 }

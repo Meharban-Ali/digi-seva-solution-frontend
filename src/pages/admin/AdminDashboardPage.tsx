@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/features/auth/authStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldCheck, Layers, FileText, Image, Inbox, KeyRound } from "lucide-react";
+import { AnalyticsDashboard } from "@/components/admin/analytics/AnalyticsDashboard";
 
 export function AdminDashboardPage() {
   const { t } = useTranslation();
@@ -99,6 +100,9 @@ export function AdminDashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Real-time Analytics & System Insights Dashboard */}
+      <AnalyticsDashboard />
     </div>
   );
 }

@@ -263,5 +263,28 @@
     "stayLoggedIn": "Stay Logged In",
     "logoutNow": "Logout Now",
     "loggedOutMessage": "You were logged out due to inactivity."
+  },
+  "analytics": {
+    "title": "Analytics & System Insights",
+    "subtitle": "Real-time summary metrics, catalog distribution, and customer activity",
+    "lastUpdated": "Last updated: {{time}}",
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "refresh": "Refresh Data",
+    "totalServices": "Total Services",
+    "publishedContent": "Published Content",
+    "mediaAssets": "Total Media Assets",
+    "newEnquiries": "New Enquiries",
+    "totalEnquiries": "Total Enquiries",
+    "featuredServices": "Featured Services",
+    "servicesByCategory": "Services by Category",
+    "enquiriesByStatus": "Enquiries by Status",
+    "contentBySection": "Content by Section",
+    "recentActivity": "Recent Customer Enquiries",
+    "viewAllEnquiries": "View All Enquiries",
+    "noRecentEnquiries": "No customer enquiries recorded yet.",
+    "draft": "Draft",
+    "published": "Published",
+    "errorLoading": "Failed to load metric"
   }
 }
