@@ -38,15 +38,15 @@ export function formatTimeAgo(dateString?: string): string {
 const statusBadgeMap: Record<EnquiryStatus, { label: string; style: string }> = {
   NEW: {
     label: "Pending (New)",
-    style: "bg-amber-50 text-amber-800 border-amber-200",
+    style: "bg-amber-50 text-amber-900 border-amber-300 font-bold",
   },
   CONTACTED: {
     label: "Contacted",
-    style: "bg-blue-50 text-blue-800 border-blue-200",
+    style: "bg-indigo-50 text-indigo-900 border-indigo-200 font-bold",
   },
   RESOLVED: {
     label: "Resolved",
-    style: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    style: "bg-emerald-50 text-emerald-900 border-emerald-300 font-bold",
   },
 };
 
@@ -54,15 +54,15 @@ export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiri
   const { t } = useTranslation();
 
   return (
-    <Card className="border border-slate-200 shadow-xs bg-white rounded-xl">
+    <Card className="border border-slate-200/80 shadow-xs bg-white rounded-xl hover:shadow-md transition-shadow">
       <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0 border-b border-slate-100">
         <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-          <Inbox className="h-4 w-4 text-emerald-600" />
+          <Inbox className="h-4 w-4 text-[#0B2046]" />
           {t("analytics.recentActivity", "Recent Customer Enquiries")}
         </CardTitle>
         <Link
           to="/admin/enquiries"
-          className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
+          className="text-xs font-bold text-primary hover:text-primary/80 transition-colors flex items-center gap-1.5"
         >
           {t("analytics.viewAllEnquiries", "View All Enquiries")}
           <ArrowRight className="h-3.5 w-3.5" />
@@ -77,7 +77,7 @@ export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiri
             ))}
           </div>
         ) : enquiries.length === 0 ? (
-          <div className="py-8 text-center text-xs text-slate-400 space-y-1">
+          <div className="py-8 text-center text-xs text-slate-500 space-y-1">
             <p className="font-semibold">{t("analytics.noRecentEnquiries", "No customer enquiries recorded yet.")}</p>
           </div>
         ) : (
@@ -91,16 +91,16 @@ export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiri
               return (
                 <div
                   key={enquiry.id}
-                  className="py-3.5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:bg-slate-50/50 p-2 rounded-lg transition-colors"
+                  className="py-3 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:bg-slate-50/80 p-2 rounded-lg transition-colors"
                 >
-                  <div className="space-y-1 min-w-0">
-                    <div className="flex items-center space-x-2.5">
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="font-bold text-sm text-slate-900 flex items-center gap-1.5 truncate">
                         <User className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                         {enquiry.name}
                       </span>
-                      <span className="text-xs font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded flex items-center gap-1">
-                        <Phone className="h-3 w-3 text-slate-400" />
+                      <span className="text-xs font-mono text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded flex items-center gap-1">
+                        <Phone className="h-3 w-3 text-slate-500 shrink-0" />
                         {maskPhoneNumber(enquiry.phone)}
                       </span>
                     </div>
@@ -114,12 +114,12 @@ export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiri
                   </div>
 
                   <div className="flex items-center space-x-3 shrink-0 self-end sm:self-center">
-                    <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1 font-mono">
-                      <Clock className="h-3 w-3" />
+                    <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 font-mono">
+                      <Clock className="h-3 w-3 text-slate-400" />
                       {formatTimeAgo(enquiry.createdAt)}
                     </span>
                     <span
-                      className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${badge.style}`}
+                      className={`text-[11px] px-2.5 py-0.5 rounded-full border ${badge.style}`}
                     >
                       {badge.label}
                     </span>

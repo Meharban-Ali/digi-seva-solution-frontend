@@ -55,10 +55,10 @@ export function AnalyticsDashboard() {
   return (
     <div className="space-y-6 pt-4 border-t border-slate-200/80">
       {/* Analytics Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="space-y-0.5">
           <div className="flex items-center space-x-2">
-            <BarChart2 className="h-5 w-5 text-primary shrink-0" />
+            <BarChart2 className="h-5 w-5 text-[#0B2046] shrink-0" />
             <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
               {t("analytics.title", "Analytics & System Insights")}
             </h3>
@@ -79,68 +79,77 @@ export function AnalyticsDashboard() {
             size="sm"
             onClick={handleRefresh}
             disabled={isRefreshing || isLoading}
-            className="text-xs font-bold flex items-center gap-1.5 border-slate-300 hover:bg-slate-50"
+            className="text-xs font-bold flex items-center gap-1.5 border-slate-300 hover:bg-slate-50 shadow-xs"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? "animate-spin text-primary" : ""}`} />
+            <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? "animate-spin text-[#0B2046]" : ""}`} />
             <span>{t("analytics.refresh", "Refresh Data")}</span>
           </Button>
         </div>
       </div>
 
-      {/* Section 1: Summary KPI Metrics Row (6 cards grid) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <MetricCard
-          title={t("analytics.totalServices", "Total Services")}
-          value={data?.totalServices}
-          icon={Layers}
-          isLoading={isLoading}
-          isError={isError}
-          accentColor="navy"
-        />
-        <MetricCard
-          title={t("analytics.publishedContent", "Published Content")}
-          value={data?.publishedContent}
-          subtitle={`/ ${data?.totalContent || 0}`}
-          icon={FileText}
-          isLoading={isLoading}
-          isError={isError}
-          accentColor="indigo"
-        />
-        <MetricCard
-          title={t("analytics.mediaAssets", "Total Media Assets")}
-          value={data?.totalMedia}
-          icon={Image}
-          isLoading={isLoading}
-          isError={isError}
-          accentColor="gold"
-        />
-        <MetricCard
-          title={t("analytics.newEnquiries", "New Enquiries")}
-          value={data?.newEnquiries}
-          icon={Inbox}
-          isLoading={isLoading}
-          isError={isError}
-          accentColor="rose"
-        />
-        <MetricCard
-          title={t("analytics.totalEnquiries", "Total Enquiries")}
-          value={data?.totalEnquiries}
-          icon={HelpCircle}
-          isLoading={isLoading}
-          isError={isError}
-          accentColor="emerald"
-        />
-        <MetricCard
-          title={t("analytics.featuredServices", "Featured Services")}
-          value={data?.featuredServices}
-          icon={Sparkles}
-          isLoading={isLoading}
-          isError={isError}
-          accentColor="gold"
-        />
+      {/* Section 1: Visual Hierarchy KPI Metric Rows */}
+      <div className="space-y-4">
+        {/* Row 1A: Primary Highlight KPIs (5-Second Test Focus: Total Catalog & Actionable Enquiries) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <MetricCard
+            title={t("analytics.totalServices", "Total Services")}
+            value={data?.totalServices}
+            icon={Layers}
+            isLoading={isLoading}
+            isError={isError}
+            accentColor="navy"
+            isPrimary={true}
+          />
+          <MetricCard
+            title={t("analytics.newEnquiries", "New Enquiries")}
+            value={data?.newEnquiries}
+            icon={Inbox}
+            isLoading={isLoading}
+            isError={isError}
+            accentColor="rose"
+            isPrimary={true}
+          />
+        </div>
+
+        {/* Row 1B: Secondary Operational Metrics (4-card grid) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <MetricCard
+            title={t("analytics.publishedContent", "Published Content")}
+            value={data?.publishedContent}
+            subtitle={`/ ${data?.totalContent || 0}`}
+            icon={FileText}
+            isLoading={isLoading}
+            isError={isError}
+            accentColor="indigo"
+          />
+          <MetricCard
+            title={t("analytics.mediaAssets", "Total Media Assets")}
+            value={data?.totalMedia}
+            icon={Image}
+            isLoading={isLoading}
+            isError={isError}
+            accentColor="gold"
+          />
+          <MetricCard
+            title={t("analytics.totalEnquiries", "Total Enquiries")}
+            value={data?.totalEnquiries}
+            icon={HelpCircle}
+            isLoading={isLoading}
+            isError={isError}
+            accentColor="emerald"
+          />
+          <MetricCard
+            title={t("analytics.featuredServices", "Featured Services")}
+            value={data?.featuredServices}
+            icon={Sparkles}
+            isLoading={isLoading}
+            isError={isError}
+            accentColor="gold"
+          />
+        </div>
       </div>
 
-      {/* Section 2: Charts Row (3 Columns desktop / 1 Mobile) */}
+      {/* Section 2: Charts Row (3 Columns desktop / Reflows vertically on mobile/tablet) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <ServicesByCategoryChart data={data?.servicesByCategory} isLoading={isLoading} />
         <EnquiriesByStatusChart data={data?.enquiriesByStatus} isLoading={isLoading} />

@@ -24,31 +24,44 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
   const total = data.reduce((acc, item) => acc + item.draft + item.published, 0);
 
   return (
-    <Card className="border border-slate-200 shadow-xs bg-white rounded-xl flex flex-col">
+    <Card className="border border-slate-200/80 shadow-xs bg-white rounded-xl flex flex-col hover:shadow-md transition-shadow">
       <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0 border-b border-slate-100">
         <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-          <Layers className="h-4 w-4 text-indigo-600" />
+          <Layers className="h-4 w-4 text-[#0B2046]" />
           {t("analytics.contentBySection", "Content by Section")}
         </CardTitle>
-        <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded font-mono">
-          Total: {total}
+        <span className="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full font-mono">
+          {total} Total
         </span>
       </CardHeader>
 
-      <CardContent className="p-5 flex-1 flex flex-col justify-center items-center min-h-[260px]">
+      <CardContent className="p-5 flex-1 flex flex-col justify-center items-center min-h-[300px]">
         {isLoading ? (
           <div className="w-full h-48 bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-xs text-slate-400">
             Loading Chart Data...
           </div>
         ) : data.length === 0 ? (
-          <p className="text-xs text-slate-400 font-medium">No content section data available.</p>
+          <div className="w-full h-48 flex items-center justify-center text-xs text-slate-400 font-medium">
+            No content section data available.
+          </div>
         ) : (
-          <div className="w-full h-[220px]">
+          <div className="w-full h-[240px] pt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 15, right: 20, left: -20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#64748B" }} axisLine={false} />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "#64748B" }} axisLine={false} />
+              <BarChart data={data} margin={{ top: 15, right: 15, left: -20, bottom: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
+                <XAxis
+                  dataKey="label"
+                  tick={{ fontSize: 10, fill: "#475569", fontWeight: 500 }}
+                  axisLine={{ stroke: "#E2E8F0" }}
+                  tickLine={false}
+                  interval={0}
+                />
+                <YAxis
+                  allowDecimals={false}
+                  tick={{ fontSize: 11, fill: "#64748B" }}
+                  axisLine={false}
+                  tickLine={false}
+                />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "#0F172A",
@@ -56,22 +69,25 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
                     color: "#FFFFFF",
                     borderRadius: "8px",
                     fontSize: "12px",
+                    padding: "8px 12px",
+                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)",
                   }}
+                  itemStyle={{ color: "#F8FAFC", fontWeight: 600 }}
                 />
                 <Legend
                   verticalAlign="top"
                   align="right"
-                  height={24}
+                  height={30}
                   iconType="circle"
-                  wrapperStyle={{ fontSize: "11px" }}
+                  iconSize={8}
+                  wrapperStyle={{ fontSize: "11px", fontWeight: 600, paddingBottom: "4px" }}
                 />
                 <Bar
                   dataKey="draft"
                   name={t("analytics.draft", "Draft")}
                   stackId="a"
                   fill="#94A3B8"
-                  radius={[0, 0, 0, 0]}
-                  barSize={30}
+                  barSize={32}
                 />
                 <Bar
                   dataKey="published"
@@ -79,7 +95,7 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
                   stackId="a"
                   fill="#0B2046"
                   radius={[4, 4, 0, 0]}
-                  barSize={30}
+                  barSize={32}
                 />
               </BarChart>
             </ResponsiveContainer>
