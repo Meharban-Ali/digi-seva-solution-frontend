@@ -159,211 +159,247 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-2xl border-slate-800 bg-slate-900 text-slate-100">
-        <CardHeader className="space-y-2 text-center pb-6 border-b border-slate-800">
-          <div className="mx-auto bg-accent text-white p-3 rounded-xl w-fit shadow-md mb-1">
-            <ShieldCheck className="h-7 w-7" />
-          </div>
-          <CardTitle className="text-2xl font-black text-white tracking-tight">
-            {t("adminAuth.title")}
-          </CardTitle>
-          <CardDescription className="text-xs text-slate-400">
-            {t("adminAuth.subtitle")}
-          </CardDescription>
-        </CardHeader>
+    <div className="relative min-h-screen bg-slate-950 flex items-center justify-center p-4 overflow-hidden selection:bg-accent selection:text-white">
+      {/* Background Layer 1: Rich Royal Navy & Slate Gradient */}
+      <div
+        className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(11,32,70,0.7),rgba(2,6,23,1))]"
+        aria-hidden="true"
+      />
 
-        <CardContent className="p-6 space-y-6">
-          {/* Error Banner Display with Try Again Retry Button */}
-          {errorMessage && (
-            <div className="p-3.5 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs space-y-2 animate-in fade-in">
-              <div className="flex items-start gap-2.5">
-                <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
-                <span className="flex-1 leading-relaxed">{errorMessage}</span>
-              </div>
-              {lastFailedStep && (
-                <div className="pl-6 pt-0.5">
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    onClick={handleRetrySubmit}
-                    disabled={loading}
-                    className="text-xs py-1 h-7 border-rose-700 text-rose-200 hover:bg-rose-900/80 font-bold flex items-center gap-1.5"
-                  >
-                    <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
-                    <span>{loading ? t("errors.retrying", "Retrying...") : t("errors.tryAgain", "Try Again")}</span>
-                  </Button>
-                </div>
-              )}
+      {/* Background Layer 2: Subtle Security Mesh Grid Pattern */}
+      <div
+        className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Background Layer 3: Security Shield Watermark */}
+      <div
+        className="absolute -right-20 -bottom-20 opacity-[0.03] text-white pointer-events-none select-none hidden lg:block"
+        aria-hidden="true"
+      >
+        <ShieldCheck className="w-[550px] h-[550px]" />
+      </div>
+
+      {/* Background Layer 4: Soft Ambient Accent Glow behind Login Card */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[480px] h-[340px] sm:h-[480px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none animate-pulse duration-3000"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] sm:w-[380px] h-[260px] sm:h-[380px] bg-blue-600/15 rounded-full blur-2xl pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Card Container with Entrance Animation */}
+      <div className="relative w-full max-w-md animate-in fade-in zoom-in-95 duration-500">
+        <Card className="w-full shadow-2xl border-slate-800/80 bg-slate-900/90 backdrop-blur-md text-slate-100 relative overflow-hidden">
+          {/* Accent Gold Top Highlight Bar */}
+          <div className="h-1 w-full bg-gradient-to-r from-accent via-amber-400 to-accent-dark" />
+
+          <CardHeader className="space-y-2 text-center pb-6 border-b border-slate-800/80">
+            <div className="mx-auto bg-accent text-white p-3 rounded-xl w-fit shadow-lg shadow-accent/20 mb-1 ring-1 ring-white/10">
+              <ShieldCheck className="h-7 w-7" />
             </div>
-          )}
+            <CardTitle className="text-2xl font-black text-white tracking-tight">
+              {t("adminAuth.title")}
+            </CardTitle>
+            <CardDescription className="text-xs text-slate-400">
+              {t("adminAuth.subtitle")}
+            </CardDescription>
+          </CardHeader>
 
-          {/* Step 1: Credential Input Form */}
-          {step === 1 ? (
-            <form onSubmit={step1Form.handleSubmit(onStep1Submit)} className="space-y-4">
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                {t("adminAuth.step1Title")}
-              </div>
-
-              {/* Email Field */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
-                  {t("adminAuth.emailLabel")}
-                </label>
-                <div className="relative">
-                  <Mail className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input
-                    type="email"
-                    {...step1Form.register("email")}
-                    placeholder={t("adminAuth.emailPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-accent ${
-                      step1Form.formState.errors.email ? "border-rose-500" : "border-slate-800"
-                    }`}
-                  />
+          <CardContent className="p-6 space-y-6">
+            {/* Error Banner Display with Try Again Retry Button */}
+            {errorMessage && (
+              <div className="p-3.5 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs space-y-2 animate-in fade-in">
+                <div className="flex items-start gap-2.5">
+                  <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                  <span className="flex-1 leading-relaxed">{errorMessage}</span>
                 </div>
-                {step1Form.formState.errors.email && (
-                  <p className="text-xs text-rose-400 font-medium">
-                    {t(step1Form.formState.errors.email.message as string)}
-                  </p>
+                {lastFailedStep && (
+                  <div className="pl-6 pt-0.5">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={handleRetrySubmit}
+                      disabled={loading}
+                      className="text-xs py-1 h-7 border-rose-700 text-rose-200 hover:bg-rose-900/80 font-bold flex items-center gap-1.5"
+                    >
+                      <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
+                      <span>{loading ? t("errors.retrying", "Retrying...") : t("errors.tryAgain", "Try Again")}</span>
+                    </Button>
+                  </div>
                 )}
               </div>
+            )}
 
-              {/* Password Field */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
-                  {t("adminAuth.passwordLabel")}
-                </label>
-                <div className="relative">
-                  <Lock className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input
-                    type="password"
-                    {...step1Form.register("password")}
-                    placeholder={t("adminAuth.passwordPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-accent ${
-                      step1Form.formState.errors.password ? "border-rose-500" : "border-slate-800"
-                    }`}
-                  />
+            {/* Step 1: Credential Input Form */}
+            {step === 1 ? (
+              <form onSubmit={step1Form.handleSubmit(onStep1Submit)} className="space-y-4">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  {t("adminAuth.step1Title")}
                 </div>
-                {step1Form.formState.errors.password && (
-                  <p className="text-xs text-rose-400 font-medium">
-                    {t(step1Form.formState.errors.password.message as string)}
-                  </p>
-                )}
-              </div>
 
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full font-bold bg-accent hover:bg-accent-dark text-white mt-2 shadow-md"
-              >
-                {loading ? (
-                  <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
-                    Validating...
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center gap-2">
-                    {t("adminAuth.loginButton")}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                )}
-              </Button>
-            </form>
-          ) : (
-            /* Step 2: OTP Verification Form */
-            <form onSubmit={step2Form.handleSubmit(onStep2Submit)} className="space-y-4">
-              <div className="flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-wider">
-                <span>{t("adminAuth.step2Title")}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setStep(1);
-                    setErrorMessage(null);
-                  }}
-                  className="text-xs text-primary-light hover:underline flex items-center gap-1 font-semibold capitalize"
+                {/* Email Field */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-300">
+                    {t("adminAuth.emailLabel")}
+                  </label>
+                  <div className="relative">
+                    <Mail className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                    <input
+                      type="email"
+                      {...step1Form.register("email")}
+                      placeholder={t("adminAuth.emailPlaceholder")}
+                      className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950/80 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-accent ${
+                        step1Form.formState.errors.email ? "border-rose-500" : "border-slate-800"
+                      }`}
+                    />
+                  </div>
+                  {step1Form.formState.errors.email && (
+                    <p className="text-xs text-rose-400 font-medium">
+                      {t(step1Form.formState.errors.email.message as string)}
+                    </p>
+                  )}
+                </div>
+
+                {/* Password Field */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-300">
+                    {t("adminAuth.passwordLabel")}
+                  </label>
+                  <div className="relative">
+                    <Lock className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                    <input
+                      type="password"
+                      {...step1Form.register("password")}
+                      placeholder={t("adminAuth.passwordPlaceholder")}
+                      className={`w-full pl-9 pr-3.5 py-2 text-sm bg-slate-950/80 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-accent ${
+                        step1Form.formState.errors.password ? "border-rose-500" : "border-slate-800"
+                      }`}
+                    />
+                  </div>
+                  {step1Form.formState.errors.password && (
+                    <p className="text-xs text-rose-400 font-medium">
+                      {t(step1Form.formState.errors.password.message as string)}
+                    </p>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full font-bold bg-accent hover:bg-accent-dark text-white mt-2 shadow-md transition-all duration-200"
                 >
-                  <ArrowLeft className="h-3 w-3" />
-                  {t("adminAuth.backToStep1")}
-                </button>
-              </div>
-
-              {otpSentNotice && (
-                <div className="p-3 rounded-lg bg-emerald-950/80 border border-emerald-800 text-emerald-200 text-xs flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>{otpSentNotice}</span>
-                </div>
-              )}
-
-              {/* OTP Field with strict non-autofill attributes */}
-              <div className="space-y-1.5">
-                <label htmlFor="otpCode" className="text-xs font-semibold text-slate-300">
-                  {t("adminAuth.otpLabel")}
-                </label>
-                <div className="relative">
-                  <KeyRound className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input
-                    id="otpCode"
-                    type="tel"
-                    maxLength={6}
-                    autoComplete="one-time-code"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    {...step2Form.register("otpCode")}
-                    placeholder={t("adminAuth.otpPlaceholder")}
-                    className={`w-full pl-9 pr-3.5 py-2 text-base font-mono tracking-widest text-center bg-slate-950 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
-                      step2Form.formState.errors.otpCode ? "border-rose-500" : "border-slate-800"
-                    }`}
-                  />
-                </div>
-                <div className="flex items-center justify-between text-[11px] pt-1">
-                  <span className="text-slate-400">{t("adminAuth.otpHint")}</span>
-                  {/* Resend OTP Button & Cooldown */}
+                  {loading ? (
+                    <span className="flex items-center gap-2">
+                      <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                      Validating...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      {t("adminAuth.loginButton")}
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  )}
+                </Button>
+              </form>
+            ) : (
+              /* Step 2: OTP Verification Form */
+              <form onSubmit={step2Form.handleSubmit(onStep2Submit)} className="space-y-4">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  <span>{t("adminAuth.step2Title")}</span>
                   <button
                     type="button"
-                    onClick={handleResendOtp}
-                    disabled={cooldownSeconds > 0 || resendLoading}
-                    className={`font-bold flex items-center gap-1.5 transition-colors ${
-                      cooldownSeconds > 0 || resendLoading
-                        ? "text-slate-500 cursor-not-allowed"
-                        : "text-primary-light hover:text-white underline cursor-pointer"
-                    }`}
+                    onClick={() => {
+                      setStep(1);
+                      setErrorMessage(null);
+                    }}
+                    className="text-xs text-primary-light hover:underline flex items-center gap-1 font-semibold capitalize"
                   >
-                    <RefreshCw className={`h-3 w-3 ${resendLoading ? "animate-spin" : ""}`} />
-                    {cooldownSeconds > 0
-                      ? t("adminAuth.resendOtpIn", { seconds: cooldownSeconds })
-                      : t("adminAuth.resendOtp")}
+                    <ArrowLeft className="h-3 w-3" />
+                    {t("adminAuth.backToStep1")}
                   </button>
                 </div>
 
-                {step2Form.formState.errors.otpCode && (
-                  <p className="text-xs text-rose-400 font-medium">
-                    {t(step2Form.formState.errors.otpCode.message as string)}
-                  </p>
+                {otpSentNotice && (
+                  <div className="p-3 rounded-lg bg-emerald-950/80 border border-emerald-800 text-emerald-200 text-xs flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span>{otpSentNotice}</span>
+                  </div>
                 )}
-              </div>
 
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full font-bold bg-emerald-600 hover:bg-emerald-500 text-white mt-2 shadow-md"
-              >
-                {loading ? (
-                  <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
-                    Verifying OTP...
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center gap-2">
-                    <ShieldCheck className="h-4 w-4" />
-                    {t("adminAuth.verifyOtpButton")}
-                  </span>
-                )}
-              </Button>
-            </form>
-          )}
-        </CardContent>
-      </Card>
+                {/* OTP Field with strict non-autofill attributes */}
+                <div className="space-y-1.5">
+                  <label htmlFor="otpCode" className="text-xs font-semibold text-slate-300">
+                    {t("adminAuth.otpLabel")}
+                  </label>
+                  <div className="relative">
+                    <KeyRound className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                    <input
+                      id="otpCode"
+                      type="tel"
+                      maxLength={6}
+                      autoComplete="one-time-code"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      {...step2Form.register("otpCode")}
+                      placeholder={t("adminAuth.otpPlaceholder")}
+                      className={`w-full pl-9 pr-3.5 py-2 text-base font-mono tracking-widest text-center bg-slate-950/80 border rounded-lg text-white shadow-xs focus:outline-none focus:ring-2 focus:ring-primary ${
+                        step2Form.formState.errors.otpCode ? "border-rose-500" : "border-slate-800"
+                      }`}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] pt-1">
+                    <span className="text-slate-400">{t("adminAuth.otpHint")}</span>
+                    {/* Resend OTP Button & Cooldown */}
+                    <button
+                      type="button"
+                      onClick={handleResendOtp}
+                      disabled={cooldownSeconds > 0 || resendLoading}
+                      className={`font-bold flex items-center gap-1.5 transition-colors ${
+                        cooldownSeconds > 0 || resendLoading
+                          ? "text-slate-500 cursor-not-allowed"
+                          : "text-primary-light hover:text-white underline cursor-pointer"
+                      }`}
+                    >
+                      <RefreshCw className={`h-3 w-3 ${resendLoading ? "animate-spin" : ""}`} />
+                      {cooldownSeconds > 0
+                        ? t("adminAuth.resendOtpIn", { seconds: cooldownSeconds })
+                        : t("adminAuth.resendOtp")}
+                    </button>
+                  </div>
+
+                  {step2Form.formState.errors.otpCode && (
+                    <p className="text-xs text-rose-400 font-medium">
+                      {t(step2Form.formState.errors.otpCode.message as string)}
+                    </p>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full font-bold bg-emerald-600 hover:bg-emerald-500 text-white mt-2 shadow-md transition-all duration-200"
+                >
+                  {loading ? (
+                    <span className="flex items-center gap-2">
+                      <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                      Verifying OTP...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <ShieldCheck className="h-4 w-4" />
+                      {t("adminAuth.verifyOtpButton")}
+                    </span>
+                  )}
+                </Button>
+              </form>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
