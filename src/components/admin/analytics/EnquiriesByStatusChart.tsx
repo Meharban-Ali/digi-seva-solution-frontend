@@ -59,6 +59,7 @@ export function EnquiriesByStatusChart({ data = [], isLoading }: EnquiriesByStat
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
                 <XAxis
                   dataKey="label"
+                  interval={0}
                   tick={{ fontSize: 11, fill: "#475569", fontWeight: 600 }}
                   axisLine={{ stroke: "#E2E8F0" }}
                   tickLine={false}

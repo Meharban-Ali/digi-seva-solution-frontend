@@ -18,6 +18,28 @@ interface ContentBySectionChartProps {
   isLoading?: boolean;
 }
 
+// Custom rotated tick component to prevent horizontal label collisions
+const AngledXAxisTick = (props: any) => {
+  const { x, y, payload } = props;
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={0}
+        dy={8}
+        dx={-4}
+        textAnchor="end"
+        fill="#475569"
+        fontSize={10}
+        fontWeight={600}
+        transform="rotate(-30)"
+      >
+        {payload.value}
+      </text>
+    </g>
+  );
+};
+
 export function ContentBySectionChart({ data = [], isLoading }: ContentBySectionChartProps) {
   const { t } = useTranslation();
 
@@ -35,7 +57,7 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
         </span>
       </CardHeader>
 
-      <CardContent className="p-5 flex-1 flex flex-col justify-center items-center min-h-[300px]">
+      <CardContent className="p-5 flex-1 flex flex-col justify-center items-center min-h-[310px]">
         {isLoading ? (
           <div className="w-full h-48 bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-xs text-slate-400">
             Loading Chart Data...
@@ -45,16 +67,17 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
             No content section data available.
           </div>
         ) : (
-          <div className="w-full h-[240px] pt-1">
+          <div className="w-full h-[250px] pt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 15, right: 15, left: -20, bottom: 10 }}>
+              <BarChart data={data} margin={{ top: 15, right: 15, left: -20, bottom: 25 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
                 <XAxis
                   dataKey="label"
-                  tick={{ fontSize: 10, fill: "#475569", fontWeight: 500 }}
+                  height={50}
+                  interval={0}
+                  tick={<AngledXAxisTick />}
                   axisLine={{ stroke: "#E2E8F0" }}
                   tickLine={false}
-                  interval={0}
                 />
                 <YAxis
                   allowDecimals={false}
@@ -63,6 +86,10 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
                   tickLine={false}
                 />
                 <Tooltip
+                  formatter={(value: any, name: any, item: any) => [
+                    `${value ?? 0} Blocks`,
+                    `${item?.payload?.label || ""} (${name})`,
+                  ]}
                   contentStyle={{
                     backgroundColor: "#0F172A",
                     borderColor: "#334155",
@@ -77,7 +104,7 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
                 <Legend
                   verticalAlign="top"
                   align="right"
-                  height={30}
+                  height={28}
                   iconType="circle"
                   iconSize={8}
                   wrapperStyle={{ fontSize: "11px", fontWeight: 600, paddingBottom: "4px" }}
@@ -87,7 +114,7 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
                   name={t("analytics.draft", "Draft")}
                   stackId="a"
                   fill="#94A3B8"
-                  barSize={32}
+                  barSize={28}
                 />
                 <Bar
                   dataKey="published"
@@ -95,7 +122,7 @@ export function ContentBySectionChart({ data = [], isLoading }: ContentBySection
                   stackId="a"
                   fill="#0B2046"
                   radius={[4, 4, 0, 0]}
-                  barSize={32}
+                  barSize={28}
                 />
               </BarChart>
             </ResponsiveContainer>
