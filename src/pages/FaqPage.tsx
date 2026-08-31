@@ -203,7 +203,7 @@ export function FaqPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
-            <Button asChild className="font-bold bg-primary hover:bg-primary-light text-white shadow-md">
+            <Button asChild className="font-bold bg-primary hover:bg-primary-dark text-white shadow-md">
               <Link to="/contact">
                 <span>{t("faq.askQuestionBtn")}</span>
               </Link>

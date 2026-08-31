@@ -166,7 +166,7 @@ export function AdminCategoriesPage() {
         </div>
         <Button
           onClick={handleOpenCreateModal}
-          className="bg-primary hover:bg-primary-light text-white font-extrabold shadow-sm flex items-center gap-2"
+          className="bg-primary hover:bg-primary-dark text-white font-extrabold shadow-sm flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
           <span>Add Category</span>
@@ -481,7 +481,7 @@ export function AdminCategoriesPage() {
                 <Button
                   type="submit"
                   disabled={createMutation.isPending || updateMutation.isPending}
-                  className="bg-primary hover:bg-primary-light text-white font-extrabold"
+                  className="bg-primary hover:bg-primary-dark text-white font-extrabold"
                 >
                   {createMutation.isPending || updateMutation.isPending
                     ? "Saving..."

@@ -239,7 +239,7 @@ export function ContactPage() {
               <Button
                 type="submit"
                 disabled={submitEnquiryMutation.isPending}
-                className="w-full font-bold bg-primary hover:bg-primary-light text-white mt-2 shadow-md"
+                className="w-full font-bold bg-primary hover:bg-primary-dark text-white mt-2 shadow-md"
               >
                 {submitEnquiryMutation.isPending ? (
                   <span className="flex items-center gap-2">

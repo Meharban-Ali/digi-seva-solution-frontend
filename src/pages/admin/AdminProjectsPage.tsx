@@ -146,7 +146,7 @@ export function AdminProjectsPage() {
             Manage client portfolio items, case studies, and web/app showcases displayed on the public site.
           </p>
         </div>
-        <Button onClick={openCreateModal} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+        <Button onClick={openCreateModal} className="bg-primary hover:bg-primary-dark text-white font-semibold shadow-xs">
           <Plus className="w-4 h-4 mr-2" />
           Add Portfolio Project
         </Button>
@@ -229,7 +229,7 @@ export function AdminProjectsPage() {
                       href={project.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 truncate"
+                      className="text-xs text-primary hover:text-primary-dark font-medium flex items-center gap-1 truncate"
                     >
                       <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                       {project.projectUrl}
@@ -343,7 +343,7 @@ export function AdminProjectsPage() {
                       value={titleEn}
                       onChange={(e) => setTitleEn(e.target.value)}
                       placeholder="e.g. Government E-District Online Portal"
-                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                   <div>
@@ -355,7 +355,7 @@ export function AdminProjectsPage() {
                       value={descriptionEn}
                       onChange={(e) => setDescriptionEn(e.target.value)}
                       placeholder="Brief description of the work completed..."
-                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 </div>
@@ -370,7 +370,7 @@ export function AdminProjectsPage() {
                       value={titleHi}
                       onChange={(e) => setTitleHi(e.target.value)}
                       placeholder="उदा. सरकारी ई-डिस्ट्रिक्ट पोर्टल"
-                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-sans"
+                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary font-sans"
                     />
                   </div>
                   <div>
@@ -382,7 +382,7 @@ export function AdminProjectsPage() {
                       value={descriptionHi}
                       onChange={(e) => setDescriptionHi(e.target.value)}
                       placeholder="परियोजना का विवरण..."
-                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-sans"
+                      className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary font-sans"
                     />
                   </div>
                 </div>
@@ -399,7 +399,7 @@ export function AdminProjectsPage() {
                     value={categoryTag}
                     onChange={(e) => setCategoryTag(e.target.value)}
                     placeholder="e.g. Web Application, E-Commerce, Mobile App"
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
 
@@ -412,7 +412,7 @@ export function AdminProjectsPage() {
                     value={projectUrl}
                     onChange={(e) => setProjectUrl(e.target.value)}
                     placeholder="https://example.com"
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -428,7 +428,7 @@ export function AdminProjectsPage() {
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
                     placeholder="https://res.cloudinary.com/..."
-                    className="flex-1 px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+                    className="flex-1 px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary font-mono"
                   />
                   <Button
                     type="button"
@@ -457,7 +457,7 @@ export function AdminProjectsPage() {
                     type="number"
                     value={displayOrder}
                     onChange={(e) => setDisplayOrder(parseInt(e.target.value) || 0)}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
 
@@ -467,7 +467,7 @@ export function AdminProjectsPage() {
                       type="checkbox"
                       checked={isActive}
                       onChange={(e) => setIsActive(e.target.checked)}
-                      className="rounded text-indigo-600 focus:ring-indigo-500"
+                      className="rounded text-primary focus:ring-primary"
                     />
                     Active (Visible Publicly)
                   </label>
@@ -493,7 +493,7 @@ export function AdminProjectsPage() {
                 <Button
                   type="submit"
                   disabled={createMutation.isPending || updateMutation.isPending}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+                  className="bg-primary hover:bg-primary-dark text-white font-semibold"
                 >
                   {createMutation.isPending || updateMutation.isPending
                     ? "Saving..."

@@ -196,7 +196,7 @@ export function ServicesPage() {
             onClick={() => handleSelectDeliveryMode("ONLINE")}
             className={`flex items-center gap-2 font-bold ${
               selectedDeliveryMode === "ONLINE"
-                ? "bg-primary hover:bg-primary-light text-white shadow-xs"
+                ? "bg-primary hover:bg-primary-dark text-white shadow-xs"
                 : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
             }`}
             aria-label="Filter online services"
@@ -211,7 +211,7 @@ export function ServicesPage() {
             onClick={() => handleSelectDeliveryMode("VISIT_REQUIRED")}
             className={`flex items-center gap-2 font-bold ${
               selectedDeliveryMode === "VISIT_REQUIRED"
-                ? "bg-primary hover:bg-primary-light text-white shadow-xs"
+                ? "bg-primary hover:bg-primary-dark text-white shadow-xs"
                 : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
             }`}
             aria-label="Filter visit required services"

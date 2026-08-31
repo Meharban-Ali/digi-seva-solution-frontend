@@ -41,7 +41,7 @@ export function ServiceDetailPage() {
             <p className="text-sm text-slate-600 max-w-md mx-auto">
               {t("common.serviceNotFoundDesc")}
             </p>
-            <Button asChild variant="default" className="mt-4 bg-primary hover:bg-primary-light">
+            <Button asChild variant="default" className="mt-4 bg-primary hover:bg-primary-dark text-white font-bold">
               <Link to="/services">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 {t("common.backToServices")}
@@ -157,7 +157,7 @@ export function ServiceDetailPage() {
           </div>
 
           <div className="pt-4 flex justify-end">
-            <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-primary hover:bg-primary-light text-white">
+            <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-primary hover:bg-primary-dark text-white shadow-md">
               <Link to={`/contact?service=${encodeURIComponent(service.name)}`}>
                 Enquire for {service.name}
               </Link>
