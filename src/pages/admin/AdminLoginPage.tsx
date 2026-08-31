@@ -169,16 +169,10 @@ export function AdminLoginPage() {
         {/* Soft Ambient Background Glow (Pulses gently) */}
         <div className="absolute -inset-1 rounded-[1.4rem] bg-gradient-to-r from-accent/30 via-amber-500/20 to-accent-dark/30 blur-xl opacity-70 animate-pulse motion-reduce:animate-none -z-10" />
 
-        {/* Traveling Light Border Outer Frame */}
-        <div className="relative p-[1.5px] rounded-[1.25rem] overflow-hidden bg-slate-800/80 shadow-2xl">
-          {/* Animated Rotating Conic-Gradient Light Beam */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-[-150%] animate-[spin_7s_linear_infinite] motion-reduce:animate-none bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,transparent_270deg,#F95700_320deg,#F59E0B_345deg,#F95700_360deg)] opacity-90 pointer-events-none"
-          />
-
+        {/* Refined Gradient Border Outer Frame with Smooth Corner Clipping */}
+        <div className="relative rounded-2xl p-[1px] bg-gradient-to-b from-orange-500/50 via-amber-500/30 to-slate-800/80 shadow-2xl shadow-orange-500/10 overflow-hidden">
           {/* Inner Card Content */}
-          <Card className="w-full border-0 bg-slate-900/95 backdrop-blur-xl text-slate-100 relative z-10 rounded-[1.15rem]">
+          <Card className="w-full border-0 bg-slate-900/95 backdrop-blur-xl text-slate-100 relative z-10 rounded-[0.95rem] overflow-hidden">
             {/* Accent Top Highlight Bar */}
             <div className="h-1 w-full bg-gradient-to-r from-accent via-amber-400 to-accent-dark" />
 
