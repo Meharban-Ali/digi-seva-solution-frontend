@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
   name: "Digi Seva Solution",
-  domain: "digisevasolution.online",
-  baseUrl: "https://digisevasolution.online",
+  domain: "www.digisevasolution.online",
+  baseUrl: "https://www.digisevasolution.online",
   address: {
     en: "Block D, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096",
     hi: "ब्लॉक डी, मस्जिद वाली गली, विवो शोरूम के पास, न्यू अशोक नगर, नई दिल्ली - 110096",

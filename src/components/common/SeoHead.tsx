@@ -21,7 +21,7 @@ export function SeoHead({
 }: SeoHeadProps) {
   const { i18n } = useTranslation();
 
-  const baseUrl = SITE_CONFIG.baseUrl; // "https://digisevasolution.online"
+  const baseUrl = SITE_CONFIG.baseUrl; // "https://www.digisevasolution.online"
   const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
   const canonicalUrl = `${baseUrl}${normalizedPath}`;
   const fullOgImageUrl = ogImage.startsWith("http")
