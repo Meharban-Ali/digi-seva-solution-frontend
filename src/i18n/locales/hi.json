@@ -306,5 +306,22 @@
     "draft": "ड्राफ्ट",
     "published": "प्रकाशित",
     "errorLoading": "डेटा लोड करने में विफल"
+  },
+  "callback": {
+    "buttonText": "कॉलबैक करें",
+    "formTitle": "कॉलबैक के लिए अनुरोध करें",
+    "name": "आपका नाम",
+    "namePlaceholder": "अपना पूरा नाम दर्ज करें",
+    "phone": "फ़ोन नंबर",
+    "phonePlaceholder": "10-अंकों का मोबाइल नंबर दर्ज करें",
+    "preferredTime": "पसंदीदा समय",
+    "submit": "कॉलबैक अनुरोध करें",
+    "submitting": "अनुरोध भेजा जा रहा है...",
+    "success": "हम जल्द ही आपको कॉल करेंगे!",
+    "tooManyRequests": "अत्यधिक अनुरोध, कृपया कुछ समय बाद प्रयास करें।",
+    "morning": "सुबह (7AM - 12PM)",
+    "afternoon": "दोपहर (12PM - 5PM)",
+    "evening": "शाम (5PM - 12AM)",
+    "anyTime": "कभी भी"
   }
 }

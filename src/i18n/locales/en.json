@@ -306,5 +306,22 @@
     "draft": "Draft",
     "published": "Published",
     "errorLoading": "Failed to load metric"
+  },
+  "callback": {
+    "buttonText": "Call Me Back",
+    "formTitle": "Request a Callback",
+    "name": "Your Name",
+    "namePlaceholder": "Enter your full name",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter 10-digit mobile number",
+    "preferredTime": "Preferred Time",
+    "submit": "Request Callback",
+    "submitting": "Requesting...",
+    "success": "We'll call you back soon!",
+    "tooManyRequests": "Too many requests, please try after some time.",
+    "morning": "Morning (7AM - 12PM)",
+    "afternoon": "Afternoon (12PM - 5PM)",
+    "evening": "Evening (5PM - 12AM)",
+    "anyTime": "Any Time"
   }
 }

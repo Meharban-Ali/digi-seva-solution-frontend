@@ -15,6 +15,7 @@ import {
   FileText,
   Image,
   Inbox,
+  PhoneCall,
   LogOut,
   Menu,
   X,
@@ -57,6 +58,7 @@ export function AdminLayout() {
     { path: "/admin/content", label: t("adminNav.content"), icon: FileText },
     { path: "/admin/media", label: t("adminNav.media"), icon: Image },
     { path: "/admin/enquiries", label: t("adminNav.enquiries"), icon: Inbox },
+    { path: "/admin/callbacks", label: "Callbacks", icon: PhoneCall },
     { path: "/admin/profile", label: t("adminNav.profile"), icon: User },
   ];
 

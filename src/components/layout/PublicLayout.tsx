@@ -3,6 +3,7 @@ import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { OfferBannerStrip } from "@/components/common/OfferBannerStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
+import { CallbackWidget } from "@/components/common/CallbackWidget";
 import { WelcomeModal } from "@/components/common/WelcomeModal";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -28,6 +29,7 @@ export function PublicLayout() {
         </AnimatePresence>
       </div>
       <WhatsAppButton />
+      <CallbackWidget />
       <Footer />
     </div>
   );

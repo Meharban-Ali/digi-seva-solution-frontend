@@ -23,6 +23,7 @@ const AdminProjectsPage = lazy(() => import("@/pages/admin/AdminProjectsPage").t
 const AdminContentPage = lazy(() => import("@/pages/admin/AdminContentPage").then((m) => ({ default: m.AdminContentPage })));
 const AdminMediaPage = lazy(() => import("@/pages/admin/AdminMediaPage").then((m) => ({ default: m.AdminMediaPage })));
 const AdminEnquiriesPage = lazy(() => import("@/pages/admin/AdminEnquiriesPage").then((m) => ({ default: m.AdminEnquiriesPage })));
+const AdminCallbacksPage = lazy(() => import("@/pages/admin/AdminCallbacksPage").then((m) => ({ default: m.AdminCallbacksPage })));
 const AdminProfilePage = lazy(() => import("@/pages/admin/AdminProfilePage").then((m) => ({ default: m.AdminProfilePage })));
 
 /**
@@ -140,6 +141,14 @@ const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<LoadingSpinner label="Loading Enquiries..." />}>
                     <AdminEnquiriesPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "callbacks",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Callbacks..." />}>
+                    <AdminCallbacksPage />
                   </Suspense>
                 ),
               },
