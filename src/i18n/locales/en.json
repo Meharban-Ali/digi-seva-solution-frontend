@@ -384,5 +384,14 @@
     "emptyDescToday": "No appointments scheduled for today.",
     "emptyDescStatus": "No {{status}} appointments found matching the current filter.",
     "emptyDescDefault": "No customer appointments found matching the filter criteria."
+  },
+  "testimonials": {
+    "sectionBadge": "CUSTOMER REVIEWS",
+    "sectionTitle": "What Our Customers Say",
+    "subtitle": "Trusted by thousands of residents across New Ashok Nagar, Delhi & surrounding areas.",
+    "verifiedCustomer": "Verified Customer",
+    "addNew": "Add Testimonial",
+    "publish": "Publish",
+    "unpublish": "Unpublish"
   }
 }

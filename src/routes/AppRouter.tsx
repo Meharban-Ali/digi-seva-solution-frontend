@@ -22,6 +22,7 @@ const AdminServicesPage = lazy(() => import("@/pages/admin/AdminServicesPage").t
 const AdminProjectsPage = lazy(() => import("@/pages/admin/AdminProjectsPage").then((m) => ({ default: m.AdminProjectsPage })));
 const AdminContentPage = lazy(() => import("@/pages/admin/AdminContentPage").then((m) => ({ default: m.AdminContentPage })));
 const AdminMediaPage = lazy(() => import("@/pages/admin/AdminMediaPage").then((m) => ({ default: m.AdminMediaPage })));
+const ManageTestimonials = lazy(() => import("@/pages/admin/ManageTestimonials").then((m) => ({ default: m.ManageTestimonials })));
 const AdminEnquiriesPage = lazy(() => import("@/pages/admin/AdminEnquiriesPage").then((m) => ({ default: m.AdminEnquiriesPage })));
 const AdminCallbacksPage = lazy(() => import("@/pages/admin/AdminCallbacksPage").then((m) => ({ default: m.AdminCallbacksPage })));
 const AdminAppointmentsPage = lazy(() => import("@/pages/admin/AdminAppointmentsPage").then((m) => ({ default: m.AdminAppointmentsPage })));
@@ -143,6 +144,14 @@ const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<LoadingSpinner label="Loading Media..." />}>
                     <AdminMediaPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "testimonials",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Testimonials..." />}>
+                    <ManageTestimonials />
                   </Suspense>
                 ),
               },

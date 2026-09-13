@@ -5,6 +5,7 @@ import { useServices } from "@/hooks/useServices";
 import { stripHtml } from "@/lib/htmlUtils";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { ProjectsShowcase } from "@/components/home/ProjectsShowcase";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { VideoSection } from "@/components/home/VideoSection";
 import { AppointmentCtaBanner } from "@/components/home/AppointmentCtaBanner";
 import { Button } from "@/components/ui/button";
@@ -591,6 +592,9 @@ export function HomePage() {
 
       {/* 7. Portfolio & Client Projects Showcase (Section 7) */}
       <ProjectsShowcase />
+
+      {/* 8. Customer Testimonials Section */}
+      <TestimonialsSection />
     </div>
   );
 }

@@ -22,6 +22,7 @@ import {
   X,
   UserCheck,
   User,
+  Star,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -58,6 +59,7 @@ export function AdminLayout() {
     { path: "/admin/projects", label: "Projects", icon: FolderKanban },
     { path: "/admin/content", label: t("adminNav.content"), icon: FileText },
     { path: "/admin/media", label: t("adminNav.media"), icon: Image },
+    { path: "/admin/testimonials", label: "Testimonials", icon: Star },
     { path: "/admin/enquiries", label: t("adminNav.enquiries"), icon: Inbox },
     { path: "/admin/callbacks", label: "Callbacks", icon: PhoneCall },
     { path: "/admin/appointments", label: "Appointments", icon: Calendar },
