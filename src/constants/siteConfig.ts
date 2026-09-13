@@ -3,9 +3,9 @@ export const SITE_CONFIG = {
   domain: "www.digisevasolution.online",
   baseUrl: "https://www.digisevasolution.online",
   address: {
-    en: "Block D, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096",
-    hi: "ब्लॉक डी, मस्जिद वाली गली, विवो शोरूम के पास, न्यू अशोक नगर, नई दिल्ली - 110096",
-    street: "Block D, Masjid Wali Gali, Near Vivo Showroom",
+    en: "Block C/203, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096",
+    hi: "ब्लॉक सी/203, मस्जिद वाली गली, विवो शोरूम के पास, न्यू अशोक नगर, नई दिल्ली - 110096",
+    street: "Block C/203, Masjid Wali Gali, Near Vivo Showroom",
     locality: "New Ashok Nagar",
     city: "New Delhi",
     state: "Delhi",
@@ -13,9 +13,9 @@ export const SITE_CONFIG = {
     country: "India",
   },
   mapEmbedUrl:
-    "https://maps.google.com/maps?q=Block+D,+Masjid+Wali+Gali,+Near+Vivo+Showroom,+New+Ashok+Nagar,+New+Delhi+-+110096&t=&z=16&ie=UTF8&iwloc=&output=embed",
+    "https://maps.google.com/maps?q=Block+C%2F203,+Masjid+Wali+Gali,+Near+Vivo+Showroom,+New+Ashok+Nagar,+New+Delhi+-+110096&t=&z=16&ie=UTF8&iwloc=&output=embed",
   mapSearchUrl:
-    "https://www.google.com/maps/search/?api=1&query=Block+D+Masjid+Wali+Gali+Near+Vivo+Showroom+New+Ashok+Nagar+New+Delhi+110096",
+    "https://www.google.com/maps/search/?api=1&query=Block+C%2F203+Masjid+Wali+Gali+Near+Vivo+Showroom+New+Ashok+Nagar+New+Delhi+110096",
 };
 
 export default SITE_CONFIG;

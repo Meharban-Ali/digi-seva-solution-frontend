@@ -341,7 +341,7 @@ export function BookAppointmentPage() {
               <MapPin className="h-4 w-4 text-accent shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold text-slate-900 block">Jan Seva Kendra Center Location</span>
-                <span>Block D, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, Delhi - 110096</span>
+                <span>Block C/203, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, Delhi - 110096</span>
               </div>
             </div>
           </div>

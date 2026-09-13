@@ -74,7 +74,7 @@ export function Footer() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 border-t border-blue-900/60 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
         <p>{t("footer.copyright")}</p>
-        <p className="text-slate-400 text-center sm:text-right leading-relaxed max-w-md">Block D, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096</p>
+        <p className="text-slate-400 text-center sm:text-right leading-relaxed max-w-md">Block C/203, Masjid Wali Gali, Near Vivo Showroom, New Ashok Nagar, New Delhi - 110096</p>
       </div>
     </footer>
   );
