@@ -24,6 +24,8 @@ const AdminContentPage = lazy(() => import("@/pages/admin/AdminContentPage").the
 const AdminMediaPage = lazy(() => import("@/pages/admin/AdminMediaPage").then((m) => ({ default: m.AdminMediaPage })));
 const AdminEnquiriesPage = lazy(() => import("@/pages/admin/AdminEnquiriesPage").then((m) => ({ default: m.AdminEnquiriesPage })));
 const AdminCallbacksPage = lazy(() => import("@/pages/admin/AdminCallbacksPage").then((m) => ({ default: m.AdminCallbacksPage })));
+const AdminAppointmentsPage = lazy(() => import("@/pages/admin/AdminAppointmentsPage").then((m) => ({ default: m.AdminAppointmentsPage })));
+const BookAppointmentPage = lazy(() => import("@/pages/public/BookAppointmentPage").then((m) => ({ default: m.BookAppointmentPage })));
 const AdminProfilePage = lazy(() => import("@/pages/admin/AdminProfilePage").then((m) => ({ default: m.AdminProfilePage })));
 
 /**
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
           { path: "about", element: <AboutPage /> },
           { path: "contact", element: <ContactPage /> },
           { path: "faq", element: <FaqPage /> },
+          {
+            path: "book-appointment",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Booking Portal..." />}>
+                <BookAppointmentPage />
+              </Suspense>
+            ),
+          },
         ],
       },
 
@@ -149,6 +159,14 @@ const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<LoadingSpinner label="Loading Callbacks..." />}>
                     <AdminCallbacksPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "appointments",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Appointments..." />}>
+                    <AdminAppointmentsPage />
                   </Suspense>
                 ),
               },

@@ -13,6 +13,7 @@ export function Navbar() {
   const navItems = [
     { path: "/", label: t("nav.home") },
     { path: "/services", label: t("nav.services") },
+    { path: "/book-appointment", label: t("appointment.navLink", "Book Appointment") },
     { path: "/about", label: t("nav.about") },
     { path: "/contact", label: t("nav.contact") },
     { path: "/faq", label: t("nav.faq") },
@@ -28,31 +29,51 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links with Sliding Underline Indicator */}
-        <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `transition-colors duration-200 py-1 relative ${
-                  isActive ? "text-accent-dark font-bold" : "text-slate-700 hover:text-accent-dark"
-                }`
-              }
-            >
-              {({ isActive }) => (
-                <>
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold">
+          {navItems.map((item) => {
+            const isBookAppointment = item.path === "/book-appointment";
+            if (isBookAppointment) {
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `px-3.5 py-1.5 rounded-lg font-extrabold text-xs transition-all shadow-2xs text-white ${
+                      isActive
+                        ? "bg-accent-dark shadow-md ring-2 ring-orange-400/40"
+                        : "bg-accent hover:bg-accent-dark hover:shadow-md hover:scale-105"
+                    }`
+                  }
+                >
                   <span>{item.label}</span>
-                  {isActive && (
-                    <motion.div
-                      layoutId="navbar-active-indicator"
-                      className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-accent rounded-full shadow-2xs"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </>
-              )}
-            </NavLink>
-          ))}
+                </NavLink>
+              );
+            }
+            return (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `transition-colors duration-200 py-1 relative ${
+                    isActive ? "text-accent-dark font-bold" : "text-slate-700 hover:text-accent-dark"
+                  }`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    <span>{item.label}</span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="navbar-active-indicator"
+                        className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-accent rounded-full shadow-2xs"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </>
+                )}
+              </NavLink>
+            );
+          })}
         </nav>
 
         {/* Actions & Language Switcher */}

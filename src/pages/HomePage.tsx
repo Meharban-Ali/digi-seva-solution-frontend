@@ -6,6 +6,7 @@ import { stripHtml } from "@/lib/htmlUtils";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { ProjectsShowcase } from "@/components/home/ProjectsShowcase";
 import { VideoSection } from "@/components/home/VideoSection";
+import { AppointmentCtaBanner } from "@/components/home/AppointmentCtaBanner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SeoHead } from "@/components/common/SeoHead";
@@ -469,8 +470,11 @@ export function HomePage() {
       {/* 5.5. "See Our Services in Action" Video Showcase Section */}
       <VideoSection />
 
+      {/* 5.6. Appointment Booking CTA Banner */}
+      <AppointmentCtaBanner />
+
       {/* 6. Dedicated Light IT & Software Development Showcase (Section 6) */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-2">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 -mt-6">
         <div className="bg-white text-slate-900 border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-md">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
             <div className="space-y-1">

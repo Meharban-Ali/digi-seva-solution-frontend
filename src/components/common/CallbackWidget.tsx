@@ -74,7 +74,7 @@ export function CallbackWidget() {
   };
 
   return (
-    <div className="fixed left-4 bottom-20 sm:bottom-6 z-40 selection:bg-accent selection:text-white">
+    <div className="fixed bottom-6 left-6 z-40 selection:bg-accent selection:text-white">
       {/* Expanded Form Popup Card */}
       <AnimatePresence>
         {isOpen && (
@@ -208,21 +208,18 @@ export function CallbackWidget() {
       </AnimatePresence>
 
       {/* Floating Toggle Button */}
-      <motion.button
+      <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-primary text-white shadow-xl hover:bg-primary-dark border border-white/20 transition-all cursor-pointer group"
+        className="bg-[#0B2046] hover:bg-[#122b5c] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 group transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#0B2046]/40 cursor-pointer"
         aria-label="Toggle Call Me Back Form"
+        title="Request a Callback / कॉल बैक का अनुरोध करें"
       >
-        <div className="p-1 rounded-full bg-accent text-white group-hover:rotate-12 transition-transform">
-          <PhoneCall className="h-4 w-4" />
-        </div>
-        <span className="text-xs font-extrabold tracking-wide pr-1">
+        <Phone className="h-6 w-6 text-white shrink-0" />
+        <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold tracking-wide pr-1">
           {t("callback.buttonText", "Call Me Back")}
         </span>
-      </motion.button>
+      </button>
     </div>
   );
 }
