@@ -393,5 +393,10 @@
     "addNew": "टेस्टिमोनियल जोड़ें",
     "publish": "प्रकाशित करें",
     "unpublish": "अप्रकाशित करें"
+  },
+  "whatsapp": {
+    "chatNow": "व्हाट्सएप पर चैट करें",
+    "shareAppointment": "अपॉइंटमेंट विवरण शेयर करें",
+    "generalMsg": "Hello Digi Seva Solution! 🙏\nI visited your website digisevasolution.online and would like to know more about your services."
   }
 }

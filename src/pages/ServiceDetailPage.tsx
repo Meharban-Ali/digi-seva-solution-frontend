@@ -6,6 +6,7 @@ import { renderCategoryIcon } from "@/components/categories/CategoryIcon";
 import { getOptimizedImageUrl } from "@/lib/imageUtils";
 import { stripHtml } from "@/lib/htmlUtils";
 import { SeoHead } from "@/components/common/SeoHead";
+import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin, Globe, FileText, CheckCircle, AlertTriangle } from "lucide-react";
@@ -156,7 +157,12 @@ export function ServiceDetailPage() {
             </ul>
           </div>
 
-          <div className="pt-4 flex justify-end">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-end gap-3">
+            <WhatsAppButton
+              variant="inline"
+              message={`Hello Digi Seva Solution! 🙏\nI need help with *${service.name}*.\nPlease guide me on the process and documents required.\nWebsite: digisevasolution.online`}
+              className="w-full sm:w-auto"
+            />
             <Button asChild size="lg" className="w-full sm:w-auto font-bold bg-primary hover:bg-primary-dark text-white shadow-md">
               <Link to={`/contact?service=${encodeURIComponent(service.name)}`}>
                 Enquire for {service.name}

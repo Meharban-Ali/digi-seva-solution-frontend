@@ -11,6 +11,7 @@ import { useServices } from "@/hooks/useServices";
 import { AppointmentResponse, SlotAvailability } from "@/types/appointment.types";
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { SeoHead } from "@/components/common/SeoHead";
+import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
@@ -361,6 +362,12 @@ export function BookAppointmentPage() {
             >
               Book Another Appointment
             </Button>
+            <WhatsAppButton
+              variant="inline"
+              label={t("whatsapp.shareAppointment", "Share Appointment Details")}
+              message={`✅ Appointment Confirmed!\n📍 Digi Seva Solution - New Ashok Nagar, Delhi\n📅 Date: ${bookingSuccess.appointmentDate}\n⏰ Time: ${formatTime12h(bookingSuccess.appointmentTime)}\n🔧 Service: ${bookingSuccess.serviceName || "General Inquiry"}\n\nFor any changes, call: +91 7900867261\nWebsite: digisevasolution.online`}
+              className="w-full sm:w-auto"
+            />
             <Button asChild className="w-full sm:w-auto bg-accent hover:bg-accent-dark text-white font-bold">
               <Link to="/">Return to Home</Link>
             </Button>

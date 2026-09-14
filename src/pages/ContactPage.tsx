@@ -22,7 +22,7 @@ import {
   Mail,
 } from "lucide-react";
 
-import { WhatsAppIcon } from "@/components/common/WhatsAppButton";
+import { WhatsAppButton, WhatsAppIcon } from "@/components/common/WhatsAppButton";
 
 export function ContactPage() {
   const { t } = useTranslation();
@@ -77,10 +77,7 @@ export function ContactPage() {
     });
   };
 
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917900867261";
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    t("contact.whatsappDefaultMsg")
-  )}`;
+  const contactWhatsappMsg = `Hello Digi Seva Solution! 🙏\nI have a query about your services.\nCan you please guide me or call me back?\nWebsite: digisevasolution.online`;
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
@@ -273,15 +270,11 @@ export function ContactPage() {
               <p className="text-xs text-slate-300 leading-relaxed">
                 Connect directly with our operating partners in New Ashok Nagar for instant document inquiry and application guidance.
               </p>
-              <Button
-                asChild
-                className="w-full font-bold bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 shadow-md flex items-center justify-center gap-2"
-              >
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="h-5 w-5 fill-slate-950" />
-                  <span>Start WhatsApp Chat</span>
-                </a>
-              </Button>
+              <WhatsAppButton
+                variant="inline"
+                message={contactWhatsappMsg}
+                className="w-full justify-center text-slate-950 font-bold"
+              />
             </CardContent>
           </Card>
 

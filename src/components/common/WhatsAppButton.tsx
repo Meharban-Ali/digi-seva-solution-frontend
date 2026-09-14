@@ -14,25 +14,58 @@ export function WhatsAppIcon({ className = "h-6 w-6" }: { className?: string }) 
   );
 }
 
-export function WhatsAppButton() {
+export interface WhatsAppButtonProps {
+  message?: string;
+  variant?: "floating" | "inline";
+  label?: string;
+  className?: string;
+}
+
+export function WhatsAppButton({
+  message,
+  variant = "floating",
+  label,
+  className = "",
+}: WhatsAppButtonProps) {
   const { t } = useTranslation();
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917900867261";
-  const defaultMessage = t("contact.whatsappDefaultMsg", "Hello Digi Seva Solution, I would like to inquire about your services.");
+  
+  // Default general message when no specific message is passed
+  const defaultMessage =
+    "Hello Digi Seva Solution! 🙏\nI visited your website and would like to know more about your services in New Ashok Nagar.";
 
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(defaultMessage)}`;
+  const finalMessage = message || defaultMessage;
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(finalMessage)}`;
+  const buttonText = label || t("whatsapp.chatNow", "Chat on WhatsApp");
+
+  if (variant === "inline") {
+    return (
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold px-5 py-2.5 rounded-lg shadow-md inline-flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 text-sm ${className}`}
+        aria-label={buttonText}
+        title={`${buttonText} / व्हाट्सएप पर चैट करें`}
+      >
+        <WhatsAppIcon className="h-5 w-5 text-white shrink-0" />
+        <span>{buttonText}</span>
+      </a>
+    );
+  }
 
   return (
     <a
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 bg-[#25D366] hover:bg-[#20bd5a] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 group transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40"
-      aria-label="Chat on WhatsApp"
-      title="Chat on WhatsApp / व्हाट्सएप पर चैट करें"
+      className={`fixed bottom-6 right-6 z-40 bg-[#25D366] hover:bg-[#20bd5a] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 group transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 ${className}`}
+      aria-label={buttonText}
+      title={`${buttonText} / व्हाट्सएप पर चैट करें`}
     >
       <WhatsAppIcon className="h-6 w-6 text-white shrink-0" />
       <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold tracking-wide pr-1">
-        Chat on WhatsApp
+        {buttonText}
       </span>
     </a>
   );

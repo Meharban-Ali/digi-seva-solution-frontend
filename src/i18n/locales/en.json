@@ -393,5 +393,10 @@
     "addNew": "Add Testimonial",
     "publish": "Publish",
     "unpublish": "Unpublish"
+  },
+  "whatsapp": {
+    "chatNow": "Chat on WhatsApp",
+    "shareAppointment": "Share Appointment Details",
+    "generalMsg": "Hello Digi Seva Solution! 🙏\nI visited your website digisevasolution.online and would like to know more about your services."
   }
 }

@@ -11,6 +11,7 @@ import { AppointmentCtaBanner } from "@/components/home/AppointmentCtaBanner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SeoHead } from "@/components/common/SeoHead";
+import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -125,6 +126,12 @@ export function HomePage() {
                   <ArrowRight className="h-4 w-4 ml-2 text-white" />
                 </Link>
               </Button>
+
+              <WhatsAppButton
+                variant="inline"
+                message={`Hello Digi Seva Solution! 🙏\nI visited your website digisevasolution.online and would like to know more about your services.`}
+                className="w-full sm:w-auto"
+              />
 
               <Button
                 asChild
