@@ -84,12 +84,12 @@ export function ServiceDetailPage() {
       <Card className="shadow-md border-slate-200 overflow-hidden">
         {/* Optional Service Hero Image Banner */}
         {hasValidImage && (
-          <div className="relative w-full max-h-72 aspect-[21/9] bg-slate-100 overflow-hidden border-b border-slate-200">
+          <div className="relative w-full bg-slate-900 overflow-hidden border-b border-slate-200 flex items-center justify-center p-2 sm:p-4">
             <img
               src={getOptimizedImageUrl(service.imageUrl, 1200)}
               alt={service.name}
               loading="lazy"
-              className="w-full h-full object-cover"
+              className="w-full max-h-80 sm:max-h-[420px] object-contain rounded-lg shadow-xs"
               onError={() => setImgError(true)}
             />
           </div>
