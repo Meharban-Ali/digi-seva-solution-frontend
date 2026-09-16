@@ -12,6 +12,9 @@ import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
+import { CustomerDocumentStatusDto } from "@/types/customer.types";
+import { updateAdminAppointmentDocumentStatus } from "@/api/customerPortalApi";
+import { apiClient } from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import {
   Calendar,
@@ -30,6 +33,7 @@ import {
   FileText,
   Tag,
   ExternalLink,
+  FileCheck,
 } from "lucide-react";
 
 export function AdminAppointmentsPage() {
@@ -43,6 +47,37 @@ export function AdminAppointmentsPage() {
   const [error, setError] = useState<unknown>(null);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [selectedAppointment, setSelectedAppointment] = useState<AppointmentResponse | null>(null);
+  const [docsList, setDocsList] = useState<CustomerDocumentStatusDto[]>([]);
+  const [isLoadingDocs, setIsLoadingDocs] = useState(false);
+
+  useEffect(() => {
+    if (selectedAppointment) {
+      setIsLoadingDocs(true);
+      apiClient
+        .get(`/api/admin/appointments/${selectedAppointment.id}/documents`)
+        .then((res) => {
+          setDocsList(res.data.data || []);
+        })
+        .catch(() => setDocsList([]))
+        .finally(() => setIsLoadingDocs(false));
+    } else {
+      setDocsList([]);
+    }
+  }, [selectedAppointment]);
+
+  const handleToggleDocStatus = async (checklistItemId: number, currentStatus: boolean) => {
+    if (!selectedAppointment) return;
+    try {
+      const updatedDocs = await updateAdminAppointmentDocumentStatus(selectedAppointment.id, {
+        checklistItemId,
+        isReceived: !currentStatus,
+      });
+      setDocsList(updatedDocs);
+      toast.success("Document verification status updated!");
+    } catch (err) {
+      toast.error(getDiagnosticErrorMessage(err, "Failed to update document status"));
+    }
+  };
 
   const fetchAppointments = async () => {
     setIsLoading(true);
@@ -560,6 +595,56 @@ export function AdminAppointmentsPage() {
                   <p className="text-xs text-slate-400 italic">
                     {t("adminAppointments.noNotes", "No notes or special request provided by customer.")}
                   </p>
+                )}
+              </div>
+
+              {/* Document Verification Section */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <FileCheck className="h-4 w-4 text-primary" />
+                    Required Document Verification Checklist
+                  </span>
+                  {docsList.length > 0 && (
+                    <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                      {docsList.filter((d) => d.isReceived).length} / {docsList.length} Verified
+                    </span>
+                  )}
+                </div>
+
+                {isLoadingDocs ? (
+                  <p className="text-xs text-slate-400 italic">Checking document requirements...</p>
+                ) : docsList.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic bg-white p-3 rounded-lg border border-slate-200">
+                    No specific document checklist defined for this service category.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {docsList.map((doc) => (
+                      <label
+                        key={doc.checklistItemId}
+                        className={`flex items-start gap-2.5 p-2.5 rounded-lg border cursor-pointer transition-colors ${
+                          doc.isReceived
+                            ? "bg-emerald-50/90 border-emerald-300 text-emerald-950"
+                            : "bg-white border-slate-200 text-slate-800 hover:bg-slate-100/60"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={doc.isReceived}
+                          onChange={() => handleToggleDocStatus(doc.checklistItemId, doc.isReceived)}
+                          className="mt-0.5 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary shrink-0"
+                        />
+                        <div className="text-xs">
+                          <span className="font-bold block">{doc.itemEn}</span>
+                          <span className="text-[11px] text-slate-500 font-medium block">{doc.itemHi}</span>
+                          <span className="text-[10px] font-semibold block mt-0.5">
+                            {doc.isReceived ? "✓ Marked as Received & Verified" : "⏳ Pending Customer Submission"}
+                          </span>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
                 )}
               </div>
 

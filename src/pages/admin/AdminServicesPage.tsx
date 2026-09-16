@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useAdminServicesPage, useCreateAdminService, useUpdateAdminService, useDeleteAdminService } from "@/hooks/useAdminServices";
 import { useAdminCategories } from "@/features/adminCategories/adminCategoriesApi";
-import { AdminServiceResponse, AdminServiceRequest } from "@/types/adminService.types";
+import { AdminServiceResponse, AdminServiceRequest, ServiceDocumentChecklistDto } from "@/types/adminService.types";
 import { CategoryResponse } from "@/types/category.types";
 import { DeliveryMode } from "@/types/service.types";
 import { MediaPickerModal } from "@/components/media/MediaPickerModal";
@@ -26,6 +26,9 @@ import {
   Globe,
   MapPin,
   Star,
+  FileCheck,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
 
 export function AdminServicesPage() {
@@ -58,6 +61,7 @@ export function AdminServicesPage() {
   const [displayOrder, setDisplayOrder] = useState<number>(0);
   const [isActive, setIsActive] = useState(true);
   const [isFeatured, setIsFeatured] = useState(false);
+  const [documentChecklist, setDocumentChecklist] = useState<ServiceDocumentChecklistDto[]>([]);
 
   const handleOpenCreateModal = () => {
     setEditingService(null);
@@ -72,6 +76,7 @@ export function AdminServicesPage() {
     setDisplayOrder(0);
     setIsActive(true);
     setIsFeatured(false);
+    setDocumentChecklist([]);
     setActiveTab("EN");
     setIsModalOpen(true);
   };
@@ -89,11 +94,54 @@ export function AdminServicesPage() {
     setDisplayOrder(service.displayOrder || 0);
     setIsActive(service.isActive);
     setIsFeatured(service.isFeatured || false);
+    setDocumentChecklist(
+      service.documentChecklist
+        ? service.documentChecklist.map((item, idx) => ({
+            id: item.id,
+            itemEn: item.itemEn || "",
+            itemHi: item.itemHi || "",
+            displayOrder: item.displayOrder ?? idx + 1,
+          }))
+        : []
+    );
     setActiveTab("EN");
     setIsModalOpen(true);
   };
 
   const { t } = useTranslation();
+
+  const handleAddChecklistItem = () => {
+    setDocumentChecklist((prev) => [
+      ...prev,
+      { itemEn: "", itemHi: "", displayOrder: prev.length + 1 },
+    ]);
+  };
+
+  const handleRemoveChecklistItem = (index: number) => {
+    setDocumentChecklist((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleMoveChecklistItem = (index: number, direction: "up" | "down") => {
+    setDocumentChecklist((prev) => {
+      const targetIndex = direction === "up" ? index - 1 : index + 1;
+      if (targetIndex < 0 || targetIndex >= prev.length) return prev;
+      const newList = [...prev];
+      const temp = newList[index];
+      newList[index] = newList[targetIndex];
+      newList[targetIndex] = temp;
+      return newList;
+    });
+  };
+
+  const handleUpdateChecklistItem = (
+    index: number,
+    field: "itemEn" | "itemHi",
+    value: string
+  ) => {
+    setDocumentChecklist((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    );
+  };
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,6 +157,14 @@ export function AdminServicesPage() {
       displayOrder,
       isActive,
       isFeatured,
+      documentChecklist: documentChecklist
+        .map((item, index) => ({
+          id: item.id,
+          itemEn: item.itemEn.trim(),
+          itemHi: item.itemHi.trim(),
+          displayOrder: index + 1,
+        }))
+        .filter((item) => item.itemEn !== "" || item.itemHi !== ""),
     };
 
     if (editingService) {
@@ -629,6 +685,91 @@ export function AdminServicesPage() {
                     Pick from Library
                   </Button>
                 </div>
+              </div>
+
+              {/* Required Document Checklist */}
+              <div className="space-y-3 border-t border-slate-100 pt-4">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <FileCheck className="h-4 w-4 text-primary" />
+                    Required Documents Checklist (Optional)
+                  </label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleAddChecklistItem}
+                    className="text-xs font-semibold flex items-center gap-1 border-dashed border-primary/40 text-primary hover:bg-primary/5"
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Add Document
+                  </Button>
+                </div>
+                {documentChecklist.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
+                    No required documents added for this service yet. Click "Add Document" above to list items customers must bring.
+                  </p>
+                ) : (
+                  <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                    {documentChecklist.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200"
+                      >
+                        <span className="text-xs font-mono font-bold text-slate-400 w-5 text-center">
+                          {index + 1}.
+                        </span>
+                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <input
+                            type="text"
+                            placeholder="Item name in English (e.g. Aadhaar Card)"
+                            value={item.itemEn}
+                            onChange={(e) =>
+                              handleUpdateChecklistItem(index, "itemEn", e.target.value)
+                            }
+                            className="px-2.5 py-1.5 text-xs bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                          />
+                          <input
+                            type="text"
+                            placeholder="आइटम का नाम हिंदी में (उदा. आधार कार्ड)"
+                            value={item.itemHi}
+                            onChange={(e) =>
+                              handleUpdateChecklistItem(index, "itemHi", e.target.value)
+                            }
+                            className="px-2.5 py-1.5 text-xs bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                          />
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            disabled={index === 0}
+                            onClick={() => handleMoveChecklistItem(index, "up")}
+                            className="p-1 text-slate-500 hover:text-primary disabled:opacity-30 disabled:hover:text-slate-500 transition-colors"
+                            title="Move Up"
+                          >
+                            <ArrowUp className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={index === documentChecklist.length - 1}
+                            onClick={() => handleMoveChecklistItem(index, "down")}
+                            className="p-1 text-slate-500 hover:text-primary disabled:opacity-30 disabled:hover:text-slate-500 transition-colors"
+                            title="Move Down"
+                          >
+                            <ArrowDown className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveChecklistItem(index)}
+                            className="p-1 text-rose-500 hover:text-rose-700 transition-colors ml-1"
+                            title="Delete Item"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Modal Footer Actions */}

@@ -18,6 +18,7 @@ export function useIdleTimeout({
   const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const onTimeoutRef = useRef(onTimeout);
   const isIdleRef = useRef(isIdle);
+  const timerActiveRef = useRef<boolean>(false);
 
   useEffect(() => {
     onTimeoutRef.current = onTimeout;
@@ -32,6 +33,7 @@ export function useIdleTimeout({
       clearTimeout(idleTimerRef.current);
       idleTimerRef.current = null;
     }
+    timerActiveRef.current = false;
   }, []);
 
   const clearCountdown = useCallback(() => {
@@ -44,7 +46,9 @@ export function useIdleTimeout({
   // Start the 5-minute idle timer
   const startIdleTimer = useCallback(() => {
     clearIdleTimer();
+    timerActiveRef.current = true;
     idleTimerRef.current = setTimeout(() => {
+      timerActiveRef.current = false;
       setIsIdle(true);
       setRemainingSeconds(Math.floor(warningTimeMs / 1000));
     }, idleTimeMs);
@@ -108,6 +112,7 @@ export function useIdleTimeout({
     return () => {
       clearIdleTimer();
       clearCountdown();
+      timerActiveRef.current = false;
       events.forEach((evt) => window.removeEventListener(evt, handleUserActivity));
     };
   }, [startIdleTimer, clearIdleTimer, clearCountdown]);

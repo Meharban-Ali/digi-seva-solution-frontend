@@ -1,5 +1,12 @@
 import { DeliveryMode } from "@/types/service.types";
 
+export interface ServiceDocumentChecklistDto {
+  id?: number;
+  itemEn: string;
+  itemHi: string;
+  displayOrder?: number;
+}
+
 export interface AdminServiceRequest {
   nameEn: string;
   nameHi: string;
@@ -12,6 +19,7 @@ export interface AdminServiceRequest {
   displayOrder?: number;
   isActive?: boolean;
   isFeatured?: boolean;
+  documentChecklist?: ServiceDocumentChecklistDto[];
 }
 
 export interface AdminServiceResponse {
@@ -35,4 +43,5 @@ export interface AdminServiceResponse {
   isFeatured: boolean;
   createdAt: string;
   updatedAt: string;
+  documentChecklist?: ServiceDocumentChecklistDto[];
 }

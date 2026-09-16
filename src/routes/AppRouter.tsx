@@ -26,8 +26,23 @@ const ManageTestimonials = lazy(() => import("@/pages/admin/ManageTestimonials")
 const AdminEnquiriesPage = lazy(() => import("@/pages/admin/AdminEnquiriesPage").then((m) => ({ default: m.AdminEnquiriesPage })));
 const AdminCallbacksPage = lazy(() => import("@/pages/admin/AdminCallbacksPage").then((m) => ({ default: m.AdminCallbacksPage })));
 const AdminAppointmentsPage = lazy(() => import("@/pages/admin/AdminAppointmentsPage").then((m) => ({ default: m.AdminAppointmentsPage })));
+const ManageCustomers = lazy(() => import("@/pages/admin/ManageCustomers").then((m) => ({ default: m.ManageCustomers })));
 const BookAppointmentPage = lazy(() => import("@/pages/public/BookAppointmentPage").then((m) => ({ default: m.BookAppointmentPage })));
 const AdminProfilePage = lazy(() => import("@/pages/admin/AdminProfilePage").then((m) => ({ default: m.AdminProfilePage })));
+import { CustomerAuthProvider, useCustomerAuth } from "@/context/CustomerAuthContext";
+
+const CustomerLoginPage = lazy(() => import("@/pages/customer/CustomerLoginPage").then((m) => ({ default: m.CustomerLoginPage })));
+const CustomerDashboardPage = lazy(() => import("@/pages/customer/CustomerDashboardPage").then((m) => ({ default: m.CustomerDashboardPage })));
+
+/**
+ * Protected Customer Route Component
+ */
+function ProtectedCustomerRoute() {
+  const { isAuthenticated, isLoading } = useCustomerAuth();
+  if (isLoading) return <LoadingSpinner label="Verifying customer session..." />;
+  if (!isAuthenticated) return <Navigate to="/customer/login" replace />;
+  return <Outlet />;
+}
 
 /**
  * RootLayout Wrapper
@@ -36,10 +51,10 @@ const AdminProfilePage = lazy(() => import("@/pages/admin/AdminProfilePage").the
  */
 function RootLayout() {
   return (
-    <>
+    <CustomerAuthProvider>
       <ScrollToTop />
       <Outlet />
-    </>
+    </CustomerAuthProvider>
   );
 }
 
@@ -65,6 +80,29 @@ const router = createBrowserRouter([
                 <BookAppointmentPage />
               </Suspense>
             ),
+          },
+          {
+            path: "customer/login",
+            element: (
+              <Suspense fallback={<LoadingSpinner label="Loading Customer Portal..." />}>
+                <CustomerLoginPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "customer",
+            element: <ProtectedCustomerRoute />,
+            children: [
+              {
+                path: "dashboard",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Dashboard..." />}>
+                    <CustomerDashboardPage />
+                  </Suspense>
+                ),
+              },
+              { index: true, element: <Navigate to="/customer/dashboard" replace /> },
+            ],
           },
         ],
       },
@@ -176,6 +214,14 @@ const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<LoadingSpinner label="Loading Appointments..." />}>
                     <AdminAppointmentsPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "customers",
+                element: (
+                  <Suspense fallback={<LoadingSpinner label="Loading Customers..." />}>
+                    <ManageCustomers />
                   </Suspense>
                 ),
               },

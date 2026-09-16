@@ -14,6 +14,7 @@ export interface PublicService {
   displayOrder: number;
   isActive?: boolean;
   isFeatured?: boolean;
+  requiredDocuments?: string[];
 }
 
 export type ServiceResponse = PublicService;

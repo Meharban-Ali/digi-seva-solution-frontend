@@ -2,18 +2,34 @@ import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { Logo } from "@/components/common/Logo";
-import { Menu, X, Clock, PhoneCall, ShieldCheck } from "lucide-react";
+import { Menu, X, Clock, PhoneCall, ShieldCheck, User } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+
+import { useCustomerAuth } from "@/context/CustomerAuthContext";
 
 export function Navbar() {
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { customer, isAuthenticated } = useCustomerAuth();
+
+  const customerNavLabel = isAuthenticated ? (
+    <span className="flex items-center gap-1.5 font-bold text-[#0B2046]">
+      <User className="h-3.5 w-3.5 text-[#0B2046]" />
+      <span>{customer?.name ? customer.name.split(" ")[0] : t("customer.myAccount", "My Account")}</span>
+    </span>
+  ) : (
+    <span className="flex items-center gap-1.5">
+      <User className="h-3.5 w-3.5 text-slate-500" />
+      <span>{t("customer.signIn", "Sign In")}</span>
+    </span>
+  );
 
   const navItems = [
     { path: "/", label: t("nav.home") },
     { path: "/services", label: t("nav.services") },
     { path: "/book-appointment", label: t("appointment.navLink", "Book Appointment") },
+    { path: "/customer/dashboard", label: customerNavLabel },
     { path: "/about", label: t("nav.about") },
     { path: "/contact", label: t("nav.contact") },
     { path: "/faq", label: t("nav.faq") },

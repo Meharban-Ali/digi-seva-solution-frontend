@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/features/auth/authStore";
@@ -7,6 +7,7 @@ import { LogoIcon } from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
 import { useIdleTimeout } from "@/hooks/useIdleTimeout";
 import { IdleTimeoutWarning } from "@/components/admin/IdleTimeoutWarning";
+import { getAdminCustomerStats } from "@/api/adminCustomerApi";
 import {
   LayoutDashboard,
   Layers,
@@ -23,6 +24,7 @@ import {
   UserCheck,
   User,
   Star,
+  Users,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -33,6 +35,13 @@ export function AdminLayout() {
   const location = useLocation();
   const { user, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [totalCustomerCount, setTotalCustomerCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    getAdminCustomerStats()
+      .then((res) => setTotalCustomerCount(res.totalCustomers))
+      .catch(() => {});
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -63,6 +72,7 @@ export function AdminLayout() {
     { path: "/admin/enquiries", label: t("adminNav.enquiries"), icon: Inbox },
     { path: "/admin/callbacks", label: "Callbacks", icon: PhoneCall },
     { path: "/admin/appointments", label: "Appointments", icon: Calendar },
+    { path: "/admin/customers", label: "Customers", icon: Users, badge: totalCustomerCount },
     { path: "/admin/profile", label: t("adminNav.profile"), icon: User },
   ];
 
@@ -117,15 +127,22 @@ export function AdminLayout() {
                   to={item.path}
                   onClick={() => setSidebarOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    `flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-accent text-white font-bold shadow-xs"
                         : "text-slate-300 hover:bg-white/10 hover:text-white"
                     }`
                   }
                 >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  <span>{item.label}</span>
+                  <div className="flex items-center space-x-3">
+                    <Icon className="h-4 w-4 shrink-0" />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.badge !== undefined && item.badge !== null && (
+                    <span className="bg-orange-500/20 text-orange-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-orange-500/30">
+                      {item.badge}
+                    </span>
+                  )}
                 </NavLink>
               );
             })}

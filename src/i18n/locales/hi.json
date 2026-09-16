@@ -1,11 +1,13 @@
 {
   "nav": {
     "home": "मुख्य पृष्ठ",
-    "services": "हमारी सेवाएं",
+    "services": "सेवाएं",
     "about": "हमारे बारे में",
     "contact": "संपर्क करें",
-    "faq": "FAQ (अक्सर पूछे जाने वाले प्रश्न)",
-    "adminLogin": "पार्टनर लॉगिन"
+    "faq": "सामान्य प्रश्न",
+    "adminLogin": "पार्टनर लॉगिन",
+    "customerPortal": "ग्राहक पोर्टल",
+    "myAccount": "मेरा खाता"
   },
   "common": {
     "loading": "लोड हो रहा है...",
@@ -53,7 +55,8 @@
     "visitTab": "केंद्र भ्रमण आवश्यक",
     "priceLabel": "शुल्क",
     "categoryLabel": "श्रेणी",
-    "free": "मूल्य निर्धारण हेतु संपर्क करें / निःशुल्क परामर्श"
+    "free": "मूल्य निर्धारण हेतु संपर्क करें / निःशुल्क परामर्श",
+    "requiredDocuments": "आवश्यक दस्तावेज़ (Checklist)"
   },
   "categories": {
     "visitRequired": "केंद्र भ्रमण आवश्यक",
@@ -398,5 +401,24 @@
     "chatNow": "व्हाट्सएप पर चैट करें",
     "shareAppointment": "अपॉइंटमेंट विवरण शेयर करें",
     "generalMsg": "Hello Digi Seva Solution! 🙏\nI visited your website digisevasolution.online and would like to know more about your services."
+  },
+  "customer": {
+    "portal": "ग्राहक पोर्टल",
+    "signIn": "साइन इन",
+    "myAccount": "मेरा खाता",
+    "totalCustomers": "कुल ग्राहक",
+    "newThisMonth": "इस महीने नए",
+    "activeThisWeek": "इस सप्ताह सक्रिय",
+    "viewDetails": "विवरण देखें",
+    "registeredOn": "पंजीकृत",
+    "appointmentsCount": "अपॉइंटमेंट",
+    "enquiriesCount": "पूछताछ",
+    "manageTitle": "ग्राहक खाता प्रबंधन",
+    "manageSubtitle": "पंजीकृत ग्राहक खाते, बुकिंग इतिहास और पूछताछ ट्रैकिंग देखें।",
+    "searchPlaceholder": "ग्राहक के नाम, ईमेल या फोन नंबर द्वारा खोजें...",
+    "emptyTitle": "अभी तक कोई ग्राहक पंजीकृत नहीं है",
+    "emptyDesc": "पंजीकृत ग्राहक खाते यहां स्वतः दिखाई देंगे जब नागरिक साइन इन करेंगे।",
+    "welcomeBack": "वापसी पर स्वागत है, {{name}}!",
+    "loggedOut": "सफलतापूर्वक लॉग आउट हो गए"
   }
 }

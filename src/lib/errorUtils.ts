@@ -35,7 +35,7 @@ export function getDiagnosticErrorMessage(
 
     // Authentication / Permission Failure (401, 403)
     if (status === 401 || status === 403) {
-      return backendMessage || i18n.t("errors.unauthorized", "Invalid credentials or authorization failed.");
+      return backendMessage || fallbackMessage || i18n.t("errors.unauthorized", "Invalid credentials or authorization failed.");
     }
 
     // Server Error (500, 502, 503, 504)

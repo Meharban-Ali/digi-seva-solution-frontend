@@ -10,7 +10,7 @@ import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { AutoScrollText } from "@/components/common/AutoScrollText";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MapPin, Globe, FileText, CheckCircle, AlertTriangle } from "lucide-react";
+import { ArrowLeft, MapPin, Globe, FileText, CheckCircle, AlertTriangle, FileCheck } from "lucide-react";
 
 export function ServiceDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -143,6 +143,27 @@ export function ServiceDetailPage() {
               {service.description}
             </p>
           </div>
+
+          {/* Documents Required Checklist Section */}
+          {service.requiredDocuments && service.requiredDocuments.length > 0 && (
+            <div className="border-t border-slate-200 pt-6 space-y-3">
+              <h3 className="text-sm font-bold uppercase text-slate-500 tracking-wider flex items-center gap-2">
+                <FileCheck className="h-4.5 w-4.5 text-primary" />
+                {t("services.requiredDocuments", "Documents Required")}
+              </h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                {service.requiredDocuments.map((doc, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-2.5 bg-slate-50 p-3 rounded-lg border border-slate-200/80 shadow-2xs"
+                  >
+                    <CheckCircle className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <span className="font-semibold text-slate-800">{doc}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="border-t border-slate-200 pt-6 space-y-3">
             <h4 className="text-sm font-bold text-slate-900">Assurance & Guidelines</h4>

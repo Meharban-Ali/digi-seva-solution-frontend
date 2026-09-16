@@ -19,12 +19,31 @@ export const apiClient = axios.create({
   timeout: 15000,
 });
 
-// Request Interceptor: Attach JWT Bearer token if present
+// Request Interceptor: Attach appropriate JWT Bearer token for protected requests
 apiClient.interceptors.request.use(
   (config) => {
-    const token = useAuthStore.getState().token || localStorage.getItem("digiseva_admin_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const url = config.url || "";
+    const isAdminApi = url.includes("/api/admin");
+    const isCustomerApi = !isAdminApi && (url.includes("/api/customer") || url.startsWith("/customer"));
+
+    const isAdminAuthRoute =
+      url.includes("/api/admin/auth/login") ||
+      url.includes("/api/admin/auth/verify-otp");
+
+    const isCustomerAuthRoute =
+      url.includes("/api/customer/auth/send-otp") ||
+      url.includes("/api/customer/auth/verify-otp");
+
+    if (isAdminApi && !isAdminAuthRoute) {
+      const token = useAuthStore.getState().token || localStorage.getItem("digiseva_admin_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } else if (isCustomerApi && !isCustomerAuthRoute) {
+      const customerToken = localStorage.getItem("customer_token");
+      if (customerToken) {
+        config.headers.Authorization = `Bearer ${customerToken}`;
+      }
     }
     return config;
   },
@@ -36,18 +55,29 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      const isPublicAuthRoute =
-        error.config?.url?.includes("/api/admin/auth/login") ||
-        error.config?.url?.includes("/api/admin/auth/verify-otp");
-      const isAdminRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
+      const url = error.config?.url || "";
+      const isAdminApi = url.includes("/api/admin");
+      const isAdminAuthRoute =
+        url.includes("/api/admin/auth/login") ||
+        url.includes("/api/admin/auth/verify-otp");
 
-      if (!isPublicAuthRoute) {
-        // Clear stale/expired token silently
+      const isCustomerApi = !isAdminApi && (url.includes("/api/customer") || url.startsWith("/customer"));
+      const isCustomerAuthRoute =
+        url.includes("/api/customer/auth/send-otp") ||
+        url.includes("/api/customer/auth/verify-otp");
+
+      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+
+      if (isAdminApi && !isAdminAuthRoute) {
         useAuthStore.getState().logout();
-
-        // Redirect to /admin/login with session_expired reason
-        if (isAdminRoute && window.location.pathname !== "/admin/login") {
+        if (currentPath.startsWith("/admin") && currentPath !== "/admin/login") {
           window.location.href = "/admin/login?reason=session_expired";
+        }
+      } else if (isCustomerApi && !isCustomerAuthRoute) {
+        localStorage.removeItem("customer_token");
+        localStorage.removeItem("customer_user");
+        if (currentPath.startsWith("/customer") && currentPath !== "/customer/login") {
+          window.location.href = "/customer/login?reason=session_expired";
         }
       }
     }

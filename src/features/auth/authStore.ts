@@ -33,6 +33,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   setAuth: (token: string, user: AdminUserDto) => {
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(USER_KEY, JSON.stringify(user));
+    localStorage.setItem("digiseva_admin_last_activity", Date.now().toString());
     set({
       token,
       user,

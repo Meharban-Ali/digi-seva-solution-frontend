@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAnalytics } from "@/features/analytics/useAnalytics";
+import { getAdminCustomerStats } from "@/api/adminCustomerApi";
 import { MetricCard } from "./MetricCard";
 import { ServicesByCategoryChart } from "./ServicesByCategoryChart";
 import { EnquiriesByStatusChart } from "./EnquiriesByStatusChart";
@@ -16,6 +17,7 @@ import {
   HelpCircle,
   RefreshCw,
   BarChart2,
+  Users,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -24,6 +26,20 @@ export function AnalyticsDashboard() {
   const { data, isLoading, isError, refetch, dataUpdatedAt } = useAnalytics();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [minutesAgo, setMinutesAgo] = useState(0);
+  const [totalCustomersCount, setTotalCustomersCount] = useState<number | undefined>(undefined);
+
+  const fetchCustomerCount = async () => {
+    try {
+      const stats = await getAdminCustomerStats();
+      setTotalCustomersCount(stats.totalCustomers);
+    } catch {
+      // Graceful fallback
+    }
+  };
+
+  useEffect(() => {
+    fetchCustomerCount();
+  }, []);
 
   // Update "Last updated: Xm ago" ticker
   useEffect(() => {
@@ -43,7 +59,7 @@ export function AnalyticsDashboard() {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     try {
-      await refetch();
+      await Promise.all([refetch(), fetchCustomerCount()]);
       toast.success("Analytics data refreshed.");
     } catch {
       toast.error("Failed to refresh analytics data.");
@@ -89,8 +105,8 @@ export function AnalyticsDashboard() {
 
       {/* Section 1: Visual Hierarchy KPI Metric Rows */}
       <div className="space-y-4">
-        {/* Row 1A: Primary Highlight KPIs (5-Second Test Focus: Total Catalog & Actionable Enquiries) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Row 1A: Primary Highlight KPIs */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <MetricCard
             title={t("analytics.totalServices", "Total Services")}
             value={data?.totalServices}
@@ -107,6 +123,15 @@ export function AnalyticsDashboard() {
             isLoading={isLoading}
             isError={isError}
             accentColor="rose"
+            isPrimary={true}
+          />
+          <MetricCard
+            title={t("customer.totalCustomers", "Registered Customers")}
+            value={totalCustomersCount}
+            icon={Users}
+            isLoading={isLoading}
+            isError={isError}
+            accentColor="navy"
             isPrimary={true}
           />
         </div>
