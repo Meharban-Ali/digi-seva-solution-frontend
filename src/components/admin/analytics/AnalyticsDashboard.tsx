@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { motion } from "framer-motion";
+
 export function AnalyticsDashboard() {
   const { t } = useTranslation();
   const { data, isLoading, isError, refetch, dataUpdatedAt } = useAnalytics();
@@ -69,17 +71,23 @@ export function AnalyticsDashboard() {
   };
 
   return (
-    <div className="space-y-6 pt-4 border-t border-slate-200/80">
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="space-y-6 pt-4 border-t border-slate-200/80 bg-slate-50/70 p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs"
+    >
       {/* Analytics Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="space-y-0.5">
           <div className="flex items-center space-x-2">
             <BarChart2 className="h-5 w-5 text-[#0B2046] shrink-0" />
-            <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
+            <h3 className="text-lg font-black text-slate-900 tracking-tight">
               {t("analytics.title", "Analytics & System Insights")}
             </h3>
           </div>
-          <p className="text-xs text-slate-500 font-medium">
+          <div className="h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-indigo-500 rounded-full w-28 mt-1" />
+          <p className="text-xs text-slate-500 font-medium pt-1">
             {t("analytics.subtitle", "Real-time summary metrics, catalog distribution, and customer activity")}
           </p>
         </div>
@@ -95,7 +103,7 @@ export function AnalyticsDashboard() {
             size="sm"
             onClick={handleRefresh}
             disabled={isRefreshing || isLoading}
-            className="text-xs font-bold flex items-center gap-1.5 border-slate-300 hover:bg-slate-50 shadow-xs"
+            className="text-xs font-bold flex items-center gap-1.5 border-slate-300 hover:bg-slate-50 shadow-xs cursor-pointer"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? "animate-spin text-[#0B2046]" : ""}`} />
             <span>{t("analytics.refresh", "Refresh Data")}</span>
@@ -131,7 +139,7 @@ export function AnalyticsDashboard() {
             icon={Users}
             isLoading={isLoading}
             isError={isError}
-            accentColor="navy"
+            accentColor="emerald"
             isPrimary={true}
           />
         </div>
@@ -153,7 +161,7 @@ export function AnalyticsDashboard() {
             icon={Image}
             isLoading={isLoading}
             isError={isError}
-            accentColor="gold"
+            accentColor="purple"
           />
           <MetricCard
             title={t("analytics.totalEnquiries", "Total Enquiries")}
@@ -161,7 +169,7 @@ export function AnalyticsDashboard() {
             icon={HelpCircle}
             isLoading={isLoading}
             isError={isError}
-            accentColor="emerald"
+            accentColor="amber"
           />
           <MetricCard
             title={t("analytics.featuredServices", "Featured Services")}
@@ -169,7 +177,7 @@ export function AnalyticsDashboard() {
             icon={Sparkles}
             isLoading={isLoading}
             isError={isError}
-            accentColor="gold"
+            accentColor="orange"
           />
         </div>
       </div>
@@ -183,7 +191,7 @@ export function AnalyticsDashboard() {
 
       {/* Section 3: Recent Activity Feed (Full Width) */}
       <RecentEnquiriesFeed enquiries={data?.recentEnquiries} isLoading={isLoading} />
-    </div>
+    </motion.div>
   );
 }
 

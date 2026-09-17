@@ -2,6 +2,7 @@ import { getAdminServices } from "@/features/adminServices/adminServicesApi";
 import { getAdminContent } from "@/features/adminContent/adminContentApi";
 import { getAdminMedia } from "@/features/adminMedia/adminMediaApi";
 import { getAdminEnquiries } from "@/features/adminEnquiries/adminEnquiriesApi";
+import { getAdminCategories } from "@/features/adminCategories/adminCategoriesApi";
 import { AdminServiceResponse } from "@/types/adminService.types";
 import { AdminContentResponse, ContentSection } from "@/types/adminContent.types";
 import { AdminEnquiryResponse, EnquiryStatus } from "@/types/adminEnquiry.types";
@@ -21,32 +22,44 @@ export interface AnalyticsSummary {
 }
 
 export async function fetchAnalyticsData(): Promise<AnalyticsSummary> {
-  const [servicesPage, contentPage, mediaPage, newEnquiriesPage, totalEnquiriesPage] =
+  const [servicesPage, contentPage, mediaPage, newEnquiriesPage, totalEnquiriesPage, categoriesList] =
     await Promise.all([
-      getAdminServices(0, 100).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
-      getAdminContent(undefined, 0, 100).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
-      getAdminMedia(undefined, 0, 100).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
-      getAdminEnquiries("NEW", 0, 100).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
-      getAdminEnquiries(undefined, 0, 100).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
+      getAdminServices(0, 500).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
+      getAdminContent(undefined, 0, 500).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
+      getAdminMedia(undefined, 0, 500).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
+      getAdminEnquiries("NEW", 0, 500).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
+      getAdminEnquiries(undefined, 0, 500).catch(() => ({ content: [], totalElements: 0, pageNo: 0, pageSize: 0, totalPages: 0, last: true, first: true })),
+      getAdminCategories().catch(() => []),
     ]);
 
   const services: AdminServiceResponse[] = servicesPage.content || [];
   const contents: AdminContentResponse[] = contentPage.content || [];
   const enquiries: AdminEnquiryResponse[] = totalEnquiriesPage.content || [];
 
+  // Build category ID map
+  const categoryMap: Record<number, string> = {};
+  if (Array.isArray(categoriesList)) {
+    categoriesList.forEach((cat) => {
+      if (cat.id && cat.nameEn) {
+        categoryMap[cat.id] = cat.nameEn;
+      }
+    });
+  }
+
   // Summary counts
   const totalServices = servicesPage.totalElements ?? services.length;
-  const featuredServices = services.filter((s) => s.isFeatured).length;
+  const featuredServices = services.filter((s) => Boolean(s.isFeatured || (s as unknown as Record<string, unknown>).featured || (s as unknown as Record<string, unknown>).is_featured)).length;
   const publishedContent = contents.filter((c) => c.status === "PUBLISHED").length;
   const totalContent = contentPage.totalElements ?? contents.length;
   const totalMedia = mediaPage.totalElements ?? (mediaPage.content?.length || 0);
   const newEnquiries = newEnquiriesPage.totalElements ?? enquiries.filter((e) => e.status === "NEW").length;
   const totalEnquiries = totalEnquiriesPage.totalElements ?? enquiries.length;
 
-  // Chart 1: Services by Category (or Category / Delivery Mode)
+  // Chart 1: Services by Category
   const categoryCountMap: Record<string, number> = {};
   services.forEach((service) => {
     const catName =
+      (service.categoryId ? categoryMap[service.categoryId] : null) ||
       service.categoryNameEn ||
       (service.deliveryMode === "ONLINE" ? "Online Services" : "Visit Required");
     categoryCountMap[catName] = (categoryCountMap[catName] || 0) + 1;

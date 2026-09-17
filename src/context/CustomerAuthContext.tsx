@@ -98,7 +98,7 @@ export const CustomerAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
     localStorage.removeItem("customer_user");
     setToken(null);
     setCustomerState(null);
-    toast.info(t("customer.loggedOut", "You have been logged out successfully."));
+    toast.success(t("customer.loggedOut", "Logged out successfully"));
   };
 
   const setCustomer = (updatedCustomer: Customer) => {

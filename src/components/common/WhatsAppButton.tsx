@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
 
+import { useFooterOffset } from "@/hooks/useFooterOffset";
+
 export function WhatsAppIcon({ className = "h-6 w-6" }: { className?: string }) {
   return (
     <svg
@@ -28,6 +30,7 @@ export function WhatsAppButton({
   className = "",
 }: WhatsAppButtonProps) {
   const { t } = useTranslation();
+  const bottomOffset = useFooterOffset(24);
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917900867261";
   
   // Default general message when no specific message is passed
@@ -59,7 +62,8 @@ export function WhatsAppButton({
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`fixed bottom-6 right-6 z-40 bg-[#25D366] hover:bg-[#20bd5a] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 group transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 ${className}`}
+      style={{ bottom: `${bottomOffset}px` }}
+      className={`fixed right-6 z-40 bg-[#25D366] hover:bg-[#20bd5a] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 group transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 transition-[bottom] duration-150 ease-out ${className}`}
       aria-label={buttonText}
       title={`${buttonText} / व्हाट्सएप पर चैट करें`}
     >

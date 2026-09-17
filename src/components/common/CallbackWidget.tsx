@@ -8,6 +8,8 @@ import { PhoneCall, X, CheckCircle2, AlertCircle, Clock, User, Phone, Sparkles }
 import { submitCallbackRequest } from "@/features/callback/callbackApi";
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 
+import { useFooterOffset } from "@/hooks/useFooterOffset";
+
 const phoneRegex = /^[6-9]\d{9}$|^$|^\+?[1-9]\d{1,14}$/;
 
 const callbackSchema = z.object({
@@ -24,6 +26,7 @@ export function CallbackWidget() {
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const bottomOffset = useFooterOffset(24);
 
   const {
     register,
@@ -74,7 +77,10 @@ export function CallbackWidget() {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-40 selection:bg-accent selection:text-white">
+    <div
+      className="fixed left-6 z-40 selection:bg-accent selection:text-white transition-[bottom] duration-150 ease-out"
+      style={{ bottom: `${bottomOffset}px` }}
+    >
       {/* Expanded Form Popup Card */}
       <AnimatePresence>
         {isOpen && (

@@ -50,6 +50,14 @@ const statusBadgeMap: Record<EnquiryStatus, { label: string; style: string }> = 
   },
 };
 
+import { motion } from "framer-motion";
+
+const statusBorderMap: Record<EnquiryStatus, string> = {
+  NEW: "border-l-amber-500 bg-amber-50/30",
+  CONTACTED: "border-l-indigo-600 bg-indigo-50/30",
+  RESOLVED: "border-l-emerald-500 bg-emerald-50/30",
+};
+
 export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiriesFeedProps) {
   const { t } = useTranslation();
 
@@ -81,17 +89,21 @@ export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiri
             <p className="font-semibold">{t("analytics.noRecentEnquiries", "No customer enquiries recorded yet.")}</p>
           </div>
         ) : (
-          <div className="divide-y divide-slate-100">
-            {enquiries.map((enquiry) => {
+          <div className="space-y-2.5">
+            {enquiries.map((enquiry, index) => {
               const badge = statusBadgeMap[enquiry.status] || {
                 label: enquiry.status,
                 style: "bg-slate-100 text-slate-800 border-slate-200",
               };
+              const leftBorder = statusBorderMap[enquiry.status] || "border-l-slate-400 bg-slate-50/30";
 
               return (
-                <div
+                <motion.div
                   key={enquiry.id}
-                  className="py-3 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:bg-slate-50/80 p-2 rounded-lg transition-colors"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.08 }}
+                  className={`py-3 px-3.5 rounded-xl border-l-4 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:shadow-xs transition-all ${leftBorder}`}
                 >
                   <div className="space-y-1 min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
@@ -99,7 +111,7 @@ export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiri
                         <User className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                         {enquiry.name}
                       </span>
-                      <span className="text-xs font-mono text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded flex items-center gap-1">
+                      <span className="text-xs font-mono text-slate-700 bg-white/80 border border-slate-200/80 px-2 py-0.5 rounded flex items-center gap-1">
                         <Phone className="h-3 w-3 text-slate-500 shrink-0" />
                         {maskPhoneNumber(enquiry.phone)}
                       </span>
@@ -124,7 +136,7 @@ export function RecentEnquiriesFeed({ enquiries = [], isLoading }: RecentEnquiri
                       {badge.label}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
