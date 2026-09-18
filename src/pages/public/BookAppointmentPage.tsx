@@ -13,6 +13,7 @@ import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { SeoHead } from "@/components/common/SeoHead";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/common/LoadingButton";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import {
@@ -713,14 +714,14 @@ export function BookAppointmentPage() {
                   </span>
                 </div>
 
-                {/* Submit Button */}
-                <Button
+                <LoadingButton
                   type="submit"
-                  disabled={bookMutation.isPending}
+                  isLoading={bookMutation.isPending}
+                  loadingText={t("appointment.booking", "Booking Appointment...")}
                   className="w-full py-3.5 bg-accent hover:bg-accent-dark text-white font-black text-sm rounded-xl shadow-md transition-colors"
                 >
-                  {bookMutation.isPending ? t("appointment.booking", "Booking Appointment...") : t("appointment.bookNow", "Confirm & Book Appointment")}
-                </Button>
+                  <span>{t("appointment.bookNow", "Confirm & Book Appointment")}</span>
+                </LoadingButton>
               </form>
             </motion.div>
           )}

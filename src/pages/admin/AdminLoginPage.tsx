@@ -9,6 +9,7 @@ import { useAuthStore } from "@/features/auth/authStore";
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/common/LoadingButton";
 import { ShieldCheck, Lock, Mail, KeyRound, ArrowRight, AlertCircle, ArrowLeft, CheckCircle2, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { LoginBackground } from "@/components/auth/LoginBackground";
@@ -267,23 +268,17 @@ export function AdminLoginPage() {
                     )}
                   </div>
 
-                  <Button
+                  <LoadingButton
                     type="submit"
-                    disabled={loading}
+                    isLoading={loading}
+                    loadingText={t("adminAuth.sendingOtp", "Validating Credentials & Sending OTP...")}
                     className="w-full font-bold bg-accent hover:bg-accent-dark text-white mt-2 shadow-md transition-all duration-200"
                   >
-                    {loading ? (
-                      <span className="flex items-center gap-2">
-                        <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
-                        Validating...
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        {t("adminAuth.loginButton")}
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
-                    )}
-                  </Button>
+                    <span className="flex items-center justify-center gap-2">
+                      {t("adminAuth.loginButton")}
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </LoadingButton>
                 </form>
               ) : (
                 /* Step 2: OTP Verification Form */
@@ -358,23 +353,17 @@ export function AdminLoginPage() {
                     )}
                   </div>
 
-                  <Button
+                  <LoadingButton
                     type="submit"
-                    disabled={loading}
+                    isLoading={loading}
+                    loadingText={t("adminAuth.verifyingOtp", "Verifying OTP & Logging In...")}
                     className="w-full font-bold bg-emerald-600 hover:bg-emerald-500 text-white mt-2 shadow-md transition-all duration-200"
                   >
-                    {loading ? (
-                      <span className="flex items-center gap-2">
-                        <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
-                        Verifying OTP...
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        <ShieldCheck className="h-4 w-4" />
-                        {t("adminAuth.verifyOtpButton")}
-                      </span>
-                    )}
-                  </Button>
+                    <span className="flex items-center justify-center gap-2">
+                      <ShieldCheck className="h-4 w-4" />
+                      {t("adminAuth.verifyOtpButton")}
+                    </span>
+                  </LoadingButton>
                 </form>
               )}
             </CardContent>

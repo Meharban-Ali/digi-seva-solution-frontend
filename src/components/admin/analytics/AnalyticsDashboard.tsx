@@ -21,8 +21,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-import { motion } from "framer-motion";
-
 export function AnalyticsDashboard() {
   const { t } = useTranslation();
   const { data, isLoading, isError, refetch, dataUpdatedAt } = useAnalytics();
@@ -71,12 +69,53 @@ export function AnalyticsDashboard() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="space-y-6 pt-4 border-t border-slate-200/80 bg-slate-50/70 p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs"
-    >
+    <div className="space-y-6 pt-4 border-t border-slate-200/80 bg-slate-50/70 p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs">
+      {/* Lightweight Scoped CSS Animations */}
+      <style>{`
+        @keyframes dashCardEntrance {
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-dash-card-entrance {
+          animation: dashCardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .animate-dash-chart-1 {
+          animation: dashCardEntrance 0.55s cubic-bezier(0.16, 1, 0.3, 1) 640ms both;
+        }
+
+        .animate-dash-chart-2 {
+          animation: dashCardEntrance 0.55s cubic-bezier(0.16, 1, 0.3, 1) 720ms both;
+        }
+
+        .animate-dash-chart-3 {
+          animation: dashCardEntrance 0.55s cubic-bezier(0.16, 1, 0.3, 1) 800ms both;
+        }
+
+        .animate-dash-feed {
+          animation: dashCardEntrance 0.55s cubic-bezier(0.16, 1, 0.3, 1) 880ms both;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-dash-card-entrance,
+          .animate-dash-chart-1,
+          .animate-dash-chart-2,
+          .animate-dash-chart-3,
+          .animate-dash-feed {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        }
+      `}</style>
+
       {/* Analytics Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="space-y-0.5">
@@ -86,7 +125,7 @@ export function AnalyticsDashboard() {
               {t("analytics.title", "Analytics & System Insights")}
             </h3>
           </div>
-          <div className="h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-indigo-500 rounded-full w-28 mt-1" />
+          <div className="h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-[#0B2046] rounded-full w-28 mt-1" />
           <p className="text-xs text-slate-500 font-medium pt-1">
             {t("analytics.subtitle", "Real-time summary metrics, catalog distribution, and customer activity")}
           </p>
@@ -106,12 +145,12 @@ export function AnalyticsDashboard() {
             className="text-xs font-bold flex items-center gap-1.5 border-slate-300 hover:bg-slate-50 shadow-xs cursor-pointer"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? "animate-spin text-[#0B2046]" : ""}`} />
-            <span>{t("analytics.refresh", "Refresh Data")}</span>
+            <span>{isRefreshing ? t("analytics.refreshing", "Refreshing...") : t("analytics.refresh", "Refresh Data")}</span>
           </Button>
         </div>
       </div>
 
-      {/* Section 1: Visual Hierarchy KPI Metric Rows */}
+      {/* Section 1: Brand Token Derived 7 KPI Metric Cards */}
       <div className="space-y-4">
         {/* Row 1A: Primary Highlight KPIs */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -123,6 +162,7 @@ export function AnalyticsDashboard() {
             isError={isError}
             accentColor="navy"
             isPrimary={true}
+            animationDelay={100}
           />
           <MetricCard
             title={t("analytics.newEnquiries", "New Enquiries")}
@@ -130,8 +170,9 @@ export function AnalyticsDashboard() {
             icon={Inbox}
             isLoading={isLoading}
             isError={isError}
-            accentColor="rose"
+            accentColor="orange"
             isPrimary={true}
+            animationDelay={180}
           />
           <MetricCard
             title={t("customer.totalCustomers", "Registered Customers")}
@@ -139,8 +180,9 @@ export function AnalyticsDashboard() {
             icon={Users}
             isLoading={isLoading}
             isError={isError}
-            accentColor="emerald"
+            accentColor="navy-slate"
             isPrimary={true}
+            animationDelay={260}
           />
         </div>
 
@@ -153,7 +195,8 @@ export function AnalyticsDashboard() {
             icon={FileText}
             isLoading={isLoading}
             isError={isError}
-            accentColor="indigo"
+            accentColor="navy-indigo"
+            animationDelay={340}
           />
           <MetricCard
             title={t("analytics.mediaAssets", "Total Media Assets")}
@@ -161,7 +204,8 @@ export function AnalyticsDashboard() {
             icon={Image}
             isLoading={isLoading}
             isError={isError}
-            accentColor="purple"
+            accentColor="slate-dark"
+            animationDelay={420}
           />
           <MetricCard
             title={t("analytics.totalEnquiries", "Total Enquiries")}
@@ -169,7 +213,8 @@ export function AnalyticsDashboard() {
             icon={HelpCircle}
             isLoading={isLoading}
             isError={isError}
-            accentColor="amber"
+            accentColor="warm-slate"
+            animationDelay={500}
           />
           <MetricCard
             title={t("analytics.featuredServices", "Featured Services")}
@@ -177,21 +222,30 @@ export function AnalyticsDashboard() {
             icon={Sparkles}
             isLoading={isLoading}
             isError={isError}
-            accentColor="orange"
+            accentColor="amber"
+            animationDelay={580}
           />
         </div>
       </div>
 
-      {/* Section 2: Charts Row (3 Columns desktop / Reflows vertically on mobile/tablet) */}
+      {/* Section 2: Staggered Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <ServicesByCategoryChart data={data?.servicesByCategory} isLoading={isLoading} />
-        <EnquiriesByStatusChart data={data?.enquiriesByStatus} isLoading={isLoading} />
-        <ContentBySectionChart data={data?.contentBySection} isLoading={isLoading} />
+        <div className="animate-dash-chart-1">
+          <ServicesByCategoryChart data={data?.servicesByCategory} isLoading={isLoading} />
+        </div>
+        <div className="animate-dash-chart-2">
+          <EnquiriesByStatusChart data={data?.enquiriesByStatus} isLoading={isLoading} />
+        </div>
+        <div className="animate-dash-chart-3">
+          <ContentBySectionChart data={data?.contentBySection} isLoading={isLoading} />
+        </div>
       </div>
 
-      {/* Section 3: Recent Activity Feed (Full Width) */}
-      <RecentEnquiriesFeed enquiries={data?.recentEnquiries} isLoading={isLoading} />
-    </motion.div>
+      {/* Section 3: Staggered Recent Activity Feed (Full Width) */}
+      <div className="animate-dash-feed">
+        <RecentEnquiriesFeed enquiries={data?.recentEnquiries} isLoading={isLoading} />
+      </div>
+    </div>
   );
 }
 

@@ -10,6 +10,7 @@ import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { AutoScrollText } from "@/components/common/AutoScrollText";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { ArrowLeft, MapPin, Globe, FileText, CheckCircle, AlertTriangle, FileCheck } from "lucide-react";
 
 export function ServiceDetailPage() {
@@ -20,12 +21,7 @@ export function ServiceDetailPage() {
   const { data: service, isLoading, isError } = useServiceDetail(id);
 
   if (isLoading) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-12 space-y-4">
-        <div className="h-8 w-32 bg-slate-200 animate-pulse rounded"></div>
-        <div className="h-64 bg-slate-200 animate-pulse rounded-xl"></div>
-      </div>
-    );
+    return <SkeletonLoader type="detail" className="py-10" />;
   }
 
   if (isError || !service) {

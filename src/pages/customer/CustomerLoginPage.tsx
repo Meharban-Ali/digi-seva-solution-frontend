@@ -6,8 +6,8 @@ import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { SeoHead } from "@/components/common/SeoHead";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Mail, KeyRound, ArrowRight, ShieldCheck, RefreshCw, User, CheckCircle2 } from "lucide-react";
+import { LoadingButton } from "@/components/common/LoadingButton";
+import { Mail, KeyRound, ArrowRight, ShieldCheck, User, CheckCircle2 } from "lucide-react";
 
 export function CustomerLoginPage() {
   const { t } = useTranslation();
@@ -180,19 +180,17 @@ export function CustomerLoginPage() {
                   </p>
                 </div>
 
-                <Button
+                <LoadingButton
                   type="submit"
-                  disabled={isLoading || !email.trim()}
-                  className="w-full font-extrabold bg-accent hover:bg-accent-dark text-white py-3 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all"
+                  isLoading={isLoading}
+                  loadingText="Sending Login OTP..."
+                  disabled={!email.trim()}
+                  className="w-full font-extrabold bg-accent hover:bg-accent-dark text-white py-3 rounded-xl shadow-md hover:shadow-lg transition-all"
                 >
-                  {isLoading ? (
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <>
-                      Send Login OTP <ArrowRight className="h-4 w-4" />
-                    </>
-                  )}
-                </Button>
+                  <span className="flex items-center justify-center gap-2">
+                    Send Login OTP <ArrowRight className="h-4 w-4" />
+                  </span>
+                </LoadingButton>
               </form>
             ) : (
               <form onSubmit={handleVerifyOtpSubmit} className="space-y-4">
@@ -215,19 +213,17 @@ export function CustomerLoginPage() {
                   </p>
                 </div>
 
-                <Button
+                <LoadingButton
                   type="submit"
-                  disabled={isLoading || otpCode.length !== 6}
-                  className="w-full font-extrabold bg-accent hover:bg-accent-dark text-white py-3 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all"
+                  isLoading={isLoading}
+                  loadingText="Verifying OTP..."
+                  disabled={otpCode.length !== 6}
+                  className="w-full font-extrabold bg-accent hover:bg-accent-dark text-white py-3 rounded-xl shadow-md hover:shadow-lg transition-all"
                 >
-                  {isLoading ? (
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <>
-                      Verify Code & Log In <CheckCircle2 className="h-4 w-4" />
-                    </>
-                  )}
-                </Button>
+                  <span className="flex items-center justify-center gap-2">
+                    Verify Code & Log In <CheckCircle2 className="h-4 w-4" />
+                  </span>
+                </LoadingButton>
 
                 <div className="pt-2 text-center">
                   <button

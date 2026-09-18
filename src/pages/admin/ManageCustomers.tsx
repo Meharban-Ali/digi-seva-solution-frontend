@@ -19,6 +19,7 @@ import { CustomerAppointment, CustomerEnquiry, CustomerCallback } from "@/types/
 import { getDiagnosticErrorMessage } from "@/lib/errorUtils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import {
   Users,
   TrendingUp,
@@ -381,10 +382,7 @@ export function ManageCustomers() {
       {/* 3. Customer List Table */}
       <Card className="border border-slate-200/80 shadow-xs bg-white rounded-xl overflow-hidden">
         {isLoading ? (
-          <div className="p-12 text-center space-y-3">
-            <RefreshCw className="h-8 w-8 animate-spin text-[#0B2046] mx-auto" />
-            <p className="text-xs font-semibold text-slate-500">Loading registered customers...</p>
-          </div>
+          <SkeletonLoader count={5} type="table" />
         ) : customers.length === 0 ? (
           <div className="p-12 text-center space-y-3">
             <AlertCircle className="h-10 w-10 text-slate-300 mx-auto" />

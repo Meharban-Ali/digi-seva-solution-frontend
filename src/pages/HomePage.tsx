@@ -11,6 +11,7 @@ import { AppointmentCtaBanner } from "@/components/home/AppointmentCtaBanner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SeoHead } from "@/components/common/SeoHead";
+import { SkeletonLoader } from "@/components/common/SkeletonLoader";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { motion } from "framer-motion";
 import {
@@ -461,11 +462,7 @@ export function HomePage() {
         </div>
 
         {isServicesLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="h-48 bg-slate-200 animate-pulse rounded-xl" />
-            ))}
-          </div>
+          <SkeletonLoader count={4} type="card" />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {citizenServices.map((service) => (
